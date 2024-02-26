@@ -1,0 +1,14 @@
+@import '../colors.scss';
+
+.content {
+    width: inherit;
+    height: inherit;
+    padding: 60px 15px;
+    background-color: $whiteDark;
+}
+
+.contentVertical {
+    width: inherit;
+    height: inherit;
+    padding: 60px 0;
+}
