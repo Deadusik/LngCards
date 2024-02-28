@@ -9,37 +9,41 @@
         display: grid;
         grid-template-columns: 1fr 15px 1fr 15px 1fr;
     }
-}
 
-.learnInfo {
-    width: 30%;
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    &__dropBoxRow {}
 
-    border: 1px solid gainsboro;
-    border-radius: 5px;
-    background-color: white;
+    .dropBoxRow {}
 
-    &__count {
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: bold;
-    }
+    .learnInfo {
+        width: 30%;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-    &__text {}
+        border: 1px solid gainsboro;
+        border-radius: 5px;
+        background-color: white;
 
-    &__icon {}
+        &__count {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
 
-    &_toLearn {
-        color: $green;
-    }
+        &__text {}
 
-    &_known {
-        color: $skyBlue;
-    }
+        &__icon {}
 
-    &_learned {
-        color: $yellow;
+        &_toLearn {
+            color: $green;
+        }
+
+        &_known {
+            color: $skyBlue;
+        }
+
+        &_learned {
+            color: $yellow;
+        }
     }
 }

@@ -1,5 +1,6 @@
+@use '../../../svg_filters.scss' as filters;
 @import '../../../colors.scss';
-@import '../../../svg_filters.scss';
+
 
 .mainBlock {
     height: 80px;
@@ -47,14 +48,14 @@
     height: 20px;
 
     &_toLearn {
-        @extend .green;
+        @include filters.green;
     }
 
     &_known {
-        @extend .skyBlue;
+        @include filters.skyBlue;
     }
 
     &_learned {
-        @extend .yellow;
+        @include filters.yellow;
     }
 }

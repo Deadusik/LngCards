@@ -1,0 +1,20 @@
+@use '../../../svg_filters.scss' as filters;
+@import '../../../colors.scss';
+
+.mainBlock {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 1px 1px 8px gray;
+
+    background-color: $skyBlue;
+    border-radius: 50%;
+
+    &__icon {
+        width: 35px;
+        height: 35px;
+        @include filters.white;
+    }
+}

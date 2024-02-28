@@ -1,0 +1,16 @@
+@use '../../../svg_filters' as filters;
+
+.mainBlock {
+    width: 35px;
+    height: 35px;
+}
+
+.link {
+    width: inherit;
+    height: inherit;
+    @include filters.gray;
+
+    &_active {
+        @include filters.skyBlue;
+    }
+}

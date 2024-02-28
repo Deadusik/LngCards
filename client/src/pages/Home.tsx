@@ -2,6 +2,7 @@ import { FC } from 'react'
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 import LearnInfo, { LearnInfoModifier } from '../components/ui/info/LearnInfo'
+import FloatingButton from '../components/ui/button/FloatingButton'
 
 const Home: FC = () => {
     return (
@@ -13,6 +14,9 @@ const Home: FC = () => {
                     <LearnInfo modifierType={LearnInfoModifier.known} />
                     <div>{ /* grid space */}</div>
                     <LearnInfo modifierType={LearnInfoModifier.learned} />
+                </div>
+                <div className={styles.mainBlock__dropBoxRow}>
+                    <FloatingButton />
                 </div>
             </div>
         </div>
