@@ -1,6 +1,9 @@
 .mainBlock {
     width: 100%;
     height: 50px;
+    top: 0;
+
+    z-index: 10;
     position: fixed;
     background-color: white;
     border-bottom: 1px gainsboro solid;
