@@ -1,3 +1,5 @@
+@use '../../../svg_filters.scss' as filters;
+
 .mainBlock {
     display: grid;
     width: 100%;
@@ -11,20 +13,34 @@
     background-color: white;
 
     &__arrowBlock {
-        padding-left: 20px;
+        width: auto;
+        height: 100%;
+    }
+
+    &__arrowContentBlock {
+        width: inherit;
+        height: inherit;
         display: flex;
         align-items: center;
+        padding: 0 20px;
     }
 
     &__searchBlock {
-        display: flex;
-        width: 50px;
+        width: 60px;
         height: 100%;
+    }
+
+    &__searchContentBlock {
+        width: inherit;
+        height: inherit;
+        display: flex;
         align-items: center;
-        padding-right: 20px;
+        justify-content: center;
+        position: relative;
 
         &::after {
             content: ' ';
+            margin-right: 50px;
             width: 1px;
             height: 35px;
             position: absolute;
@@ -35,10 +51,23 @@
     &__arrow {
         width: 20px;
         height: 20px;
+        transform: rotate(0deg);
+
+        &_active {
+            transform: rotate(180deg);
+        }
     }
 
     &__search {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
+        @include filters.gray;
+    }
+
+    &__text {
+        margin-left: 5px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 18px;
     }
 }

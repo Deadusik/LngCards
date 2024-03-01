@@ -13,21 +13,39 @@
         height: 100%;
     }
 
+    &__baseContent {
+        width: inherit;
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 15px;
+    }
+
+    &__additionalContent {
+        display: flex;
+        flex-direction: column;
+    }
+
     &__learnInfoBlock {
         display: grid;
-        grid-template-columns: 1fr 15px 1fr 15px 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
     }
 
     &__calendarBlock {
-        margin-top: 15px;
         background-color: aqua;
-        height: 75%;
+        height: 100%;
     }
 
     &__dropBoxBlock {
-        margin-top: 15px;
         display: grid;
         grid-template-columns: 1fr 15px auto;
+    }
+
+    &__searchBlock {
+        margin-top: 15px;
+        background-color: aqua;
+        height: 100px;
     }
 
     &__listOfCardsBlock {
