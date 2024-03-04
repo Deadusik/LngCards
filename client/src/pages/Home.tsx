@@ -7,6 +7,7 @@ import ShowCardsAndSearchButton from '../components/ui/button/ShowCardsAndSearch
 // styles 
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
+import TextInput from '../components/ui/input/TextInput'
 
 const Home: FC = () => {
     const [isCardsShowed, setIsCardsShowed] = useState(false)
@@ -71,10 +72,10 @@ const Home: FC = () => {
                         <div
                             className={styles.mainBlock__searchBlock}
                             ref={searchRef}>
-
+                            <TextInput />
                         </div>
                     }
-                    { /* list of cards by condition */
+                    {/* list of cards by condition */
                         isCardsShowed &&
                         <div
                             className={styles.mainBlock__listOfCardsBlock}
