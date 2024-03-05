@@ -1,0 +1,74 @@
+@use '../../ui/input/Input.module.scss' as styles;
+@import '../../../colors.scss';
+
+.mainBlock {
+    width: 100%;
+    height: 50px;
+    position: relative;
+
+    &__select {
+        @include styles.input;
+        appearance: none;
+        background-color: white;
+
+        &_active {
+            @include styles.inputActive;
+        }
+    }
+
+    &__optionsBlock {
+        width: inherit;
+        left: 0;
+        top: 103%;
+        position: absolute;
+        background: white;
+        border-radius: 5px;
+        border-top: none;
+        border-bottom: 1px solid gray;
+        border-left: 1px solid gray;
+        border-right: 1px solid gray;
+        z-index: 0;
+
+        &_hidden {
+            display: none;
+        }
+    }
+
+    &__selectedOption {
+        @include styles.placeholder;
+        color: black;
+    }
+
+    &__option {
+        padding: 15px 15px;
+
+        &:hover {
+            background-color: gainsboro;
+        }
+    }
+
+    &__placeholder {
+        @include styles.placeholder;
+
+        &_active {
+            @include styles.placeholderActive;
+        }
+    }
+
+    &__arrow {
+        $arrowSize: 6px;
+        width: 0;
+        height: 0;
+        position: absolute;
+        right: 15px;
+        top: 24px;
+        pointer-events: none;
+        border-left: $arrowSize solid transparent;
+        border-right: $arrowSize solid transparent;
+        border-top: $arrowSize solid gray;
+
+        &_active {
+            transform: rotate(180deg);
+        }
+    }
+}

@@ -1,49 +1,23 @@
+@use '../../ui/input/Input.module.scss' as styles;
 @import '../../../colors.scss';
 
 .mainBlock {
+    width: 100%;
+    position: relative;
+
     &__textInput {
-        width: inherit;
-        height: 50px;
-        padding-top: 15px;
-        padding-left: 10px;
-        padding-right: 10px;
-        font-size: 22px;
-        font-family: 'RobotoRegular', sans-serif;
-        position: relative;
-        border-radius: 3px;
-        border-bottom: 1px solid gray;
+        @include styles.input;
 
         &_active {
-            border-bottom: 2px solid $skyBlue;
+            @include styles.inputActive;
         }
     }
 
     &__placeholder {
-        font-size: 20px;
-        position: absolute;
-        left: 25px;
-        color: gray;
-        bottom: 10px;
-        font-family: 'RobotoRegular', sans-serif;
+        @include styles.placeholder;
 
         &_active {
-            animation-name: placeHolderAnimation;
-            animation-duration: 0.1s;
-            font-size: 14px;
-            bottom: 30px;
-            color: $skyBlue;
+            @include styles.placeholderActive;
         }
-    }
-}
-
-@keyframes placeHolderAnimation {
-    0% {
-        bottom: 10px;
-        font-size: 20px;
-    }
-
-    100% {
-        bottom: 30px;
-        font-size: 14px;
     }
 }

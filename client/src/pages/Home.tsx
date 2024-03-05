@@ -8,6 +8,7 @@ import ShowCardsAndSearchButton from '../components/ui/button/ShowCardsAndSearch
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 import TextInput from '../components/ui/input/TextInput'
+import DropBox from '../components/ui/input/DropBox'
 
 const Home: FC = () => {
     const [isCardsShowed, setIsCardsShowed] = useState(false)
@@ -72,6 +73,7 @@ const Home: FC = () => {
                         <div
                             className={styles.mainBlock__searchBlock}
                             ref={searchRef}>
+                            <DropBox />
                             <TextInput />
                         </div>
                     }

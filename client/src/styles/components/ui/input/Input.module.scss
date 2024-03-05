@@ -1,0 +1,49 @@
+@import '../../../colors.scss';
+
+@mixin input {
+    width: inherit;
+    height: 50px;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 22px;
+    font-family: 'RobotoRegular', sans-serif;
+    position: relative;
+    border-radius: 3px;
+    border-bottom: 1px solid gray;
+}
+
+@mixin inputActive {
+    border-bottom: 2px solid $skyBlue;
+}
+
+@mixin placeholder {
+    pointer-events: none;
+    top: 20px;
+    left: 15px;
+    font-size: 20px;
+    position: absolute;
+    color: gray;
+    font-family: 'RobotoRegular', sans-serif;
+}
+
+@mixin placeholderActive {
+    top: 5px;
+    left: 10px;
+    font-size: 14px;
+    color: $skyBlue;
+    animation-name: placeHolderAnimation;
+    animation-duration: 0.1s;
+
+    @keyframes placeHolderAnimation {
+        0% {
+            bottom: 10px;
+            font-size: 20px;
+        }
+
+        100% {
+            bottom: 30px;
+            font-size: 14px;
+        }
+    }
+}
