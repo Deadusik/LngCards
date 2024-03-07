@@ -41,7 +41,7 @@ const Home: FC = () => {
 
     return (
         <div className={styles.mainBlock}>
-            <div className={wrapperStyles.content}>
+            <div className={wrapperStyles.contentVertical}>
                 <div className={styles.mainBlock__content}>
                     {/* base content block */}
                     <div className={styles.mainBlock__baseContent}>

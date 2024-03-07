@@ -36,6 +36,8 @@
 
     &__selectedOption {
         @include styles.placeholder;
+        left: 10px;
+        top: 22px;
         color: black;
     }
 
