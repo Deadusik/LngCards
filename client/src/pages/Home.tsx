@@ -8,11 +8,19 @@ import ShowCardsAndSearchButton from '../components/ui/button/ShowCardsAndSearch
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 import TextInput from '../components/ui/input/TextInput'
-import DropBox from '../components/ui/input/DropBox'
+import StateDropBox, { CardState, OptionsPlacement } from '../components/ui/input/StateDropBox'
 
 const Home: FC = () => {
     const [isCardsShowed, setIsCardsShowed] = useState(false)
     const [isSearchShowed, setIsSearchShowed] = useState(false)
+
+    // search states
+    const [cardStateFilter, setCardStateFilter] = useState<CardState>(CardState.none)
+    const [searchText, setSearchText] = useState('')
+
+    useEffect(() => {
+        console.log('search text', searchText)
+    }, [searchText])
 
     const searchRef = useRef<HTMLDivElement>(null)
     const listOfCardsRef = useRef<HTMLDivElement>(null)
@@ -65,26 +73,32 @@ const Home: FC = () => {
                             <FloatingButton />
                         </div>
                     </div>
-                </div>
-                {/* additional content block */}
-                <div className={styles.mainBlock__additionalContent}>
-                    {/* search block by condition */
-                        isSearchShowed &&
-                        <div
-                            className={styles.mainBlock__searchBlock}
-                            ref={searchRef}>
-                            <DropBox />
-                            <TextInput />
-                        </div>
-                    }
-                    {/* list of cards by condition */
-                        isCardsShowed &&
-                        <div
-                            className={styles.mainBlock__listOfCardsBlock}
-                            ref={listOfCardsRef}>
-                            <ListOfCards />
-                        </div>
-                    }
+                    {/* additional content block */}
+                    <div className={styles.mainBlock__additionalContent}>
+                        {/* search block by condition */
+                            isSearchShowed &&
+                            <div
+                                className={styles.mainBlock__searchBlock}
+                                ref={searchRef}>
+                                <StateDropBox
+                                    cardState={cardStateFilter}
+                                    setCardState={setCardStateFilter}
+                                    optionPlacement={isCardsShowed ? OptionsPlacement.default : OptionsPlacement.top} />
+                                <TextInput
+                                    text={searchText}
+                                    setText={setSearchText}
+                                    placeholder='Search' />
+                            </div>
+                        }
+                        {/* list of cards by condition */
+                            isCardsShowed &&
+                            <div
+                                className={styles.mainBlock__listOfCardsBlock}
+                                ref={listOfCardsRef}>
+                                <ListOfCards />
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

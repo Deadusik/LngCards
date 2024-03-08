@@ -1,6 +1,11 @@
-import { useRef, useState } from 'react'
-import styles from '../../../styles/components/ui/input/DropBox.module.scss'
+import { FC, useRef, useState } from 'react'
+import styles from '../../../styles/components/ui/input/StateDropBox.module.scss'
 import { SPACE } from '../../../utils/constants'
+
+export enum OptionsPlacement {
+    default,
+    top
+}
 
 export enum CardState {
     none = '',
@@ -9,9 +14,14 @@ export enum CardState {
     learned = 'Learned'
 }
 
-const DropBox = () => {
+interface Props {
+    cardState: CardState
+    setCardState: React.Dispatch<React.SetStateAction<CardState>>
+    optionPlacement?: OptionsPlacement
+}
+
+const StateDropBox: FC<Props> = ({ cardState, setCardState, optionPlacement = OptionsPlacement.default }) => {
     const [isActive, setIsActive] = useState(false)
-    const [cardState, setCardState] = useState<CardState>(CardState.none)
     const selectRef = useRef<HTMLDivElement>(null)
 
     const focusHandler = () => {
@@ -52,7 +62,11 @@ const DropBox = () => {
                 </p>
                 {/*options*/}
                 {isActive &&
-                    <div className={styles.mainBlock__optionsBlock}
+                    <div className={[
+                        styles.mainBlock__optionsBlock,
+                        optionPlacement === OptionsPlacement.top ?
+                            styles.mainBlock__optionsBlock_top : ''
+                    ].join(SPACE)}
                         onClick={blurHendler}>
                         <div className={styles.mainBlock__option}
                             onClick={() => onClickOptionHendler(CardState.none)}>
@@ -93,4 +107,4 @@ const DropBox = () => {
     )
 }
 
-export default DropBox
+export default StateDropBox

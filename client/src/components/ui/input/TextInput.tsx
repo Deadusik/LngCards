@@ -1,10 +1,16 @@
-import { useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import styles from '../../../styles/components/ui/input/TextInput.module.scss'
 import { SPACE } from '../../../utils/constants'
 
-const TextInput = () => {
+interface Props {
+    text: string
+    setText: React.Dispatch<React.SetStateAction<string>>
+    placeholder?: string
+}
+
+const TextInput: FC<Props> = ({ text, setText, placeholder = 'Write text' }) => {
     const [isActive, setIsActive] = useState(false)
-    const [text, setText] = useState('')
+    //const [text, setText] = useState('')
     const inputRef = useRef<HTMLInputElement>(null)
 
     const focusHandler = () => {
@@ -41,7 +47,7 @@ const TextInput = () => {
                 isActive || text.length > 0 ? styles.mainBlock__placeholder_active : ''
             ].join(SPACE)}
                 onClick={onPlaceholderClick}>
-                Search
+                {placeholder}
             </p>
         </div>
     )

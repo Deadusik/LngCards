@@ -24,13 +24,16 @@
         background: white;
         border-radius: 5px;
         border-top: none;
-        border-bottom: 1px solid gray;
-        border-left: 1px solid gray;
-        border-right: 1px solid gray;
+        border-bottom: 1px solid gainsboro;
+        border-left: 1px solid gainsboro;
+        border-right: 1px solid gainsboro;
         z-index: 0;
 
-        &_hidden {
-            display: none;
+        &_top {
+            top: auto;
+            bottom: 100%;
+            border-bottom: none;
+            border-top: 1px solid gainsboro;
         }
     }
 
