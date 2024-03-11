@@ -1,9 +1,10 @@
 import styles from '../../styles/components/card/ListOfCards.module.scss'
+import CardItem from './CardItem'
 
 const ListOfCards = () => {
     return (
         <div className={styles.mainBlock}>
-            <h1>List of Cards</h1>
+            <CardItem />
         </div>
     )
 }

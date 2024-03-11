@@ -1,5 +1,7 @@
 @import '../colors.scss';
 
+$content-padding-x: 15px;
+
 .mainBlock {
     width: 100%;
     height: 100vh;
@@ -13,8 +15,7 @@
         min-height: 100%;
         display: flex;
         flex-direction: column;
-        overflow: scroll;
-        padding: 0 15px;
+        overflow: auto;
     }
 
     &__baseContent {
@@ -24,7 +25,7 @@
         display: grid;
         grid-template-rows: auto 1fr auto;
         gap: 15px;
-        padding: 15px 0;
+        padding: 15px $content-padding-x;
     }
 
     &__additionalContent {
@@ -51,12 +52,12 @@
     }
 
     &__searchBlock {
+        padding: 0 $content-padding-x;
         padding-bottom: 15px;
         width: 100%;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 15px;
-
     }
 
     &__listOfCardsBlock {}

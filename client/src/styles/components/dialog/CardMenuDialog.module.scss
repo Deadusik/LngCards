@@ -1,0 +1,50 @@
+.mainBlock {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+
+    &__item {
+        height: auto;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            background-color: gainsboro;
+        }
+    }
+
+    &__content {
+        width: inherit;
+        position: relative;
+        padding: 20px 20px 0px 40px;
+
+        &:last-child {
+            padding-bottom: 20px;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        width: 19px;
+        height: 19px;
+
+        &_reset {}
+
+        &_pen {}
+
+        &_trash {
+            width: 25px;
+            height: 25px;
+            top: 15px;
+            left: 16px;
+        }
+    }
+
+    &__text {
+        margin-left: 5px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px;
+    }
+}

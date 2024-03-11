@@ -1,0 +1,28 @@
+$dot-size: 6px;
+
+.mainBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &__content {
+        display: flex;
+        gap: 3px;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__dot {
+        width: $dot-size;
+        height: $dot-size;
+        border-radius: 50px;
+        background-color: gray;
+    }
+
+    &__cardMenu {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+}

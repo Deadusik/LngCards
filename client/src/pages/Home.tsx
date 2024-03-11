@@ -11,6 +11,7 @@ import TextInput from '../components/ui/input/TextInput'
 import StateDropBox, { CardState, OptionsPlacement } from '../components/ui/input/StateDropBox'
 
 const Home: FC = () => {
+    // additional content visibility
     const [isCardsShowed, setIsCardsShowed] = useState(false)
     const [isSearchShowed, setIsSearchShowed] = useState(false)
 
@@ -18,10 +19,7 @@ const Home: FC = () => {
     const [cardStateFilter, setCardStateFilter] = useState<CardState>(CardState.none)
     const [searchText, setSearchText] = useState('')
 
-    useEffect(() => {
-        console.log('search text', searchText)
-    }, [searchText])
-
+    // refs
     const searchRef = useRef<HTMLDivElement>(null)
     const listOfCardsRef = useRef<HTMLDivElement>(null)
 
@@ -83,7 +81,12 @@ const Home: FC = () => {
                                 <StateDropBox
                                     cardState={cardStateFilter}
                                     setCardState={setCardStateFilter}
-                                    optionPlacement={isCardsShowed ? OptionsPlacement.default : OptionsPlacement.top} />
+                                    optionPlacement={
+                                        isCardsShowed ?
+                                            OptionsPlacement.default
+                                            :
+                                            OptionsPlacement.top
+                                    } />
                                 <TextInput
                                     text={searchText}
                                     setText={setSearchText}

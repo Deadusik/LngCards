@@ -1,0 +1,13 @@
+@use '../../../svg_filters.scss' as filters;
+
+.mainBlock {
+    &__img {
+        width: 100%;
+        height: auto;
+        @include filters.lightSkyBlue;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
