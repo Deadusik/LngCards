@@ -5,6 +5,7 @@ import PlayButton from '../ui/button/PlayButton'
 import CardMenuButton from '../ui/button/CardMenuButton'
 // test res
 import appleSvgSrc from '../../assets/svgs/example/apple.svg'
+import Battery from '../ui/Battery'
 
 interface Props {
     name?: string
@@ -25,10 +26,6 @@ const CardItem: FC<Props> = ({
 
     }
 
-    const cardMenuHandler = () => {
-
-    }
-
     return (
         <div className={styles.mainBlock}>
             <div className={styles.mainBlock__contentBlock}>
@@ -36,6 +33,7 @@ const CardItem: FC<Props> = ({
                 <div className={styles.mainBlock__imgBlock}>
                     <img className={styles.mainBlock__img}
                         src={appleSvgSrc} />
+                    <Battery />
                 </div>
                 {/*info block*/}
                 <div className={styles.mainBlock__infoBlock}>
@@ -59,7 +57,7 @@ const CardItem: FC<Props> = ({
                 </div>
                 {/*control block*/}
                 <div className={styles.mainBlock__controlBlock}>
-                    <CardMenuButton onClick={cardMenuHandler} />
+                    <CardMenuButton />
                 </div>
             </div>
         </div>

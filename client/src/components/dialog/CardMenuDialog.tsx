@@ -4,11 +4,43 @@ import { SPACE } from '../../utils/constants'
 import penSvgSrc from '../../assets/svgs/pen.svg'
 import resetSvgSrc from '../../assets/svgs/reset.svg'
 import trashSvgSrc from '../../assets/svgs/trash.svg'
+import { FC } from 'react'
 
-const CardMenuDialog = () => {
+export enum CardAction {
+    none,
+    edit,
+    reset,
+    delete
+}
+
+interface Props {
+    setIsActive: React.Dispatch<React.SetStateAction<boolean>>
+    setCardAction: React.Dispatch<React.SetStateAction<CardAction>>
+}
+
+const CardMenuDialog: FC<Props> = ({ setIsActive, setCardAction }) => {
+    const disableMenu = (action: CardAction, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation()
+        setCardAction(action)
+        setIsActive(false)
+    }
+
+    const editHendler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        disableMenu(CardAction.edit, e)
+    }
+
+    const resetHendler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        disableMenu(CardAction.reset, e)
+    }
+
+    const deleteHendler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        disableMenu(CardAction.delete, e)
+    }
+
     return (
         <div className={styles.mainBlock}>
-            <div className={styles.mainBlock__item}>
+            <div className={styles.mainBlock__item}
+                onClick={e => editHendler(e)}>
                 <div className={styles.mainBlock__content}>
                     <img className={[
                         styles.mainBlock__icon,
@@ -18,7 +50,8 @@ const CardMenuDialog = () => {
                     <p className={styles.mainBlock__text}>Edit</p>
                 </div>
             </div>
-            <div className={styles.mainBlock__item}>
+            <div className={styles.mainBlock__item}
+                onClick={resetHendler}>
                 <div className={styles.mainBlock__content}>
                     <img className={[
                         styles.mainBlock__icon,
@@ -28,7 +61,8 @@ const CardMenuDialog = () => {
                     <p className={styles.mainBlock__text}>Reset</p>
                 </div>
             </div>
-            <div className={styles.mainBlock__item}>
+            <div className={styles.mainBlock__item}
+                onClick={deleteHendler}>
                 <div className={styles.mainBlock__content}>
                     <img className={[
                         styles.mainBlock__icon,

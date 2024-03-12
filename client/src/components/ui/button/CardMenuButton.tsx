@@ -1,14 +1,18 @@
 import { FC, useState } from 'react'
 import styles from '../../../styles/components/ui/button/CardMenuButton.module.scss'
-import CardMenuDialog from '../../dialog/CardMenuDialog'
+import CardMenuDialog, { CardAction } from '../../dialog/CardMenuDialog'
 
 interface Props {
     size?: string
-    onClick: () => void
 }
 
-const CardMenuButton: FC<Props> = ({ size = '50px', onClick }) => {
-    const [isActive, setIsActive] = useState(true)
+const CardMenuButton: FC<Props> = ({ size = '50px' }) => {
+    const [isActive, setIsActive] = useState<boolean>(false)
+    const [cardAction, setCardAction] = useState<CardAction>(CardAction.none)
+
+    const clickHendler = () => {
+        setIsActive(true)
+    }
 
     const blurHandler = () => {
         setIsActive(false)
@@ -16,8 +20,9 @@ const CardMenuButton: FC<Props> = ({ size = '50px', onClick }) => {
 
     return (
         <div className={styles.mainBlock}
-            onClick={onClick}
+            onClick={clickHendler}
             onBlur={blurHandler}
+            tabIndex={0}
             style={{
                 width: size,
                 height: size
@@ -30,7 +35,9 @@ const CardMenuButton: FC<Props> = ({ size = '50px', onClick }) => {
             {
                 isActive &&
                 <div className={styles.mainBlock__cardMenu}>
-                    <CardMenuDialog />
+                    <CardMenuDialog
+                        setIsActive={setIsActive}
+                        setCardAction={setCardAction} />
                 </div>
             }
         </div>

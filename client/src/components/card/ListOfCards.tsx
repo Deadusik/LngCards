@@ -5,6 +5,10 @@ const ListOfCards = () => {
     return (
         <div className={styles.mainBlock}>
             <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
         </div>
     )
 }
