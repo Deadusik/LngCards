@@ -1,8 +1,16 @@
 @use '../../../svg_filters' as filters;
 
 .mainBlock {
-    width: 35px;
-    height: 35px;
+    width: 100%;
+    height: inherit;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__icon {
+        display: flex;
+    }
 }
 
 .link {

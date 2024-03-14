@@ -1,6 +1,8 @@
 @use '../../../svg_filters.scss' as filters;
 
 .mainBlock {
+    cursor: pointer;
+
     &__img {
         width: 100%;
         height: auto;

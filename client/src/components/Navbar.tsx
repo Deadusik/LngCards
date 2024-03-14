@@ -39,24 +39,30 @@ const Navbar = () => {
 
     return (
         <div className={styles.mainBlock}>
-            <RelatedToggleIcon
-                isActive={isHomeActive}
-                onClick={homeHender}
-                src={cardsSvgSrs}
-                alt='cards'
-            />
-            <RelatedToggleIcon
-                isActive={isMaterialsActive}
-                onClick={materialsHender}
-                src={bookSvgSrc}
-                width='25px'
-                height='25px'
-                alt='book' />
-            <RelatedToggleIcon
-                isActive={isPersonActive}
-                onClick={personHendler}
-                src={personSvgSrc}
-                alt='person' />
+            <div className={styles.mainBlock__link}>
+                <RelatedToggleIcon
+                    isActive={isHomeActive}
+                    onClick={homeHender}
+                    src={cardsSvgSrs}
+                    alt='cards'
+                />
+            </div>
+            <div className={styles.mainBlock__link}>
+                <RelatedToggleIcon
+                    isActive={isMaterialsActive}
+                    onClick={materialsHender}
+                    src={bookSvgSrc}
+                    width='25px'
+                    height='25px'
+                    alt='book' />
+            </div>
+            <div className={styles.mainBlock__link}>
+                <RelatedToggleIcon
+                    isActive={isPersonActive}
+                    onClick={personHendler}
+                    src={personSvgSrc}
+                    alt='person' />
+            </div>
         </div>
     )
 }

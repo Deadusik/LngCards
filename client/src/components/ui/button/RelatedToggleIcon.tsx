@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import styles from '../../../styles/components/ui/button/ToggleIcon.module.scss'
+import styles from '../../../styles/components/ui/button/RelatedToggleIcon.module.scss'
 import { SPACE } from '../../../utils/constants'
 
 interface Props {
@@ -14,25 +14,27 @@ interface Props {
 const RelatedToggleIcon: FC<Props> = ({ src, width = 35, height = 35, alt = '', isActive, onClick }) => {
     return (
         <div className={styles.mainBlock}
-            style={{
-                width: width,
-                height: height
-            }}
             onClick={onClick}>
-            {
-                isActive ?
-                    <img
-                        className={[
-                            styles.link,
-                            styles.link_active
-                        ].join(SPACE)}
-                        src={src}
-                        alt={alt} />
-                    :
-                    <img
-                        className={styles.link}
-                        src={src} />
-            }
+            <div className={styles.mainBlock__icon}
+                style={{
+                    width: width,
+                    height: height
+                }}>
+                {
+                    isActive ?
+                        <img
+                            className={[
+                                styles.link,
+                                styles.link_active
+                            ].join(SPACE)}
+                            src={src}
+                            alt={alt} />
+                        :
+                        <img
+                            className={styles.link}
+                            src={src} />
+                }
+            </div>
         </div>
     )
 }
