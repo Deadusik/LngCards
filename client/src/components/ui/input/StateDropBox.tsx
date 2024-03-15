@@ -1,17 +1,11 @@
 import { FC, useRef, useState } from 'react'
 import styles from '../../../styles/components/ui/input/StateDropBox.module.scss'
 import { SPACE } from '../../../utils/constants'
+import { CardState } from '../../../utils/enum'
 
 export enum OptionsPlacement {
     default,
     top
-}
-
-export enum CardState {
-    none = '',
-    toLearn = 'To learn',
-    known = 'Known',
-    learned = 'Learned'
 }
 
 interface Props {

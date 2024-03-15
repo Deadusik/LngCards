@@ -1,14 +1,15 @@
 import { FC, useEffect, useRef, useState } from 'react'
+import { CardState } from '../utils/enum'
 // components
 import LearnInfo, { LearnInfoModifier } from '../components/ui/info/LearnInfo'
 import FloatingButton from '../components/ui/button/FloatingButton'
 import ListOfCards from '../components/card/ListOfCards'
 import ShowCardsAndSearchButton from '../components/ui/button/ShowCardsAndSearchButton'
+import TextInput from '../components/ui/input/TextInput'
+import StateDropBox, { OptionsPlacement } from '../components/ui/input/StateDropBox'
 // styles 
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
-import TextInput from '../components/ui/input/TextInput'
-import StateDropBox, { CardState, OptionsPlacement } from '../components/ui/input/StateDropBox'
 
 const Home: FC = () => {
     // additional content visibility

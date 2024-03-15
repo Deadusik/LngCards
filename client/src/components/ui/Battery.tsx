@@ -1,23 +1,61 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import styles from '../../styles/components/ui/Battery.module.scss'
-
+import { CardState } from '../../utils/enum'
+import { blue, lightBlue, green, lightGreen, yellow, lightYellow } from '../../utils/colors'
 
 interface Props {
     percent?: number
+    state?: CardState
 }
 
-const Battery: FC<Props> = ({ percent = 50 }) => {
+interface Style {
+    batteryColor: string
+    progressColor: string
+}
+
+const Battery: FC<Props> = ({ percent = 96, state = CardState.known }) => {
     const [progressHeigth, setPorgressHeight] = useState(percent)
     const bodyRef = useRef<HTMLDivElement>(null)
+    const OFFSET_OF_PROGRESS_CAP = 5
+    const MIN = 0
+    const MAX = 100
+
+    const setColorStyles = (): Style => {
+        switch (state) {
+            case CardState.toLearn: {
+                return {
+                    batteryColor: lightGreen,
+                    progressColor: green
+                }
+            }
+            case CardState.known: {
+                return {
+                    batteryColor: lightBlue,
+                    progressColor: blue
+                }
+            }
+            case CardState.learned: {
+                return {
+                    batteryColor: yellow,
+                    progressColor: lightYellow
+                }
+            }
+            default: {
+                return {
+                    batteryColor: '',
+                    progressColor: ''
+                }
+            }
+        }
+    }
+
+    const colorStyle = setColorStyles()
 
     useEffect(() => {
         setPorgressHeight(getProgressHeight())
     }, [])
 
     const fixPercent = (percent: number): number => {
-        const OFFSET_OF_PROGRESS_CAP = 5
-        const MIN = 0
-        const MAX = 100
         const bodyPercent = percent + OFFSET_OF_PROGRESS_CAP
 
         if (bodyPercent < MIN) {
@@ -40,15 +78,24 @@ const Battery: FC<Props> = ({ percent = 50 }) => {
     return (
         <div className={styles.mainBlock}>
             <div className={styles.mainBlock__content}>
-                <div className={styles.mainBlock__cap}>
+                <div className={styles.mainBlock__cap}
+                    style={{
+                        // fill cap if body progress is full
+                        background: percent > (MAX - OFFSET_OF_PROGRESS_CAP) ?
+                            colorStyle.progressColor : colorStyle.batteryColor
+                    }}>
                     { /*cap*/}
                 </div>
                 <div className={styles.mainBlock__body}
-                    ref={bodyRef}>
+                    ref={bodyRef}
+                    style={{
+                        background: colorStyle.batteryColor
+                    }}>
                     { /*body*/}
                 </div>
                 <div className={styles.mainBlock__progress}
                     style={{
+                        background: colorStyle.progressColor,
                         height: progressHeigth + 'px'
                     }}>
                     { /*progress*/}
