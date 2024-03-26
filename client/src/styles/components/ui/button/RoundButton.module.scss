@@ -1,0 +1,15 @@
+@import '../../../colors.scss';
+
+.mainBlock {
+    height: 50px;
+    padding: 0 30px;
+    border-radius: 25px;
+    background-color: $skyBlue;
+    box-shadow: 0px 1px 4px gray;
+
+    &__text {
+        color: white;
+        font-family: 'Roboto Bold', sans-serif;
+        font-weight: bold;
+    }
+}

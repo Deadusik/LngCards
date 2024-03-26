@@ -1,5 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { CardState } from '../utils/enum'
+// styles 
+import styles from '../styles/pages/Home.module.scss'
+import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 // components
 import LearnInfo, { LearnInfoModifier } from '../components/ui/info/LearnInfo'
 import FloatingButton from '../components/ui/button/FloatingButton'
@@ -7,11 +10,13 @@ import ListOfCards from '../components/card/ListOfCards'
 import ShowCardsAndSearchButton from '../components/ui/button/ShowCardsAndSearchButton'
 import TextInput from '../components/ui/input/TextInput'
 import StateDropBox, { OptionsPlacement } from '../components/ui/input/StateDropBox'
-// styles 
-import styles from '../styles/pages/Home.module.scss'
-import wrapperStyles from '../styles/pages/Wrapper.module.scss'
+import LearnInfoDialog from '../components/dialog/learn_info/LearnInfoDialog'
+import ToLearnDialogContent from '../components/dialog/learn_info/ToLearnDialogContent'
 
 const Home: FC = () => {
+    // dialog 
+    const [isDialogVisible, setIsDialogVisible] = useState(false)
+
     // additional content visibility
     const [isCardsShowed, setIsCardsShowed] = useState(false)
     const [isSearchShowed, setIsSearchShowed] = useState(false)
@@ -104,6 +109,10 @@ const Home: FC = () => {
                         }
                     </div>
                 </div>
+                <LearnInfoDialog
+                    content={ToLearnDialogContent}
+                    isActive={isDialogVisible}
+                    setIsActive={setIsDialogVisible} />
             </div>
         </div>
     )

@@ -16,6 +16,7 @@ $content-padding-x: 15px;
         display: flex;
         flex-direction: column;
         overflow: auto;
+        position: relative;
     }
 
     &__baseContent {

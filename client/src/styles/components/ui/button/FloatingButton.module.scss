@@ -10,12 +10,12 @@
     align-items: center;
     justify-content: center;
     box-shadow: 1px 1px 8px gray;
-    cursor: pointer;
     background-color: $skyBlue;
     border-radius: 50%;
 
     &:hover {
         opacity: 0.8;
+        cursor: pointer;
     }
 
     &__icon {

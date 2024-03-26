@@ -5,7 +5,10 @@ $dot-size: 6px;
     justify-content: center;
     align-items: center;
     position: relative;
-    cursor: pointer;
+
+    &:hover {
+        cursor: pointer;
+    }
 
     &__content {
         display: flex;
