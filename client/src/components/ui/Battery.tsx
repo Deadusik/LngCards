@@ -13,7 +13,7 @@ interface Style {
     progressColor: string
 }
 
-const Battery: FC<Props> = ({ percent = 96, state = CardState.known }) => {
+const Battery: FC<Props> = ({ percent = 0, state = CardState.none }) => {
     const [progressHeigth, setPorgressHeight] = useState(percent)
     const bodyRef = useRef<HTMLDivElement>(null)
     const OFFSET_OF_PROGRESS_CAP = 5
@@ -36,8 +36,8 @@ const Battery: FC<Props> = ({ percent = 96, state = CardState.known }) => {
             }
             case CardState.learned: {
                 return {
-                    batteryColor: yellow,
-                    progressColor: lightYellow
+                    batteryColor: lightYellow,
+                    progressColor: yellow
                 }
             }
             default: {
@@ -92,13 +92,13 @@ const Battery: FC<Props> = ({ percent = 96, state = CardState.known }) => {
                         background: colorStyle.batteryColor
                     }}>
                     { /*body*/}
-                </div>
-                <div className={styles.mainBlock__progress}
-                    style={{
-                        background: colorStyle.progressColor,
-                        height: progressHeigth + 'px'
-                    }}>
-                    { /*progress*/}
+                    <div className={styles.mainBlock__progress}
+                        style={{
+                            background: colorStyle.progressColor,
+                            height: progressHeigth + 'px'
+                        }}>
+                        { /*progress*/}
+                    </div>
                 </div>
             </div>
         </div>

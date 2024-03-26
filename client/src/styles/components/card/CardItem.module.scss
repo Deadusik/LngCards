@@ -6,6 +6,7 @@
 }
 
 $font-size: 20px;
+$img-size: 60px;
 
 .mainBlock {
     width: 100%;
@@ -14,18 +15,21 @@ $font-size: 20px;
     &__contentBlock {
         width: inherit;
         height: inherit;
-        padding: 10px 10px;
+        padding: 20px 10px;
         display: grid;
         grid-template-columns: auto 1fr auto;
+        align-items: center;
     }
 
     &__imgBlock {
+        padding-left: 10px;
+        position: relative;
         width: 100%;
-        height: auto;
+        max-height: $img-size;
     }
 
     &__img {
-        width: 70px;
+        width: $img-size;
         height: auto;
     }
 
@@ -74,5 +78,12 @@ $font-size: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    &__battery {
+        position: absolute;
+        z-index: 10;
+        bottom: -10px;
+        left: 0;
     }
 }
