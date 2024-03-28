@@ -4,3 +4,9 @@ export enum CardState {
     known = 'Known',
     learned = 'Learned'
 }
+
+export interface InfoModifier {
+    style: string
+    text: string
+    iconStyle: string
+}

@@ -4,7 +4,7 @@ import { CardState } from '../utils/enum'
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 // components
-import LearnInfo, { LearnInfoModifier } from '../components/ui/info/LearnInfo'
+import LearnInfo from '../components/ui/info/LearnInfo'
 import FloatingButton from '../components/ui/button/FloatingButton'
 import ListOfCards from '../components/card/ListOfCards'
 import ShowCardsAndSearchButton from '../components/ui/button/ShowCardsAndSearchButton'
@@ -16,6 +16,7 @@ import ToLearnDialogContent from '../components/dialog/learn_info/ToLearnDialogC
 const Home: FC = () => {
     // dialog 
     const [isDialogVisible, setIsDialogVisible] = useState(false)
+    const [dialogContentType, setDialogContentType] = useState<CardState>(CardState.none)
 
     // additional content visibility
     const [isCardsShowed, setIsCardsShowed] = useState(false)
@@ -35,6 +36,23 @@ const Home: FC = () => {
         }
     }
 
+    // learn info hendlers 
+    const toLearnHendler = () => {
+        setDialogContentType(CardState.toLearn)
+        setIsDialogVisible(true)
+    }
+
+    const knownHendler = () => {
+        setDialogContentType(CardState.known)
+        setIsDialogVisible(true)
+    }
+
+    const learnedHendler = () => {
+        setDialogContentType(CardState.learned)
+        setIsDialogVisible(true)
+    }
+
+    // hendlers
     const searchHandle = () => {
         setIsSearchShowed(!isSearchShowed)
     }
@@ -59,9 +77,12 @@ const Home: FC = () => {
                     <div className={styles.mainBlock__baseContent}>
                         {/* learn block */}
                         <div className={styles.mainBlock__learnInfoBlock}>
-                            <LearnInfo modifierType={LearnInfoModifier.toLearn} />
-                            <LearnInfo modifierType={LearnInfoModifier.known} />
-                            <LearnInfo modifierType={LearnInfoModifier.learned} />
+                            <LearnInfo modifierType={CardState.toLearn}
+                                onClick={toLearnHendler} />
+                            <LearnInfo modifierType={CardState.known}
+                                onClick={knownHendler} />
+                            <LearnInfo modifierType={CardState.learned}
+                                onClick={learnedHendler} />
                         </div>
                         {/* calendar block */}
                         <div className={styles.mainBlock__calendarBlock}>
