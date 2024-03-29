@@ -5,9 +5,15 @@ $content-margin: 25px;
 .mainBlock {
     @include block;
 
-    &__cardsIcon {
-        margin-top: $content-margin;
-        @include image;
+    span {
+        font-weight: bold;
+    }
+
+    &__filterIcon {
+        margin-top: 2px;
+        margin-left: 3px;
+        width: 18px;
+        height: 18px;
     }
 
     &__title {
@@ -26,6 +32,7 @@ $content-margin: 25px;
 
     &__link {
         margin-top: $content-margin;
+        margin-bottom: 10px;
         @include link;
     }
 

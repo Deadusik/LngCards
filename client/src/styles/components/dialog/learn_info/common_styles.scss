@@ -1,0 +1,39 @@
+@use '../../../svg_filters.scss' as filters;
+@import '../../../colors.scss';
+
+$font-family: 'Roboto Medium', sans-serif;
+
+@mixin block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin text {
+    text-align: center;
+    line-height: 24px;
+    font-size: 18px;
+    font-family: $font-family;
+}
+
+@mixin title {
+    font-size: 20px;
+    font-family: $font-family;
+    font-weight: bold;
+}
+
+@mixin link {
+    font-size: 14px;
+    font-family: $font-family;
+    color: $skyBlue;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@mixin image {
+    width: 100px;
+    height: auto;
+    @include filters.skyBlue;
+}

@@ -1,4 +1,4 @@
-import styles from '../../../styles/components/ui/button/ShowCardsAndSearchButton.module.scss'
+import styles from '../../../styles/components/ui/button/ShowContentAndSearchButton.module.scss'
 // svg src
 import arrowSvgSrc from '../../../assets/svgs/arrow_up.svg'
 import searchSvgSrc from '../../../assets/svgs/search.svg'
@@ -6,12 +6,12 @@ import { SPACE } from '../../../utils/constants'
 import { FC } from 'react'
 
 interface Props {
-    isCardsToggleOn: boolean
+    isContentVisible: boolean
     onCardsClick: () => void
     onSearchClick: () => void
 }
 
-const ShowCardsAndSearchButton: FC<Props> = ({ isCardsToggleOn, onCardsClick, onSearchClick }) => {
+const ShowContentAndSearchButton: FC<Props> = ({ isContentVisible, onCardsClick, onSearchClick }) => {
     return (
         <div className={styles.mainBlock}>
             <div
@@ -21,7 +21,7 @@ const ShowCardsAndSearchButton: FC<Props> = ({ isCardsToggleOn, onCardsClick, on
                     <img
                         className={[
                             styles.mainBlock__arrow,
-                            isCardsToggleOn ? styles.mainBlock__arrow_active : ''
+                            isContentVisible ? styles.mainBlock__arrow_active : ''
                         ].join(SPACE)}
                         src={arrowSvgSrc}
                         alt='arrow' />
@@ -43,4 +43,4 @@ const ShowCardsAndSearchButton: FC<Props> = ({ isCardsToggleOn, onCardsClick, on
     )
 }
 
-export default ShowCardsAndSearchButton
+export default ShowContentAndSearchButton

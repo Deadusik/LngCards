@@ -27,7 +27,7 @@ const ToLearnDialogContent: FC = () => {
                 <RoundButton text='START LEARNING'
                     onClick={() => console.log('Round btn click!')} />
             </div>
-        </div >
+        </div>
     )
 }
 

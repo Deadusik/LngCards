@@ -1,0 +1,6 @@
+.mainBlock {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    overflow: visible;
+    gap: 15px;
+}
