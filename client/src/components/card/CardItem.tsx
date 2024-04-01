@@ -19,13 +19,21 @@ const CardItem: FC<Props> = ({
     translation = 'Card translation do you like it? Subsribe on me in github hehehe',
     example = 'He finally found his person in space. Drugs its bad mkay?'
 }) => {
-    const namePlayHandler = () => {
 
+    const pronounceText = (text: string) => {
+        const speech = new SpeechSynthesisUtterance(text)
+        window.speechSynthesis.speak(speech)
     }
 
-    const examplePlayHandler = () => {
-
+    const NamePlayHandler = () => {
+        pronounceText(name)
     }
+
+    const ExamplePlayHandler = () => {
+        pronounceText(example)
+    }
+
+
 
     return (
         <div className={styles.mainBlock}>
@@ -44,7 +52,7 @@ const CardItem: FC<Props> = ({
                     <div className={styles.mainBlock__name}>
                         <div className={styles.mainBlock__play}>
                             <PlayButton
-                                onClick={namePlayHandler} />
+                                onClick={NamePlayHandler} />
                         </div>
                         <p>{name}</p>
                     </div>
@@ -54,7 +62,7 @@ const CardItem: FC<Props> = ({
                     <div className={styles.mainBlock__example}>
                         <div className={styles.mainBlock__play}>
                             <PlayButton
-                                onClick={examplePlayHandler} />
+                                onClick={ExamplePlayHandler} />
                         </div>
                         <p>{example}</p>
                     </div>

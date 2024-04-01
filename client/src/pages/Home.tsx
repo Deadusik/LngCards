@@ -1,12 +1,12 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { CardState } from '../utils/enum'
+import { useDialogInfoContent } from '../hooks/useDialogInfoContent'
 // styles 
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 // components
 import ListOfCards from '../components/card/ListOfCards'
 import LearnInfoDialog from '../components/dialog/learn_info/LearnInfoDialog'
-import { useDialogInfoContent } from '../hooks/useDialogInfoContent'
 import LearnInfoSection from '../components/section/home/LearnInfoSection'
 import ShowSection from '../components/section/home/ShowSection'
 import SearchSection from '../components/section/home/SearchSection'

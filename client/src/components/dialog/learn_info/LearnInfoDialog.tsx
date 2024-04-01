@@ -10,7 +10,7 @@ interface Props {
 }
 
 const LearnInfoDialog: FC<Props> = ({ content: ContentComponent, isActive, setIsActive }) => {
-    const closeClickHendler = () => {
+    const CloseClickHandler = () => {
         setIsActive(!isActive)
     }
 
@@ -22,7 +22,7 @@ const LearnInfoDialog: FC<Props> = ({ content: ContentComponent, isActive, setIs
             <div className={styles.mainBlock__content}>
                 <ContentComponent />
                 <div className={styles.mainBlock__closeButton}
-                    onClick={closeClickHendler}>
+                    onClick={CloseClickHandler}>
                     <img className={styles.mainBlock__closeIcon}
                         src={crossSvgSrc} />
                 </div>

@@ -11,21 +11,26 @@ interface Props {
 }
 
 const ShowSection: FC<Props> = ({ isContentVisible, isSearchActive, setIsContentVisible, setIsSearchActive }) => {
-    const searchHandle = () => {
+    const SearchHandler = () => {
         setIsSearchActive(!isSearchActive)
     }
 
-    const cardsHandle = () => {
+    const CardsHandler = () => {
         setIsContentVisible(!isContentVisible)
+    }
+
+    const AddHandler = () => {
+        console.log('Floating button handle')
     }
 
     return (
         <div className={styles.mainBlock}>
             <ShowContentAndSearchButton
                 isContentVisible={isContentVisible}
-                onCardsClick={cardsHandle}
-                onSearchClick={searchHandle} />
-            <FloatingButton />
+                onCardsClick={CardsHandler}
+                onSearchClick={SearchHandler} />
+            <FloatingButton
+                onClick={AddHandler} />
         </div>
     )
 }

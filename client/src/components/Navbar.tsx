@@ -16,21 +16,21 @@ const Navbar = () => {
 
     const navigate = useNavigate()
 
-    const homeHender = () => {
+    const HomeHander = () => {
         setIsHomeActive(true)
         setIsMaterialsActive(false)
         setIsPersonActive(false)
         navigate(HOME)
     }
 
-    const materialsHender = () => {
+    const MaterialsHander = () => {
         setIsHomeActive(false)
         setIsMaterialsActive(true)
         setIsPersonActive(false)
         navigate(MATERIALS)
     }
 
-    const personHendler = () => {
+    const PersonHandler = () => {
         setIsHomeActive(false)
         setIsMaterialsActive(false)
         setIsPersonActive(true)
@@ -42,7 +42,7 @@ const Navbar = () => {
             <div className={styles.mainBlock__link}>
                 <RelatedToggleIcon
                     isActive={isHomeActive}
-                    onClick={homeHender}
+                    onClick={HomeHander}
                     src={cardsSvgSrs}
                     alt='cards'
                 />
@@ -50,7 +50,7 @@ const Navbar = () => {
             <div className={styles.mainBlock__link}>
                 <RelatedToggleIcon
                     isActive={isMaterialsActive}
-                    onClick={materialsHender}
+                    onClick={MaterialsHander}
                     src={bookSvgSrc}
                     width='25px'
                     height='25px'
@@ -59,7 +59,7 @@ const Navbar = () => {
             <div className={styles.mainBlock__link}>
                 <RelatedToggleIcon
                     isActive={isPersonActive}
-                    onClick={personHendler}
+                    onClick={PersonHandler}
                     src={personSvgSrc}
                     alt='person' />
             </div>

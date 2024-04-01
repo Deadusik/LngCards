@@ -18,35 +18,35 @@ const StateDropBox: FC<Props> = ({ cardState, setCardState, optionPlacement = Op
     const [isActive, setIsActive] = useState(false)
     const selectRef = useRef<HTMLDivElement>(null)
 
-    const focusHandler = () => {
+    const FocusHandler = () => {
         setIsActive(true)
     }
 
-    const blurHendler = () => {
+    const BlurHandler = () => {
         setIsActive(false)
         selectRef.current?.blur()
     }
 
-    const onClickHendler = () => {
+    const OnClickHandler = () => {
         if (!isActive)
             selectRef.current?.focus()
     }
 
-    const onClickOptionHendler = (state: CardState) => {
+    const OnClickOptionHandler = (state: CardState) => {
         setCardState(state)
     }
 
     return (
         <div className={styles.mainBlock}
-            onClick={onClickHendler}>
+            onClick={OnClickHandler}>
             <div className={[
                 styles.mainBlock__select,
                 isActive ? styles.mainBlock__select_active : ''
             ].join(SPACE)}
                 ref={selectRef}
                 tabIndex={0}
-                onFocus={focusHandler}
-                onBlur={blurHendler}>
+                onFocus={FocusHandler}
+                onBlur={BlurHandler}>
                 {/*selected option*/}
                 <p className={styles.mainBlock__selectedOption}>
                     {
@@ -61,21 +61,21 @@ const StateDropBox: FC<Props> = ({ cardState, setCardState, optionPlacement = Op
                         optionPlacement === OptionsPlacement.top ?
                             styles.mainBlock__optionsBlock_top : ''
                     ].join(SPACE)}
-                        onClick={blurHendler}>
+                        onClick={BlurHandler}>
                         <div className={styles.mainBlock__option}
-                            onClick={() => onClickOptionHendler(CardState.none)}>
+                            onClick={() => OnClickOptionHandler(CardState.none)}>
                             All
                         </div>
                         <div className={styles.mainBlock__option}
-                            onClick={() => onClickOptionHendler(CardState.toLearn)}>
+                            onClick={() => OnClickOptionHandler(CardState.toLearn)}>
                             To learn
                         </div>
                         <div className={styles.mainBlock__option}
-                            onClick={() => onClickOptionHendler(CardState.known)}>
+                            onClick={() => OnClickOptionHandler(CardState.known)}>
                             Known
                         </div>
                         <div className={styles.mainBlock__option}
-                            onClick={() => onClickOptionHendler(CardState.learned)}>
+                            onClick={() => OnClickOptionHandler(CardState.learned)}>
                             Learned
                         </div>
                     </div>

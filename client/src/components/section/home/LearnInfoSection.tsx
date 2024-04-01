@@ -9,17 +9,17 @@ interface Props {
 }
 
 const LearnInfoSection: FC<Props> = ({ setDialogType, setDialogVisibility }) => {
-    const toLearnHendler = () => {
+    const ToLearnHandler = () => {
         setDialogType(CardState.toLearn)
         setDialogVisibility(true)
     }
 
-    const knownHendler = () => {
+    const KnownHandler = () => {
         setDialogType(CardState.known)
         setDialogVisibility(true)
     }
 
-    const learnedHendler = () => {
+    const LearnedHandler = () => {
         setDialogType(CardState.learned)
         setDialogVisibility(true)
     }
@@ -27,11 +27,11 @@ const LearnInfoSection: FC<Props> = ({ setDialogType, setDialogVisibility }) => 
     return (
         <div className={styles.mainBlock}>
             <LearnInfo modifierType={CardState.toLearn}
-                onClick={toLearnHendler} />
+                onClick={ToLearnHandler} />
             <LearnInfo modifierType={CardState.known}
-                onClick={knownHendler} />
+                onClick={KnownHandler} />
             <LearnInfo modifierType={CardState.learned}
-                onClick={learnedHendler} />
+                onClick={LearnedHandler} />
         </div>
     )
 }

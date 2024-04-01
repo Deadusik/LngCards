@@ -25,22 +25,22 @@ const CardMenuDialog: FC<Props> = ({ setIsActive, setCardAction }) => {
         setIsActive(false)
     }
 
-    const editHendler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const EditHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         disableMenu(CardAction.edit, e)
     }
 
-    const resetHendler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const ResetHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         disableMenu(CardAction.reset, e)
     }
 
-    const deleteHendler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const DeleteHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         disableMenu(CardAction.delete, e)
     }
 
     return (
         <div className={styles.mainBlock}>
             <div className={styles.mainBlock__item}
-                onClick={e => editHendler(e)}>
+                onClick={e => EditHandler(e)}>
                 <div className={styles.mainBlock__content}>
                     <img className={[
                         styles.mainBlock__icon,
@@ -51,7 +51,7 @@ const CardMenuDialog: FC<Props> = ({ setIsActive, setCardAction }) => {
                 </div>
             </div>
             <div className={styles.mainBlock__item}
-                onClick={resetHendler}>
+                onClick={ResetHandler}>
                 <div className={styles.mainBlock__content}>
                     <img className={[
                         styles.mainBlock__icon,
@@ -62,7 +62,7 @@ const CardMenuDialog: FC<Props> = ({ setIsActive, setCardAction }) => {
                 </div>
             </div>
             <div className={styles.mainBlock__item}
-                onClick={deleteHendler}>
+                onClick={DeleteHandler}>
                 <div className={styles.mainBlock__content}>
                     <img className={[
                         styles.mainBlock__icon,

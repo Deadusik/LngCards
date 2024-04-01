@@ -13,19 +13,19 @@ const TextInput: FC<Props> = ({ text, setText, placeholder = 'Write text' }) => 
     //const [text, setText] = useState('')
     const inputRef = useRef<HTMLInputElement>(null)
 
-    const focusHandler = () => {
+    const FocusHandler = () => {
         setIsActive(true)
     }
 
-    const blurHendler = () => {
+    const BlurHandler = () => {
         setIsActive(false)
     }
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const OnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.currentTarget.value ?? '')
     }
 
-    const onPlaceholderClick = () => {
+    const OnPlaceholderClick = () => {
         inputRef.current?.focus()
     }
 
@@ -38,15 +38,15 @@ const TextInput: FC<Props> = ({ text, setText, placeholder = 'Write text' }) => 
                 ].join(SPACE)}
                 ref={inputRef}
                 type='text'
-                onChange={e => onChange(e)}
-                onFocus={focusHandler}
-                onBlur={blurHendler} />
+                onChange={e => OnChange(e)}
+                onFocus={FocusHandler}
+                onBlur={BlurHandler} />
             {/*placeholder*/}
             <p className={[
                 styles.mainBlock__placeholder,
                 isActive || text.length > 0 ? styles.mainBlock__placeholder_active : ''
             ].join(SPACE)}
-                onClick={onPlaceholderClick}>
+                onClick={OnPlaceholderClick}>
                 {placeholder}
             </p>
         </div>

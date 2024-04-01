@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styles from '../../../styles/components/ui/button/CardMenuButton.module.scss'
 import CardMenuDialog, { CardAction } from '../../dialog/CardMenuDialog'
 
@@ -10,18 +10,23 @@ const CardMenuButton: FC<Props> = ({ size = '50px' }) => {
     const [isActive, setIsActive] = useState<boolean>(false)
     const [cardAction, setCardAction] = useState<CardAction>(CardAction.none)
 
-    const clickHendler = () => {
+    // dev use effect
+    useEffect(() => {
+        console.log(cardAction)
+    }, [cardAction])
+
+    const ClickHandler = () => {
         setIsActive(true)
     }
 
-    const blurHandler = () => {
+    const BlurHandler = () => {
         setIsActive(false)
     }
 
     return (
         <div className={styles.mainBlock}
-            onClick={clickHendler}
-            onBlur={blurHandler}
+            onClick={ClickHandler}
+            onBlur={BlurHandler}
             tabIndex={0}
             style={{
                 width: size,
