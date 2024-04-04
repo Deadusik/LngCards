@@ -2,7 +2,11 @@ import { FC } from 'react'
 import styles from '../../../styles/components/dialog/learn_info/KnownDialogContent.module.scss'
 import filterSvgSrc from '../../../assets/svgs/filter.svg'
 
-const KnownDialogContent: FC = () => {
+interface Props {
+    onLinkClick: () => void
+}
+
+const KnownDialogContent: FC<Props> = ({ onLinkClick }) => {
     return (
         <div className={styles.mainBlock}>
             <h2 className={styles.mainBlock__title}>
@@ -17,7 +21,8 @@ const KnownDialogContent: FC = () => {
                 <span> filter</span>
                 , where you can include cards that you already know.
             </p>
-            <p className={styles.mainBlock__link}>
+            <p className={styles.mainBlock__link}
+                onClick={onLinkClick}>
                 SHOW KNOWN CARDS
             </p>
         </div>

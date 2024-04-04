@@ -2,7 +2,11 @@ import { FC } from 'react'
 import styles from '../../../styles/components/dialog/learn_info/LearnedDialogContent.module.scss'
 import cardsSvgSrc from '../../../assets/svgs/cards.svg'
 
-const LearnedDialogContent: FC = () => {
+interface Props {
+    onLinkClick: () => void
+}
+
+const LearnedDialogContent: FC<Props> = ({ onLinkClick }) => {
     return (
         <div className={styles.mainBlock}>
             <h2 className={styles.mainBlock__title}>
@@ -19,7 +23,8 @@ const LearnedDialogContent: FC = () => {
             <p className={styles.mainBlock__text}>
                 You can list through these learned cards and reset their progress if you want to learn them again.
             </p>
-            <p className={styles.mainBlock__link}>
+            <p className={styles.mainBlock__link}
+                onClick={onLinkClick}>
                 SHOW LEARNED CARDS
             </p>
         </div>

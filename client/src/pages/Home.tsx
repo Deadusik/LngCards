@@ -24,6 +24,10 @@ const Home: FC = () => {
     const searchRef = useRef<HTMLDivElement>(null)
     const listOfCardsRef = useRef<HTMLDivElement>(null)
 
+    const dialogLinkCallback = () => {
+        console.log('link click')
+    }
+
     const scrollToElementByCondition = (ref: React.RefObject<HTMLDivElement>, condition: boolean) => {
         if (condition && ref) {
             ref.current?.scrollIntoView({ behavior: 'smooth' })
@@ -77,6 +81,7 @@ const Home: FC = () => {
                     </div>
                 </div>
                 <LearnInfoDialog
+                    onLinkClick={dialogLinkCallback}
                     content={useDialogInfoContent(dialogContentType)}
                     isActive={isDialogVisible}
                     setIsActive={setIsDialogVisible} />

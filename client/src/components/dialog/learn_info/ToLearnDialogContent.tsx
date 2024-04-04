@@ -3,7 +3,11 @@ import styles from '../../../styles/components/dialog/learn_info/ToLearnDialogCo
 import cardsSvgSrc from '../../../assets/svgs/cards.svg'
 import RoundButton from '../../ui/button/RoundButton'
 
-const ToLearnDialogContent: FC = () => {
+interface Props {
+    onLinkClick: () => void
+}
+
+const ToLearnDialogContent: FC<Props> = ({ onLinkClick }) => {
     return (
         <div className={styles.mainBlock}>
             <h2 className={styles.mainBlock__title}>
@@ -12,7 +16,8 @@ const ToLearnDialogContent: FC = () => {
             <p className={styles.mainBlock__text}>
                 This number means how many cards are ready to be learnt based on our spaced-repetition algorithm.
             </p>
-            <p className={styles.mainBlock__link}>
+            <p className={styles.mainBlock__link}
+                onClick={onLinkClick}>
                 SHOW CARDS TO LEARN
             </p>
             <img className={styles.mainBlock__cardsIcon}
