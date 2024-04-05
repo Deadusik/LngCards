@@ -1,13 +1,23 @@
 import { FC, createContext, useContext } from "react"
 
 interface HomeContextType {
-    onLinkClick: () => void
+    isSearchBlockShowed?: boolean
+    isCardsBlockShowed?: boolean
+    setIsSearchBlockShowed?: React.Dispatch<React.SetStateAction<boolean>>
+    setIsCardsBlockShowed?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const HomeContext = createContext<HomeContextType | null>(null)
 
-export const HomeProvider: FC<HomeContextType> = ({ onLinkClick }, children) => {
-    return <HomeContext.Provider value={{ onLinkClick }}>{children}</HomeContext.Provider>;
+export const HomeProvider: FC<HomeContextType> = ({ isSearchBlockShowed, isCardsBlockShowed, setIsSearchBlockShowed, setIsCardsBlockShowed }, children) => {
+    return <HomeContext.Provider value={{
+        isSearchBlockShowed,
+        isCardsBlockShowed,
+        setIsSearchBlockShowed,
+        setIsCardsBlockShowed
+    }}>
+        {children}
+    </HomeContext.Provider>;
 };
 
 export const useHomeContext = () => {
