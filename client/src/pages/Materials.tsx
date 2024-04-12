@@ -4,11 +4,11 @@ import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 
 const Materials: FC = () => {
     return (
-        <div className={styles.mainBlock}>
-            <div className={wrapperStyles.content}>
-                <h1>Material page</h1>
+        <div className={wrapperStyles.content}>
+            <div className={styles.mainBlock}>
+                <h1>Materials</h1>
             </div>
-        </div>
+        </div >
     )
 }
 

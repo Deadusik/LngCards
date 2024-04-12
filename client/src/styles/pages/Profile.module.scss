@@ -1,1 +1,23 @@
-.mainBlock {}
+.mainBlock {
+    &__userBlock {}
+
+    &__menuBlock {}
+
+    &__socialBlock {}
+}
+
+.user {
+    &__avatar {}
+
+    &__name {}
+
+    &__email {}
+}
+
+.menu {
+    &__item {}
+}
+
+.social {
+    &__item {}
+}
