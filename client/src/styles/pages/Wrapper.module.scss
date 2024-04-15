@@ -2,14 +2,26 @@
 
 .content {
     width: inherit;
-    height: inherit;
+    height: 100vh;
     position: relative;
     padding: 50px 15px;
 }
 
 .contentVertical {
     width: inherit;
-    height: inherit;
+    height: 100vh;
     position: relative;
     padding: 50px 0;
+}
+
+@media (min-width: 970px) {
+    .content {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+
+    .contentVertical {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
 }

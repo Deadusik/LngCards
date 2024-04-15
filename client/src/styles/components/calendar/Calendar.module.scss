@@ -1,0 +1,12 @@
+.mainBlock {
+    width: inherit;
+    height: inherit;
+    background-color: white;
+    border: 1px solid gainsboro;
+
+    &__content {}
+
+    &__labelsBlock {}
+
+    &__listBlock {}
+}

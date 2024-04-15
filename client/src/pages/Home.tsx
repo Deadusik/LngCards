@@ -10,6 +10,9 @@ import LearnInfoDialog from '../components/dialog/learn_info/LearnInfoDialog'
 import LearnInfoSection from '../components/section/home/LearnInfoSection'
 import ShowSection from '../components/section/home/ShowSection'
 import SearchSection from '../components/section/home/SearchSection'
+import Calendar from '../components/calendar/Calendar'
+import { SPACE } from '../utils/constants'
+import CalendarItem from '../components/calendar/CalendarItem'
 
 const Home: FC = () => {
     // additional content visibility
@@ -43,8 +46,11 @@ const Home: FC = () => {
     }, [isSearchShowed])
 
     return (
-        <div className={styles.mainBlock}>
-            <div className={wrapperStyles.contentVertical}>
+        <div className={[
+            wrapperStyles.contentVertical,
+            styles.wrapper
+        ].join(SPACE)}>
+            <div className={styles.mainBlock}>
                 <div className={styles.mainBlock__content}>
                     {/* base content block */}
                     <div className={styles.mainBlock__baseContent}>
@@ -53,7 +59,8 @@ const Home: FC = () => {
                             setDialogVisibility={setIsDialogVisible} />
                         {/* calendar block */}
                         <div className={styles.mainBlock__calendarBlock}>
-
+                            <Calendar />
+                            <CalendarItem />
                         </div>
                         <ShowSection
                             isContentVisible={isCardsShowed}
