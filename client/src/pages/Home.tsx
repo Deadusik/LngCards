@@ -1,6 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { CardState } from '../utils/enum'
 import { useDialogInfoContent } from '../hooks/useDialogInfoContent'
+import { SPACE } from '../utils/constants'
 // styles 
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
@@ -11,8 +12,6 @@ import LearnInfoSection from '../components/section/home/LearnInfoSection'
 import ShowSection from '../components/section/home/ShowSection'
 import SearchSection from '../components/section/home/SearchSection'
 import Calendar from '../components/calendar/Calendar'
-import { SPACE } from '../utils/constants'
-import CalendarItem from '../components/calendar/CalendarItem'
 
 const Home: FC = () => {
     // additional content visibility
@@ -60,7 +59,6 @@ const Home: FC = () => {
                         {/* calendar block */}
                         <div className={styles.mainBlock__calendarBlock}>
                             <Calendar />
-                            <CalendarItem />
                         </div>
                         <ShowSection
                             isContentVisible={isCardsShowed}
