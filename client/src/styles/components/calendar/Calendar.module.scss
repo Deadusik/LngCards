@@ -1,21 +1,22 @@
 .mainBlock {
     width: inherit;
     height: inherit;
-
+    display: flex;
+    align-items: center;
+    overflow: auto;
 
     &__content {
         display: grid;
-        height: 100%;
+        height: auto;
         grid-template-rows: 1fr auto;
+
+        @media (min-width:1280px) {
+            padding: 0 100px;
+        }
     }
 
     &__listBlock {
         display: inline-flex;
         overflow-x: scroll;
-    }
-
-    &__buttonBlock {
-        width: 100%;
-        padding: 20px 15%;
     }
 }

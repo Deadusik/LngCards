@@ -3,10 +3,6 @@ import RoundButton from '../ui/button/RoundButton'
 import CalendarItem from './CalendarItem'
 
 const Calendar = () => {
-    const ClickHendler = () => {
-        console.log('start click hendeler')
-    }
-
     return (
         <div className={styles.mainBlock}>
             <div className={styles.mainBlock__content}>
@@ -17,11 +13,6 @@ const Calendar = () => {
 
                     <CalendarItem />
                     <CalendarItem />
-                </div>
-                <div className={styles.mainBlock__buttonBlock}>
-                    <RoundButton
-                        text='START'
-                        onClick={ClickHendler} />
                 </div>
             </div>
         </div>

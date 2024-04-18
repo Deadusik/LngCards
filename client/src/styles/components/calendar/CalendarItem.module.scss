@@ -6,17 +6,16 @@
 
     &__content {
         display: flex;
+        gap: 12px;
         align-items: center;
-
-        @media (min-width:1280px) {
-            padding: 0 120px;
-        }
+        padding: 0 5px;
     }
 
     &__dataBlock {
         width: 100%;
-        display: grid;
-        grid-template-rows: 1fr 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
         padding: 20px;
         font-family: Arial, Helvetica, sans-serif;
     }
@@ -30,10 +29,6 @@
     &__date {
         font-size: 40px;
         font-weight: medium;
-
-        @media (max-width:768px) {
-            font-size: 30px;
-        }
     }
 
     &__infoBlock {
@@ -44,7 +39,7 @@
     }
 
     &__divider {
-        height: 120px;
+        height: 90%;
         width: 2px;
         background-color: gainsboro;
     }
@@ -97,6 +92,39 @@
             &:last-child {
                 margin-top: 5px;
             }
+        }
+    }
+
+    @media (max-height: 620px) {
+        &__dataBlock {
+            flex-direction: row;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        &__date {
+            font-size: 20px;
+        }
+
+        &__infoBlock {
+            max-width: 150px;
+            min-width: 100px;
+        }
+
+        .info {
+            &__content {
+                padding: 5px;
+            }   
+
+            &__col {
+                font-size: 16px;
+            }
+        }
+    }
+
+    @media (max-width:768px) {
+        &__date {
+            font-size: 30px;
         }
     }
 }

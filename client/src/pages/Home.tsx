@@ -12,6 +12,7 @@ import LearnInfoSection from '../components/section/home/LearnInfoSection'
 import ShowSection from '../components/section/home/ShowSection'
 import SearchSection from '../components/section/home/SearchSection'
 import Calendar from '../components/calendar/Calendar'
+import RoundButton from '../components/ui/button/RoundButton'
 
 const Home: FC = () => {
     // additional content visibility
@@ -34,6 +35,10 @@ const Home: FC = () => {
         if (condition && ref) {
             ref.current?.scrollIntoView({ behavior: 'smooth' })
         }
+    }
+
+    const StartHandler = () => {
+        console.log('start click hendeler')
     }
 
     useEffect(() => {
@@ -59,6 +64,11 @@ const Home: FC = () => {
                         {/* calendar block */}
                         <div className={styles.mainBlock__calendarBlock}>
                             <Calendar />
+                            <div className={styles.mainBlock__startButtonBlock}>
+                            <RoundButton
+                        text='START'
+                        onClick={StartHandler} />
+                            </div>
                         </div>
                         <ShowSection
                             isContentVisible={isCardsShowed}
