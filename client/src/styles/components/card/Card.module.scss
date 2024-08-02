@@ -1,0 +1,90 @@
+.Card {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid gainsboro;
+
+    &__content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &_active {
+        animation: flip 1s ease-out;
+    }
+}
+
+@keyframes flip {
+    0% {
+        transform: rotate3d(0, 1, 0, 0deg);
+    }
+
+    100% {
+        transform: rotate3d(0, 1, 0, 180deg);
+    }
+}
+
+%CardContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .CardContent__picture {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    .CardContent__name {
+        margin-top: 20px;
+        font-size: 22px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}
+
+
+
+
+.FrontContent {
+    @extend %CardContent;
+    cursor: pointer;
+
+    &__example {
+        margin-top: 12px;
+        font-size: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: gray;
+    }
+}
+
+
+
+.BackContent {
+    @extend %CardContent;
+
+    &__translated {}
+
+    &__translation {}
+
+    &__example {}
+
+    animation: flipContent 1s ease;
+    animation-iteration-count: 1;
+}
+
+@keyframes flipContent {
+    0% {
+        transform: rotateY(0);
+    }
+
+    100% {
+        transform: rotateY(180deg);
+    }
+}
