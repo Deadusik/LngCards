@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { CardState } from '../utils/enum'
 import { useDialogInfoContent } from '../hooks/useDialogInfoContent'
 import { SPACE } from '../utils/constants'
+import { useNavigate } from "react-router-dom";
 // styles 
 import styles from '../styles/pages/Home.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
@@ -13,8 +14,11 @@ import ShowSection from '../components/section/home/ShowSection'
 import SearchSection from '../components/section/home/SearchSection'
 import Calendar from '../components/calendar/Calendar'
 import RoundButton from '../components/ui/button/RoundButton'
+import { LEARNING } from '../router/paths';
 
 const Home: FC = () => {
+    const navigate = useNavigate()
+
     // additional content visibility
     const [isCardsShowed, setIsCardsShowed] = useState(false)
     const [isSearchShowed, setIsSearchShowed] = useState(false)
@@ -38,7 +42,7 @@ const Home: FC = () => {
     }
 
     const StartHandler = () => {
-        console.log('start click hendeler')
+        navigate(LEARNING)
     }
 
     useEffect(() => {
@@ -65,9 +69,9 @@ const Home: FC = () => {
                         <div className={styles.mainBlock__calendarBlock}>
                             <Calendar />
                             <div className={styles.mainBlock__startButtonBlock}>
-                            <RoundButton
-                        text='START'
-                        onClick={StartHandler} />
+                                <RoundButton
+                                    text='START'
+                                    onClick={StartHandler} />
                             </div>
                         </div>
                         <ShowSection
