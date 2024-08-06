@@ -1,18 +1,82 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import { SPACE } from '../../utils/constants'
 
-const Card = () => {
+const Card: React.FC = () => {
     const [isFrontSide, setIsFrontSide] = useState(true)
 
-    const onCardClick = () => {
+    const [isMouseOver, setIsMouseOver] = useState(false)
+    const [isMouseDown, setIsMouseDown] = useState(false)
+
+    const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 })
+
+    const cardRef = useRef<HTMLDivElement>(null)
+
+    const rotateCard = (event: MouseEvent) => {
+        if (cardRef.current) {
+            cardRef.current.style.transform = `rotate(${(primaryCursorPoint.x - event.clientX) / 10}deg)`
+        }
+    }
+
+    const moveCard = (event: MouseEvent) => {
+        if (cardRef.current) {
+            cardRef.current.style.left = `${event.clientX - primaryCursorPoint.x}px`
+            cardRef.current.style.top = `${event.clientY - primaryCursorPoint.y}px`
+        }
+    }
+
+    const resetCard = () => {
+        if (cardRef.current) {
+            cardRef.current.style.left = '0px'
+            cardRef.current.style.top = '0px'
+            cardRef.current.style.transform = 'rotate(0deg)'
+            setPrimaryCursorPoint({ x: 0, y: 0 })
+        }
+    }
+
+    const onCardClickHandler = () => {
         setIsFrontSide(false)
     }
 
+    const onMouseMoveHandler = (event: MouseEvent) => {
+        if (isMouseDown && isMouseOver && !isFrontSide && cardRef.current) {
+            rotateCard(event)
+            moveCard(event)
+        }
+    }
+
+    const onMouseDownHandler = (event: MouseEvent) => {
+        setIsMouseDown(true)
+        setPrimaryCursorPoint({ x: event.clientX, y: event.clientY })
+    }
+
+    const onMouseUpHandler = () => {
+        setIsMouseDown(false)
+        resetCard()
+    }
+
+    const onMouseEnterHandler = () => {
+        setIsMouseOver(true)
+    }
+
+    const onMouseLeaveHandler = () => {
+        setIsMouseOver(false)
+    }
+
     return (
-        <div className={isFrontSide ? styles.Card : [styles.Card, styles.Card_active].join(SPACE)}
-            onClick={onCardClick}>
+        <div className={
+            isFrontSide ?
+                styles.Card
+                :
+                [styles.Card, styles.Card_active].join(SPACE)}
+            ref={cardRef}
+            onMouseMove={onMouseMoveHandler}
+            onMouseEnter={onMouseEnterHandler}
+            onMouseLeave={onMouseLeaveHandler}
+            onMouseDown={onMouseDownHandler}
+            onMouseUp={onMouseUpHandler}
+            onClick={onCardClickHandler}>
             <div className={styles.Card__content}>
                 {
                     isFrontSide ?

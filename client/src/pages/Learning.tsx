@@ -7,7 +7,11 @@ const Learning: FC = () => {
     return (
         <div className={styles.mainBlock}>
             <div className={wrapperStyles.content}>
-                <Card />
+                <div className={styles.mainBlock__content}>
+                    <div className={styles.mainBlock__cards}>
+                        <Card />
+                    </div>
+                </div>
             </div>
         </div>
     )

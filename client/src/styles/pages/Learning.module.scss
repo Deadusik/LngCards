@@ -1,1 +1,20 @@
-.mainBlock {}
+@import '../colors.scss';
+
+.mainBlock {
+    height: 100vh;
+    background-color: $whiteDark;
+    overflow: hidden;
+
+    &__content {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__cards {
+        height: 95%;
+        width: 100%;
+        position: relative;
+    }
+}
