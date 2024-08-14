@@ -2,26 +2,26 @@ import { useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import { SPACE } from '../../utils/constants'
-import useNormilize from '../../hooks/useNormalize'
 
 const Card: React.FC = () => {
+    // event states
     const [isFrontSide, setIsFrontSide] = useState(true)
-
     const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
-
+    // states
     const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 })
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
-    const [labelOpacity, setLabelOpacity] = useState(0)
-
+    const [currentLabelOpacity, setCurrentLabelOpacity] = useState(0)
+    // refs
     const cardRef = useRef<HTMLDivElement>(null)
     const gotItLabelRef = useRef<HTMLDivElement>(null)
     const studyAgainLabelRef = useRef<HTMLDivElement>(null)
     const deleteLabelRef = useRef<HTMLDivElement>(null)
-
+    // constats
     const GOT_IT = 100
     const STUDY_AGAIN = -100
     const DELETE_OFFSET = 100
+    const DEAD_ZONE = 25
 
     const rotateCard = (event: MouseEvent) => {
         if (cardRef.current) {
@@ -52,37 +52,61 @@ const Card: React.FC = () => {
             cardRef.current.style.transform = 'rotate(0deg)'
             setPrimaryCursorPoint({ x: 0, y: 0 })
         }
+        if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
+            gotItLabelRef.current.style.opacity = '0'
+            studyAgainLabelRef.current.style.opacity = '0'
+            deleteLabelRef.current.style.opacity = '0'
+        }
     }
 
     const actionByOffset = () => {
-        if (cardRef) {
+        if (cardRef.current) {
             if (moveOffset.x > GOT_IT) {
-                cardRef.current?.style.opacity
+                cardRef.current.style.opacity
             } else if (moveOffset.x < STUDY_AGAIN) {
-                cardRef.current?.remove()
+                cardRef.current.remove()
             }
 
             if (moveOffset.y > DELETE_OFFSET) {
-                cardRef.current?.remove()
+                cardRef.current.remove()
             }
         }
     }
 
     const appearByOffset = () => {
-        if (moveOffset.x > GOT_IT && gotItLabelRef.current) {
-            gotItLabelRef.current.style.opacity = normalize(moveOffset.x, GOT_IT, 0).toString()
-            console.log('normalized', normalize(moveOffset.x, GOT_IT, 0).toString())
-        } else if (moveOffset.x < STUDY_AGAIN && studyAgainLabelRef.current) {
-            studyAgainLabelRef.current
-        }
+        console.log('moveoffset:', moveOffset.x)
 
-        if (moveOffset.y > DELETE_OFFSET && deleteLabelRef.current) {
-            deleteLabelRef.current
+        if (moveOffset.x > DEAD_ZONE && gotItLabelRef.current) {
+            gotItLabelRef.current.style.opacity =
+                offsetToOpacity(moveOffset.x).toString()
+        } else if (moveOffset.x < DEAD_ZONE && studyAgainLabelRef.current) {
+            studyAgainLabelRef.current.style.opacity =
+                offsetToOpacity(moveOffset.x).toString()
+        } else if (moveOffset.y > DEAD_ZONE && deleteLabelRef.current) {
+            deleteLabelRef.current.style.opacity =
+                offsetToOpacity(moveOffset.y).toString()
         }
     }
 
-    const normalize = (value: number, max: number, min: number): number => {
-        return (value - min) / (max - min)
+    const offsetToOpacity = (cardOffset: number): number => {
+        const MAX_PIXELS = 100
+        const MAX_OPACITY = 1
+        const MIN = 0
+
+        const positiveOffset = cardOffset * 1
+
+        console.log('offset:', positiveOffset)
+
+        if (positiveOffset <= DEAD_ZONE) {
+            return MIN
+        }
+        if (positiveOffset > MAX_PIXELS) {
+            return MAX_OPACITY
+        }
+        if (positiveOffset < MAX_PIXELS)
+            return positiveOffset / MAX_PIXELS
+
+        return MIN
     }
 
     const onCardClickHandler = () => {
