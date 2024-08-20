@@ -3,15 +3,28 @@ import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import { SPACE } from '../../utils/constants'
 
+enum SideAction {
+    StudyAgain = 'study',
+    GotIt = 'gotit',
+    Delete = 'delete',
+    NoAction = 'nothing'
+}
+
+interface Offset {
+    x: number
+    y: number
+}
+
 const Card: React.FC = () => {
     // event states
     const [isFrontSide, setIsFrontSide] = useState(true)
     const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
     // states
-    const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 })
+    const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as Offset)
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
     const [currentLabelOpacity, setCurrentLabelOpacity] = useState(0)
+    const [cardAction, setCardAction] = useState<SideAction>(SideAction.NoAction)
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
     const gotItLabelRef = useRef<HTMLDivElement>(null)
@@ -29,6 +42,16 @@ const Card: React.FC = () => {
         }
     }
 
+    const setCardSideByOffset = (offset: Offset) => {
+        if (offset.x > DEAD_ZONE) setCardAction(SideAction.GotIt)
+        else if (offset.x < -DEAD_ZONE) setCardAction(SideAction.StudyAgain)
+        else if (offset.y > DEAD_ZONE) setCardAction(SideAction.Delete)
+        else setCardAction(SideAction.NoAction)
+
+        console.log(offset)
+        console.log(cardAction)
+    }
+
     const moveCard = (event: MouseEvent) => {
         if (cardRef.current) {
             const offsetX = event.clientX - primaryCursorPoint.x
@@ -36,10 +59,13 @@ const Card: React.FC = () => {
             cardRef.current.style.left = `${offsetX}px`
             cardRef.current.style.top = `${offsetY}px`
 
-            setMoveOffset({
+            const offset = {
                 x: offsetX,
                 y: offsetY
-            })
+            } as Offset
+
+            setMoveOffset(offset)
+            setCardSideByOffset(offset)
         }
 
         appearByOffset()
@@ -74,39 +100,36 @@ const Card: React.FC = () => {
     }
 
     const appearByOffset = () => {
-        console.log('moveoffset:', moveOffset.x)
-
-        if (moveOffset.x > DEAD_ZONE && gotItLabelRef.current) {
-            gotItLabelRef.current.style.opacity =
-                offsetToOpacity(moveOffset.x).toString()
-        } else if (moveOffset.x < DEAD_ZONE && studyAgainLabelRef.current) {
-            studyAgainLabelRef.current.style.opacity =
-                offsetToOpacity(moveOffset.x).toString()
-        } else if (moveOffset.y > DEAD_ZONE && deleteLabelRef.current) {
-            deleteLabelRef.current.style.opacity =
-                offsetToOpacity(moveOffset.y).toString()
+        switch (cardAction) {
+            case SideAction.GotIt: {
+                if (gotItLabelRef.current)
+                    gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x).toString()
+                break
+            }
+            case SideAction.StudyAgain: {
+                if (studyAgainLabelRef.current)
+                    studyAgainLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x).toString()
+                break
+            }
+            case SideAction.Delete: {
+                if (deleteLabelRef.current)
+                    deleteLabelRef.current.style.opacity = offsetToOpacity(moveOffset.y).toString()
+                break
+            }
         }
     }
 
     const offsetToOpacity = (cardOffset: number): number => {
-        const MAX_PIXELS = 100
+        const positiveOffset = cardOffset * 1;
+        const MAX_OFFSET = 100 + DEAD_ZONE
+        const MIN_OFFSET = DEAD_ZONE
+        const MIN_OPACITY = 0
         const MAX_OPACITY = 1
-        const MIN = 0
 
-        const positiveOffset = cardOffset * 1
+        if (positiveOffset >= DEAD_ZONE && positiveOffset < MAX_OFFSET)
+            return positiveOffset - DEAD_ZONE / MAX_OFFSET
 
-        console.log('offset:', positiveOffset)
-
-        if (positiveOffset <= DEAD_ZONE) {
-            return MIN
-        }
-        if (positiveOffset > MAX_PIXELS) {
-            return MAX_OPACITY
-        }
-        if (positiveOffset < MAX_PIXELS)
-            return positiveOffset / MAX_PIXELS
-
-        return MIN
+        return MAX_OPACITY
     }
 
     const onCardClickHandler = () => {
