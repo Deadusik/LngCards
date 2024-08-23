@@ -3,7 +3,8 @@ import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import { SPACE } from '../../utils/constants'
 
-enum SideAction {
+
+enum CardDirection {
     StudyAgain = 'study',
     GotIt = 'gotit',
     Delete = 'delete',
@@ -23,8 +24,7 @@ const Card: React.FC = () => {
     // states
     const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as Offset)
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
-    const [currentLabelOpacity, setCurrentLabelOpacity] = useState(0)
-    const [cardAction, setCardAction] = useState<SideAction>(SideAction.NoAction)
+    const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.NoAction)
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
     const gotItLabelRef = useRef<HTMLDivElement>(null)
@@ -42,14 +42,19 @@ const Card: React.FC = () => {
         }
     }
 
+    // set card side value by offset including dead zone
     const setCardSideByOffset = (offset: Offset) => {
-        if (offset.x > DEAD_ZONE) setCardAction(SideAction.GotIt)
-        else if (offset.x < -DEAD_ZONE) setCardAction(SideAction.StudyAgain)
-        else if (offset.y > DEAD_ZONE) setCardAction(SideAction.Delete)
-        else setCardAction(SideAction.NoAction)
+        if (offset.y > DEAD_ZONE && offset.x <= DEAD_ZONE && offset.x >= -DEAD_ZONE)
+            setCardDirection(CardDirection.Delete)
+        else if (offset.x > DEAD_ZONE)
+            setCardDirection(CardDirection.GotIt)
+        else if (offset.x < -DEAD_ZONE)
+            setCardDirection(CardDirection.StudyAgain)
+        else
+            setCardDirection(CardDirection.NoAction)
 
-        console.log(offset)
-        console.log(cardAction)
+        // DEV!
+        //console.log(cardDirection.toString())
     }
 
     const moveCard = (event: MouseEvent) => {
@@ -66,9 +71,20 @@ const Card: React.FC = () => {
 
             setMoveOffset(offset)
             setCardSideByOffset(offset)
+
+            // DEV!
+            //console.log('offset:', offset) 
         }
 
         appearByOffset()
+    }
+
+    const resetLabelsOpacity = () => {
+        if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
+            gotItLabelRef.current.style.opacity = '0'
+            studyAgainLabelRef.current.style.opacity = '0'
+            deleteLabelRef.current.style.opacity = '0'
+        }
     }
 
     const resetCard = () => {
@@ -78,56 +94,71 @@ const Card: React.FC = () => {
             cardRef.current.style.transform = 'rotate(0deg)'
             setPrimaryCursorPoint({ x: 0, y: 0 })
         }
-        if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
-            gotItLabelRef.current.style.opacity = '0'
-            studyAgainLabelRef.current.style.opacity = '0'
-            deleteLabelRef.current.style.opacity = '0'
-        }
+
+        resetLabelsOpacity()
     }
 
+    // set action for card by offset
     const actionByOffset = () => {
         if (cardRef.current) {
             if (moveOffset.x > GOT_IT) {
-                cardRef.current.style.opacity
+                cardRef.current.remove()
             } else if (moveOffset.x < STUDY_AGAIN) {
                 cardRef.current.remove()
-            }
-
-            if (moveOffset.y > DELETE_OFFSET) {
+            } else if (moveOffset.y > DELETE_OFFSET) {
                 cardRef.current.remove()
             }
         }
     }
 
+    // set opacity for label by card offset
     const appearByOffset = () => {
-        switch (cardAction) {
-            case SideAction.GotIt: {
+        // DEV!
+        //console.log('opacity x:', gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x))
+
+        switch (cardDirection) {
+            case CardDirection.GotIt: {
                 if (gotItLabelRef.current)
-                    gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x).toString()
+                    gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
                 break
             }
-            case SideAction.StudyAgain: {
+            case CardDirection.StudyAgain: {
                 if (studyAgainLabelRef.current)
-                    studyAgainLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x).toString()
+                    studyAgainLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
                 break
             }
-            case SideAction.Delete: {
+            case CardDirection.Delete: {
                 if (deleteLabelRef.current)
-                    deleteLabelRef.current.style.opacity = offsetToOpacity(moveOffset.y).toString()
+                    deleteLabelRef.current.style.opacity = offsetToOpacity(moveOffset.y)
                 break
+            }
+            default: {
+                resetLabelsOpacity()
             }
         }
     }
 
-    const offsetToOpacity = (cardOffset: number): number => {
-        const positiveOffset = cardOffset * 1;
+    // converting card offset to label opacity in number value
+    const offsetToOpacity = (cardOffset: number): string => {
+        const positiveOffset = Math.abs(cardOffset);
         const MAX_OFFSET = 100 + DEAD_ZONE
         const MIN_OFFSET = DEAD_ZONE
-        const MIN_OPACITY = 0
-        const MAX_OPACITY = 1
+        const MAX_OPACITY = '1'
+        const MIN_OPACITY = '0'
 
-        if (positiveOffset >= DEAD_ZONE && positiveOffset < MAX_OFFSET)
-            return positiveOffset - DEAD_ZONE / MAX_OFFSET
+        // DEV!
+        //console.log('rounded:', ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1))
+        // DEV!
+        console.log('positive offset:', (positiveOffset / DEAD_ZONE).toFixed(1))
+
+        if (cardDirection != CardDirection.GotIt && cardDirection != CardDirection.StudyAgain) {
+            return (positiveOffset / DEAD_ZONE).toFixed(1)
+        }
+
+        if (positiveOffset >= MIN_OFFSET && positiveOffset < MAX_OFFSET) {
+            return ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1)
+        } else if (positiveOffset < MIN_OFFSET)
+            return MIN_OPACITY
 
         return MAX_OPACITY
     }
