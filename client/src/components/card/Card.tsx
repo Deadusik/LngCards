@@ -44,11 +44,11 @@ const Card: React.FC = () => {
 
     // set card side value by offset including dead zone
     const setCardSideByOffset = (offset: Offset) => {
-        if (offset.y > DEAD_ZONE && offset.x <= DEAD_ZONE && offset.x >= -DEAD_ZONE)
+        if (offset.y > DEAD_ZONE)
             setCardDirection(CardDirection.Delete)
-        else if (offset.x > DEAD_ZONE)
+        else if (offset.x > DEAD_ZONE && offset.y < DEAD_ZONE)
             setCardDirection(CardDirection.GotIt)
-        else if (offset.x < -DEAD_ZONE)
+        else if (offset.x < -DEAD_ZONE && offset.y < DEAD_ZONE)
             setCardDirection(CardDirection.StudyAgain)
         else
             setCardDirection(CardDirection.NoAction)
@@ -101,11 +101,19 @@ const Card: React.FC = () => {
     // set action for card by offset
     const actionByOffset = () => {
         if (cardRef.current) {
-            if (moveOffset.x > GOT_IT) {
+            if (moveOffset.y > DELETE_OFFSET) {
+                // DEV!
+                console.log('delete')
+                cardRef.current.remove()
+                return
+            }
+            else if (moveOffset.x > GOT_IT) {
+                // DEV!
+                console.log('got it')
                 cardRef.current.remove()
             } else if (moveOffset.x < STUDY_AGAIN) {
-                cardRef.current.remove()
-            } else if (moveOffset.y > DELETE_OFFSET) {
+                // DEV!
+                console.log('study')
                 cardRef.current.remove()
             }
         }
@@ -149,11 +157,11 @@ const Card: React.FC = () => {
         // DEV!
         //console.log('rounded:', ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1))
         // DEV!
-        console.log('positive offset:', (positiveOffset / DEAD_ZONE).toFixed(1))
+        //console.log('positive offset:', ((positiveOffset / DEAD_ZONE)).toFixed(1))
 
-        if (cardDirection != CardDirection.GotIt && cardDirection != CardDirection.StudyAgain) {
-            return (positiveOffset / DEAD_ZONE).toFixed(1)
-        }
+        // if (cardDirection != CardDirection.GotIt && cardDirection != CardDirection.StudyAgain) {
+        //     return (positiveOffset / DEAD_ZONE).toFixed(1)
+        // }
 
         if (positiveOffset >= MIN_OFFSET && positiveOffset < MAX_OFFSET) {
             return ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1)
