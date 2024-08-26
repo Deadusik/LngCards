@@ -2,16 +2,16 @@ import { useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import { SPACE } from '../../utils/constants'
-
+import { isOffset } from '../../utils/type'
 
 enum CardDirection {
-    StudyAgain = 'study',
-    GotIt = 'gotit',
-    Delete = 'delete',
-    NoAction = 'nothing'
+    ToStudy = 'study way',
+    ToGotIt = 'gotit way',
+    ToDelete = 'delete way',
+    Deadzone = 'deadzone'
 }
 
-interface Offset {
+export interface CardOffset {
     x: number
     y: number
 }
@@ -22,9 +22,9 @@ const Card: React.FC = () => {
     const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
     // states
-    const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as Offset)
+    const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
-    const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.NoAction)
+    const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
     const gotItLabelRef = useRef<HTMLDivElement>(null)
@@ -43,15 +43,15 @@ const Card: React.FC = () => {
     }
 
     // set card side value by offset including dead zone
-    const setCardSideByOffset = (offset: Offset) => {
+    const setCardSideByOffset = (offset: CardOffset) => {
         if (offset.y > DEAD_ZONE)
-            setCardDirection(CardDirection.Delete)
-        else if (offset.x > DEAD_ZONE && offset.y < DEAD_ZONE)
-            setCardDirection(CardDirection.GotIt)
-        else if (offset.x < -DEAD_ZONE && offset.y < DEAD_ZONE)
-            setCardDirection(CardDirection.StudyAgain)
+            setCardDirection(CardDirection.ToDelete)
+        else if (offset.x > DEAD_ZONE)
+            setCardDirection(CardDirection.ToGotIt)
+        else if (offset.x < -DEAD_ZONE)
+            setCardDirection(CardDirection.ToStudy)
         else
-            setCardDirection(CardDirection.NoAction)
+            setCardDirection(CardDirection.Deadzone)
 
         // DEV!
         //console.log(cardDirection.toString())
@@ -67,7 +67,7 @@ const Card: React.FC = () => {
             const offset = {
                 x: offsetX,
                 y: offsetY
-            } as Offset
+            } as CardOffset
 
             setMoveOffset(offset)
             setCardSideByOffset(offset)
@@ -125,19 +125,19 @@ const Card: React.FC = () => {
         //console.log('opacity x:', gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x))
 
         switch (cardDirection) {
-            case CardDirection.GotIt: {
+            case CardDirection.ToGotIt: {
                 if (gotItLabelRef.current)
                     gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
                 break
             }
-            case CardDirection.StudyAgain: {
+            case CardDirection.ToStudy: {
                 if (studyAgainLabelRef.current)
                     studyAgainLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
                 break
             }
-            case CardDirection.Delete: {
+            case CardDirection.ToDelete: {
                 if (deleteLabelRef.current)
-                    deleteLabelRef.current.style.opacity = offsetToOpacity(moveOffset.y)
+                    deleteLabelRef.current.style.opacity = offsetToOpacity(moveOffset)
                 break
             }
             default: {
@@ -146,30 +146,38 @@ const Card: React.FC = () => {
         }
     }
 
-    // converting card offset to label opacity in number value
-    const offsetToOpacity = (cardOffset: number): string => {
-        const positiveOffset = Math.abs(cardOffset);
+    function offsetToOpacity(cardOffset: number): string
+    function offsetToOpacity(cardOffset: { x: number, y: number }): string
+
+    // converting card offset to label opacity
+    function offsetToOpacity(cardOffset: any): string {
         const MAX_OFFSET = 100 + DEAD_ZONE
         const MIN_OFFSET = DEAD_ZONE
         const MAX_OPACITY = '1'
         const MIN_OPACITY = '0'
 
-        // DEV!
-        //console.log('rounded:', ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1))
-        // DEV!
-        //console.log('positive offset:', ((positiveOffset / DEAD_ZONE)).toFixed(1))
+        // got it && study again labels opacity controller
+        if (typeof cardOffset === 'number') {
+            const positiveOffset = Math.abs(cardOffset);
+            if (positiveOffset >= MIN_OFFSET && positiveOffset < MAX_OFFSET) {
+                return ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1)
+            } else if (positiveOffset < MIN_OFFSET)
+                return MIN_OPACITY
 
-        // if (cardDirection != CardDirection.GotIt && cardDirection != CardDirection.StudyAgain) {
-        //     return (positiveOffset / DEAD_ZONE).toFixed(1)
-        // }
+            return MAX_OPACITY
+        } else if (isOffset(cardOffset)) { // delete label opacity controller
+            const positiveOffset = { x: Math.abs(cardOffset.x), y: Math.abs(cardOffset.y) }
 
-        if (positiveOffset >= MIN_OFFSET && positiveOffset < MAX_OFFSET) {
-            return ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1)
-        } else if (positiveOffset < MIN_OFFSET)
-            return MIN_OPACITY
+            if (positiveOffset.x > DEAD_ZONE && positiveOffset.x < -DEAD_ZONE) {
+                // I AM HERE NOW :D
+                return '0'
+            }
+        }
 
-        return MAX_OPACITY
+        return MIN_OPACITY
     }
+
+
 
     const onCardClickHandler = () => {
         setIsFrontSide(false)
