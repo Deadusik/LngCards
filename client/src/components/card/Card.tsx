@@ -3,6 +3,7 @@ import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import { SPACE } from '../../utils/constants'
 import { isOffset } from '../../utils/type'
+import { getProgreesFromRange } from '../../utils/math'
 
 enum CardDirection {
     ToStudy = 'study way',
@@ -31,10 +32,11 @@ const Card: React.FC = () => {
     const studyAgainLabelRef = useRef<HTMLDivElement>(null)
     const deleteLabelRef = useRef<HTMLDivElement>(null)
     // constats
-    const GOT_IT = 100
-    const STUDY_AGAIN = -100
-    const DELETE_OFFSET = 100
-    const DEAD_ZONE = 25
+    const DEAD_ZONE = 50
+    const GOT_IT = 100 + DEAD_ZONE
+    const STUDY_AGAIN = -100 - DEAD_ZONE
+    const DELETE_OFFSET = 300 + DEAD_ZONE
+    const MIN_OPACITY = '0'
 
     const rotateCard = (event: MouseEvent) => {
         if (cardRef.current) {
@@ -44,7 +46,7 @@ const Card: React.FC = () => {
 
     // set card side value by offset including dead zone
     const setCardSideByOffset = (offset: CardOffset) => {
-        if (offset.y > DEAD_ZONE)
+        if (offset.y > DEAD_ZONE && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE)
             setCardDirection(CardDirection.ToDelete)
         else if (offset.x > DEAD_ZONE)
             setCardDirection(CardDirection.ToGotIt)
@@ -81,9 +83,9 @@ const Card: React.FC = () => {
 
     const resetLabelsOpacity = () => {
         if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
-            gotItLabelRef.current.style.opacity = '0'
-            studyAgainLabelRef.current.style.opacity = '0'
-            deleteLabelRef.current.style.opacity = '0'
+            gotItLabelRef.current.style.opacity = MIN_OPACITY
+            studyAgainLabelRef.current.style.opacity = MIN_OPACITY
+            deleteLabelRef.current.style.opacity = MIN_OPACITY
         }
     }
 
@@ -99,19 +101,19 @@ const Card: React.FC = () => {
     }
 
     // set action for card by offset
-    const actionByOffset = () => {
+    const actionByOffset = (offset: CardOffset) => {
         if (cardRef.current) {
-            if (moveOffset.y > DELETE_OFFSET) {
+            if (offset.y > DELETE_OFFSET && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE) {
                 // DEV!
                 console.log('delete')
                 cardRef.current.remove()
                 return
             }
-            else if (moveOffset.x > GOT_IT) {
+            else if (offset.x > GOT_IT) {
                 // DEV!
                 console.log('got it')
                 cardRef.current.remove()
-            } else if (moveOffset.x < STUDY_AGAIN) {
+            } else if (offset.x < STUDY_AGAIN) {
                 // DEV!
                 console.log('study')
                 cardRef.current.remove()
@@ -124,24 +126,29 @@ const Card: React.FC = () => {
         // DEV!
         //console.log('opacity x:', gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x))
 
-        switch (cardDirection) {
-            case CardDirection.ToGotIt: {
-                if (gotItLabelRef.current)
+        if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
+            switch (cardDirection) {
+                case CardDirection.ToGotIt: {
                     gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
-                break
-            }
-            case CardDirection.ToStudy: {
-                if (studyAgainLabelRef.current)
+                    studyAgainLabelRef.current.style.opacity = MIN_OPACITY
+                    deleteLabelRef.current.style.opacity = MIN_OPACITY
+                    break
+                }
+                case CardDirection.ToStudy: {
                     studyAgainLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
-                break
-            }
-            case CardDirection.ToDelete: {
-                if (deleteLabelRef.current)
+                    gotItLabelRef.current.style.opacity = MIN_OPACITY
+                    deleteLabelRef.current.style.opacity = MIN_OPACITY
+                    break
+                }
+                case CardDirection.ToDelete: {
                     deleteLabelRef.current.style.opacity = offsetToOpacity(moveOffset)
-                break
-            }
-            default: {
-                resetLabelsOpacity()
+                    gotItLabelRef.current.style.opacity = MIN_OPACITY
+                    studyAgainLabelRef.current.style.opacity = MIN_OPACITY
+                    break
+                }
+                default: {
+                    resetLabelsOpacity()
+                }
             }
         }
     }
@@ -153,25 +160,20 @@ const Card: React.FC = () => {
     function offsetToOpacity(cardOffset: any): string {
         const MAX_OFFSET = 100 + DEAD_ZONE
         const MIN_OFFSET = DEAD_ZONE
-        const MAX_OPACITY = '1'
-        const MIN_OPACITY = '0'
+
 
         // got it && study again labels opacity controller
         if (typeof cardOffset === 'number') {
             const positiveOffset = Math.abs(cardOffset);
-            if (positiveOffset >= MIN_OFFSET && positiveOffset < MAX_OFFSET) {
-                return ((positiveOffset - MIN_OFFSET) / MAX_OFFSET).toFixed(1)
-            } else if (positiveOffset < MIN_OFFSET)
-                return MIN_OPACITY
-
-            return MAX_OPACITY
+            return getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset).toFixed(1)
         } else if (isOffset(cardOffset)) { // delete label opacity controller
             const positiveOffset = { x: Math.abs(cardOffset.x), y: Math.abs(cardOffset.y) }
 
-            if (positiveOffset.x > DEAD_ZONE && positiveOffset.x < -DEAD_ZONE) {
-                // I AM HERE NOW :D
-                return '0'
-            }
+            const yOpacity = getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset.y)
+            const xOpacity = getProgreesFromRange(DEAD_ZONE, 0, positiveOffset.x)
+            const opacity = yOpacity * xOpacity
+            console.log('opacity', opacity.toFixed(1))
+            return opacity.toFixed(1)
         }
 
         return MIN_OPACITY
@@ -197,7 +199,7 @@ const Card: React.FC = () => {
 
     const onMouseUpHandler = () => {
         setIsMouseDown(false)
-        actionByOffset()
+        actionByOffset(moveOffset)
         resetCard()
     }
 
