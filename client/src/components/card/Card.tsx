@@ -211,6 +211,25 @@ const Card: React.FC = () => {
         setIsMouseOver(false)
     }
 
+    // mobile handlers 
+
+    const onTouchStartHandler = () => {
+        onMouseEnterHandler()
+        onMouseUpHandler()
+    }
+
+    const onTouchEndHandler = () => {
+        onMouseUpHandler()
+    }
+
+    const onTouchMoveHandler = (event: TouchEvent) => {
+        setIsMouseDown(true)
+
+        const touch = event.touches[0]
+
+        setPrimaryCursorPoint({ x: touch.clientX, y: touch.clientY })
+    }
+
     return (
         <div className={
             isFrontSide ?
@@ -218,12 +237,17 @@ const Card: React.FC = () => {
                 :
                 [styles.Card, styles.Card_active].join(SPACE)}
             ref={cardRef}
+            // events
             onMouseMove={onMouseMoveHandler}
             onMouseEnter={onMouseEnterHandler}
             onMouseLeave={onMouseLeaveHandler}
             onMouseDown={onMouseDownHandler}
             onMouseUp={onMouseUpHandler}
-            onClick={onCardClickHandler}>
+            onClick={onCardClickHandler}
+            // mobile events
+            onTouchStart={onTouchStartHandler}
+            onTouchMove={onTouchMoveHandler}
+            onTouchEnd={onTouchEndHandler}>
             { /* content */}
             <div className={styles.Card__content}>
                 {
