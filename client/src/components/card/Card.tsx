@@ -38,9 +38,24 @@ const Card: React.FC = () => {
     const DELETE_OFFSET = 300 + DEAD_ZONE
     const MIN_OPACITY = '0'
 
-    const rotateCard = (event: MouseEvent) => {
-        if (cardRef.current) {
-            cardRef.current.style.transform = `rotate(${(primaryCursorPoint.x - event.clientX) / 10}deg)`
+    // get client coordinates depends on platform (pc or mobile)
+    const getClientfromPlatform = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>): CardOffset | undefined => {
+        let client: CardOffset | undefined
+
+        if ('clientX' in event) {
+            client = { x: event.clientX, y: event.clientY }
+        } else if ('touches' in event) {
+            client = { x: event.touches[0].clientX, y: event.touches[0].clientY }
+        }
+
+        return client
+    }
+
+    const rotateCard = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+        const client = getClientfromPlatform(event)
+
+        if (cardRef.current && client) {
+            cardRef.current.style.transform = `rotate(${(primaryCursorPoint.x - client.x) / 10}deg)`
         }
     }
 
@@ -54,15 +69,14 @@ const Card: React.FC = () => {
             setCardDirection(CardDirection.ToStudy)
         else
             setCardDirection(CardDirection.Deadzone)
-
-        // DEV!
-        //console.log(cardDirection.toString())
     }
 
-    const moveCard = (event: MouseEvent) => {
-        if (cardRef.current) {
-            const offsetX = event.clientX - primaryCursorPoint.x
-            const offsetY = event.clientY - primaryCursorPoint.y
+    const moveCard = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+        const client = getClientfromPlatform(event)
+
+        if (cardRef.current && client) {
+            const offsetX = client.x - primaryCursorPoint.x
+            const offsetY = client.y - primaryCursorPoint.y
             cardRef.current.style.left = `${offsetX}px`
             cardRef.current.style.top = `${offsetY}px`
 
@@ -73,9 +87,6 @@ const Card: React.FC = () => {
 
             setMoveOffset(offset)
             setCardSideByOffset(offset)
-
-            // DEV!
-            //console.log('offset:', offset) 
         }
 
         appearByOffset()
@@ -123,9 +134,6 @@ const Card: React.FC = () => {
 
     // set opacity for label by card offset
     const appearByOffset = () => {
-        // DEV!
-        //console.log('opacity x:', gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x))
-
         if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
             switch (cardDirection) {
                 case CardDirection.ToGotIt: {
@@ -161,7 +169,6 @@ const Card: React.FC = () => {
         const MAX_OFFSET = 100 + DEAD_ZONE
         const MIN_OFFSET = DEAD_ZONE
 
-
         // got it && study again labels opacity controller
         if (typeof cardOffset === 'number') {
             const positiveOffset = Math.abs(cardOffset);
@@ -179,20 +186,18 @@ const Card: React.FC = () => {
         return MIN_OPACITY
     }
 
-
-
     const onCardClickHandler = () => {
         setIsFrontSide(false)
     }
 
-    const onMouseMoveHandler = (event: MouseEvent) => {
-        if (isMouseDown && isMouseOver && !isFrontSide && cardRef.current) {
+    const onMouseMoveHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+        if (isMouseDown && isMouseOver && !isFrontSide) {
             rotateCard(event)
             moveCard(event)
         }
     }
 
-    const onMouseDownHandler = (event: MouseEvent) => {
+    const onMouseDownHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         setIsMouseDown(true)
         setPrimaryCursorPoint({ x: event.clientX, y: event.clientY })
     }
@@ -212,22 +217,19 @@ const Card: React.FC = () => {
     }
 
     // mobile handlers 
-
-    const onTouchStartHandler = () => {
-        onMouseEnterHandler()
-        onMouseUpHandler()
+    const onTouchStartHandler = (event: React.TouchEvent<HTMLDivElement>) => {
+        setPrimaryCursorPoint({ x: event.touches[0].clientX, y: event.touches[0].clientY })
     }
 
     const onTouchEndHandler = () => {
         onMouseUpHandler()
     }
 
-    const onTouchMoveHandler = (event: TouchEvent) => {
-        setIsMouseDown(true)
-
-        const touch = event.touches[0]
-
-        setPrimaryCursorPoint({ x: touch.clientX, y: touch.clientY })
+    const onTouchMoveHandler = (event: React.TouchEvent<HTMLDivElement>) => {
+        if (!isFrontSide) {
+            rotateCard(event)
+            moveCard(event)
+        }
     }
 
     return (
