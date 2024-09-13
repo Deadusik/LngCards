@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
+import playSvgSrc from '../../assets/svgs/sound.svg'
 import { SPACE } from '../../utils/constants'
 import { isOffset } from '../../utils/type'
 import { getProgreesFromRange } from '../../utils/math'
+import PlayButton from '../ui/button/PlayButton'
 
 enum CardDirection {
     ToStudy = 'study way',
@@ -256,14 +258,28 @@ const Card: React.FC = () => {
                     isFrontSide ?
                         <div className={styles.FrontContent}>
                             <img className={styles.CardContent__picture /*extended*/} src={testImgSrc} />
-                            <h1 className={styles.CardContent__name /*extended*/}>Багато часу тому</h1>
-                            <p className={styles.FrontContent__example}>In a galaxy, far away...</p>
+                            <h1 className={styles.CardContent__word /*extended*/}>Apple</h1>
+                            <p className={styles.FrontContent__example}>I like to eat apples and bananas</p>
                         </div>
                         :
                         <div className={styles.BackContent}>
                             <img className={styles.CardContent__picture} src={testImgSrc} />
-                            <p className={styles.BackContent__translated}>Багато часу тому</p>
-                            <h1 className={styles.BackContent__translation}>Long time ago</h1>
+                            <p className={styles.BackContent__translate}>Яблуко</p>
+                            <div className={styles.BackContent__wordBlock}>
+                                <div className={styles.BackContent__playButton}>
+                                    <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
+                                </div>
+                                <h1 className={styles.BackContent__word}>Apple</h1>
+                            </div>
+                            <hr className={styles.BackContent__divider} />
+                            <div className={styles.BackContent__exampleBlock}>
+                                <div className={styles.BackContent__playButton}>
+                                    <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
+                                </div>
+                                <p className={styles.BackContent__exampleText}>
+                                    I like to eat apples and bananas
+                                </p>
+                            </div>
                         </div>
                 }
             </div>

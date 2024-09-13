@@ -4,10 +4,11 @@ import { FC } from 'react'
 
 interface Props {
     size?: string
+    iconSrc?: string
     onClick: () => void
 }
 
-const PlayButton: FC<Props> = ({ size = '15px', onClick }) => {
+const PlayButton: FC<Props> = ({ size = '15px', iconSrc, onClick }) => {
     return (
         <div className={styles.mainBlock}
             onClick={onClick}
@@ -15,7 +16,7 @@ const PlayButton: FC<Props> = ({ size = '15px', onClick }) => {
                 width: size
             }}>
             <img className={styles.mainBlock__img}
-                src={playSvgSrc}
+                src={iconSrc ? iconSrc : playSvgSrc}
                 alt='play' />
         </div>
     )
