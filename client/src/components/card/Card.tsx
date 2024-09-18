@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import playSvgSrc from '../../assets/svgs/sound.svg'
@@ -22,6 +22,7 @@ export interface CardOffset {
 const Card: React.FC = () => {
     // event states
     const [isFrontSide, setIsFrontSide] = useState(true)
+    const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
     const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
     // states
@@ -33,6 +34,8 @@ const Card: React.FC = () => {
     const gotItLabelRef = useRef<HTMLDivElement>(null)
     const studyAgainLabelRef = useRef<HTMLDivElement>(null)
     const deleteLabelRef = useRef<HTMLDivElement>(null)
+    const frontContentRef = useRef<HTMLDivElement>(null)
+    const backContentRef = useRef<HTMLDivElement>(null)
     // constats
     const DEAD_ZONE = 50
     const GOT_IT = 100 + DEAD_ZONE
@@ -177,11 +180,9 @@ const Card: React.FC = () => {
             return getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset).toFixed(1)
         } else if (isOffset(cardOffset)) { // delete label opacity controller
             const positiveOffset = { x: Math.abs(cardOffset.x), y: Math.abs(cardOffset.y) }
-
             const yOpacity = getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset.y)
             const xOpacity = getProgreesFromRange(DEAD_ZONE, 0, positiveOffset.x)
             const opacity = yOpacity * xOpacity
-            console.log('opacity', opacity.toFixed(1))
             return opacity.toFixed(1)
         }
 
@@ -189,7 +190,8 @@ const Card: React.FC = () => {
     }
 
     const onCardClickHandler = () => {
-        setIsFrontSide(false)
+        if (isFrontSide)
+            setIsFlipAnimationActive(true)
     }
 
     const onMouseMoveHandler = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -234,12 +236,34 @@ const Card: React.FC = () => {
         }
     }
 
+    const flipCard = () => {
+
+    }
+
+    useEffect(() => {
+        if (isFlipAnimationActive) {
+            setTimeout(() => {
+                // if (frontContentRef.current)
+                //     frontContentRef.current.style.visibility = 'none'
+                setIsFrontSide(false)
+                setTimeout(() => {
+                    //if (backContentRef.current)
+                    //backContentRef.current.style.display = 'flex'
+
+
+                    setIsFlipAnimationActive(false)
+                }, 500)
+            }, 500)
+        }
+    }, [isFlipAnimationActive])
+
     return (
         <div className={
-            isFrontSide ?
-                styles.Card
+            isFlipAnimationActive ?
+                [styles.Card, styles.Card_inactive, styles.Card_flipped].join(SPACE)
                 :
-                [styles.Card, styles.Card_active].join(SPACE)}
+                styles.Card
+        }
             ref={cardRef}
             // events
             onMouseMove={onMouseMoveHandler}
@@ -256,13 +280,13 @@ const Card: React.FC = () => {
             <div className={styles.Card__content}>
                 {
                     isFrontSide ?
-                        <div className={styles.FrontContent}>
+                        <div className={styles.FrontContent} ref={frontContentRef}>
                             <img className={styles.CardContent__picture /*extended*/} src={testImgSrc} />
                             <h1 className={styles.CardContent__word /*extended*/}>Apple</h1>
                             <p className={styles.FrontContent__example}>I like to eat apples and bananas</p>
                         </div>
                         :
-                        <div className={styles.BackContent}>
+                        <div className={styles.BackContent} ref={backContentRef}>
                             <img className={styles.CardContent__picture} src={testImgSrc} />
                             <p className={styles.BackContent__translate}>Яблуко</p>
                             <div className={styles.BackContent__wordBlock}>
