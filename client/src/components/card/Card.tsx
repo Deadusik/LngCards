@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import playSvgSrc from '../../assets/svgs/sound.svg'
@@ -19,7 +19,12 @@ export interface CardOffset {
     y: number
 }
 
-const Card: React.FC = () => {
+interface Props {
+    isActive?: boolean
+    setIsActive?: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const Card: FC<Props> = () => {
     // event states
     const [isFrontSide, setIsFrontSide] = useState(true)
     const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
@@ -37,11 +42,26 @@ const Card: React.FC = () => {
     const frontContentRef = useRef<HTMLDivElement>(null)
     const backContentRef = useRef<HTMLDivElement>(null)
     // constats
-    const DEAD_ZONE = 50
-    const GOT_IT = 100 + DEAD_ZONE
-    const STUDY_AGAIN = -100 - DEAD_ZONE
-    const DELETE_OFFSET = 300 + DEAD_ZONE
+    // if devise is small than we'll get a smaller multiplier
+    const ACTION_MULTIPLIER = getActionMultiplier()
+    const DEAD_ZONE = 50 * ACTION_MULTIPLIER
+    const GOT_IT = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
+    const STUDY_AGAIN = (-100 - DEAD_ZONE) * ACTION_MULTIPLIER
+    const DELETE_OFFSET = (150 + DEAD_ZONE) * ACTION_MULTIPLIER
     const MIN_OPACITY = '0'
+    const FLIP_ANIMATION_TIME = 600
+    const CARD_ROTATION_RATE = 20
+
+    function getActionMultiplier(): number {
+        const XS_TRIGGER = 600
+        const XS_MULTIPLIER = 0.5
+        const DEFAULT_MULTIPLIER = 1
+
+        const clientWidth = window.innerWidth
+        const multiplier = clientWidth < XS_TRIGGER ? XS_MULTIPLIER : DEFAULT_MULTIPLIER
+
+        return multiplier
+    }
 
     // get client coordinates depends on platform (pc or mobile)
     const getClientfromPlatform = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>): CardOffset | undefined => {
@@ -60,7 +80,7 @@ const Card: React.FC = () => {
         const client = getClientfromPlatform(event)
 
         if (cardRef.current && client) {
-            cardRef.current.style.transform = `rotate(${(primaryCursorPoint.x - client.x) / 10}deg)`
+            cardRef.current.style.transform = `rotate(${(primaryCursorPoint.x - client.x) / CARD_ROTATION_RATE}deg)`
         }
     }
 
@@ -171,7 +191,7 @@ const Card: React.FC = () => {
 
     // converting card offset to label opacity
     function offsetToOpacity(cardOffset: any): string {
-        const MAX_OFFSET = 100 + DEAD_ZONE
+        const MAX_OFFSET = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
         const MIN_OFFSET = DEAD_ZONE
 
         // got it && study again labels opacity controller
@@ -180,13 +200,20 @@ const Card: React.FC = () => {
             return getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset).toFixed(1)
         } else if (isOffset(cardOffset)) { // delete label opacity controller
             const positiveOffset = { x: Math.abs(cardOffset.x), y: Math.abs(cardOffset.y) }
-            const yOpacity = getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset.y)
+            const yOpacity = getProgreesFromRange(MIN_OFFSET, DELETE_OFFSET, positiveOffset.y)
             const xOpacity = getProgreesFromRange(DEAD_ZONE, 0, positiveOffset.x)
             const opacity = yOpacity * xOpacity
             return opacity.toFixed(1)
         }
 
         return MIN_OPACITY
+    }
+
+    const getCardStyle = (): string => {
+        // FINISH IT
+        const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
+        const droppedNoActionStyles = !isMouseDown ? styles.Card_deadZoneDropped : ''
+        return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
     }
 
     const onCardClickHandler = () => {
@@ -226,7 +253,8 @@ const Card: React.FC = () => {
     }
 
     const onTouchEndHandler = () => {
-        onMouseUpHandler()
+        if (!isFrontSide)
+            onMouseUpHandler()
     }
 
     const onTouchMoveHandler = (event: React.TouchEvent<HTMLDivElement>) => {
@@ -236,34 +264,19 @@ const Card: React.FC = () => {
         }
     }
 
-    const flipCard = () => {
-
-    }
-
     useEffect(() => {
         if (isFlipAnimationActive) {
             setTimeout(() => {
-                // if (frontContentRef.current)
-                //     frontContentRef.current.style.visibility = 'none'
                 setIsFrontSide(false)
                 setTimeout(() => {
-                    //if (backContentRef.current)
-                    //backContentRef.current.style.display = 'flex'
-
-
                     setIsFlipAnimationActive(false)
-                }, 500)
-            }, 500)
+                }, FLIP_ANIMATION_TIME / 2)
+            }, FLIP_ANIMATION_TIME / 2)
         }
     }, [isFlipAnimationActive])
 
     return (
-        <div className={
-            isFlipAnimationActive ?
-                [styles.Card, styles.Card_inactive, styles.Card_flipped].join(SPACE)
-                :
-                styles.Card
-        }
+        <div className={getCardStyle()}
             ref={cardRef}
             // events
             onMouseMove={onMouseMoveHandler}

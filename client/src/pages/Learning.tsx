@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styles from '../styles/pages/Learning.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
-import Card from '../components/card/Card'
+import CardQueue from '../components/card/CardQueue'
 
 const Learning: FC = () => {
     return (
@@ -9,7 +9,7 @@ const Learning: FC = () => {
             <div className={wrapperStyles.content}>
                 <div className={styles.mainBlock__content}>
                     <div className={styles.mainBlock__cards}>
-                        <Card />
+                        <CardQueue />
                     </div>
                 </div>
             </div>

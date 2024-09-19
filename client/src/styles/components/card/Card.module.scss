@@ -10,6 +10,7 @@
     top: 0;
     left: 0;
     transform: rotate3d(0, 1, 0, 180deg);
+    z-index: 10;
 
     &__content {
         width: 100%;
@@ -21,11 +22,15 @@
     }
 
     &_flipped {
-        animation: flip 1s linear;
+        animation: flip 0.6s linear;
     }
 
     &_inactive {
         pointer-events: none;
+    }
+
+    &_deadZoneDropped {
+        transition: left 0.4s ease, top 0.4s ease;
     }
 }
 
@@ -119,7 +124,7 @@
         background-color: gainsboro;
     }
 
-    animation: flipContent 0.5s linear;
+    animation: flipContent 0.3s linear;
     animation-iteration-count: 1;
 }
 
