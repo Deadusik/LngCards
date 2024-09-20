@@ -30,6 +30,7 @@ const Card: FC<Props> = () => {
     const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
     const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
+
     // states
     const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
@@ -53,7 +54,7 @@ const Card: FC<Props> = () => {
     const CARD_ROTATION_RATE = 20
 
     function getActionMultiplier(): number {
-        const XS_TRIGGER = 600
+        const XS_TRIGGER = 450
         const XS_MULTIPLIER = 0.5
         const DEFAULT_MULTIPLIER = 1
 
@@ -211,8 +212,10 @@ const Card: FC<Props> = () => {
 
     const getCardStyle = (): string => {
         // FINISH IT
+        //console.log('is mouse down', isMouseDown)
         const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
         const droppedNoActionStyles = !isMouseDown ? styles.Card_deadZoneDropped : ''
+        //console.log('styles', [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE))
         return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
     }
 
@@ -249,6 +252,7 @@ const Card: FC<Props> = () => {
 
     // mobile handlers 
     const onTouchStartHandler = (event: React.TouchEvent<HTMLDivElement>) => {
+        setIsMouseDown(true)
         setPrimaryCursorPoint({ x: event.touches[0].clientX, y: event.touches[0].clientY })
     }
 
@@ -263,6 +267,16 @@ const Card: FC<Props> = () => {
             moveCard(event)
         }
     }
+
+    useEffect(() => {
+        // DEV
+        // console.log('primary point', primaryCursorPoint)
+    }, [primaryCursorPoint]);
+
+    useEffect(() => {
+        // DEV
+        //console.log('!mouse down', isMouseDown)
+    });
 
     useEffect(() => {
         if (isFlipAnimationActive) {
