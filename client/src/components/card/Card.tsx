@@ -6,6 +6,7 @@ import { SPACE } from '../../utils/constants'
 import { isOffset } from '../../utils/type'
 import { getProgreesFromRange } from '../../utils/math'
 import PlayButton from '../ui/button/PlayButton'
+import ActionLabel from './ActionLabel'
 
 enum CardDirection {
     ToStudy = 'study way',
@@ -211,11 +212,8 @@ const Card: FC<Props> = () => {
     }
 
     const getCardStyle = (): string => {
-        // FINISH IT
-        //console.log('is mouse down', isMouseDown)
         const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
         const droppedNoActionStyles = !isMouseDown ? styles.Card_deadZoneDropped : ''
-        //console.log('styles', [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE))
         return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
     }
 
@@ -267,16 +265,6 @@ const Card: FC<Props> = () => {
             moveCard(event)
         }
     }
-
-    useEffect(() => {
-        // DEV
-        // console.log('primary point', primaryCursorPoint)
-    }, [primaryCursorPoint]);
-
-    useEffect(() => {
-        // DEV
-        //console.log('!mouse down', isMouseDown)
-    });
 
     useEffect(() => {
         if (isFlipAnimationActive) {
@@ -350,6 +338,7 @@ const Card: FC<Props> = () => {
                 ref={deleteLabelRef}>
                 <h2 className={styles.ActionLabel__text}>Delete</h2>
             </div>
+            <ActionLabel text='Got It' left='20px' top='20px' rotaiton='-20deg' />
         </div >
     )
 }
