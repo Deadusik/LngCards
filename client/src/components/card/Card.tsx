@@ -44,7 +44,6 @@ const Card: FC<Props> = () => {
     const frontContentRef = useRef<HTMLDivElement>(null)
     const backContentRef = useRef<HTMLDivElement>(null)
     // constats
-    // if devise is small than we'll get a smaller multiplier
     const ACTION_MULTIPLIER = getActionMultiplier()
     const DEAD_ZONE = 50 * ACTION_MULTIPLIER
     const GOT_IT = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
