@@ -3,8 +3,6 @@ import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import playSvgSrc from '../../assets/svgs/sound.svg'
 import { SPACE } from '../../utils/constants'
-import { isOffset } from '../../utils/type'
-import { getProgreesFromRange } from '../../utils/math'
 import PlayButton from '../ui/button/PlayButton'
 import ActionLabel from './ActionLabel'
 import { CardDirection } from '../../utils/enum'
@@ -33,16 +31,12 @@ const Card: FC<Props> = () => {
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
-    const gotItLabelRef = useRef<HTMLDivElement>(null)
-    const studyAgainLabelRef = useRef<HTMLDivElement>(null)
-    const deleteLabelRef = useRef<HTMLDivElement>(null)
     const frontContentRef = useRef<HTMLDivElement>(null)
     const backContentRef = useRef<HTMLDivElement>(null)
     // constats
     const ACTION_MULTIPLIER = getActionMultiplier()
     const DEAD_ZONE = 50 * ACTION_MULTIPLIER
     const HORIZONTAL_ACTION_ZONE = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
-    const STUDY_AGAIN = (-100 - DEAD_ZONE) * ACTION_MULTIPLIER
     const VERTICAL_ACTION_ZONE = (150 + DEAD_ZONE) * ACTION_MULTIPLIER
     const FLIP_ANIMATION_TIME = 600
     const CARD_ROTATION_RATE = 20
@@ -108,16 +102,6 @@ const Card: FC<Props> = () => {
             setMoveOffset(offset)
             setCardSideByOffset(offset)
         }
-
-        appearByOffset()
-    }
-
-    const resetLabelsOpacity = () => {
-        if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
-            gotItLabelRef.current.style.opacity = MIN_OPACITY
-            studyAgainLabelRef.current.style.opacity = MIN_OPACITY
-            deleteLabelRef.current.style.opacity = MIN_OPACITY
-        }
     }
 
     const resetCard = () => {
@@ -127,81 +111,27 @@ const Card: FC<Props> = () => {
             cardRef.current.style.transform = 'rotate(0deg)'
             setPrimaryCursorPoint({ x: 0, y: 0 })
         }
-
-        resetLabelsOpacity()
     }
 
     // set action for card by offset
     const actionByOffset = (offset: CardOffset) => {
         if (cardRef.current) {
-            if (offset.y > DELETE_OFFSET && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE) {
+            if (offset.y > VERTICAL_ACTION_ZONE && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE) {
                 // DEV!
                 console.log('delete')
                 cardRef.current.remove()
                 return
             }
-            else if (offset.x > GOT_IT) {
+            else if (offset.x > HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('got it')
                 cardRef.current.remove()
-            } else if (offset.x < STUDY_AGAIN) {
+            } else if (offset.x < -HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('study')
                 cardRef.current.remove()
             }
         }
-    }
-
-    // set opacity for label by card offset
-    const appearByOffset = () => {
-        if (gotItLabelRef.current && studyAgainLabelRef.current && deleteLabelRef.current) {
-            switch (cardDirection) {
-                case CardDirection.ToGotIt: {
-                    gotItLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
-                    studyAgainLabelRef.current.style.opacity = MIN_OPACITY
-                    deleteLabelRef.current.style.opacity = MIN_OPACITY
-                    break
-                }
-                case CardDirection.ToStudy: {
-                    studyAgainLabelRef.current.style.opacity = offsetToOpacity(moveOffset.x)
-                    gotItLabelRef.current.style.opacity = MIN_OPACITY
-                    deleteLabelRef.current.style.opacity = MIN_OPACITY
-                    break
-                }
-                case CardDirection.ToDelete: {
-                    deleteLabelRef.current.style.opacity = offsetToOpacity(moveOffset)
-                    gotItLabelRef.current.style.opacity = MIN_OPACITY
-                    studyAgainLabelRef.current.style.opacity = MIN_OPACITY
-                    break
-                }
-                default: {
-                    resetLabelsOpacity()
-                }
-            }
-        }
-    }
-
-    function offsetToOpacity(cardOffset: number): string
-    function offsetToOpacity(cardOffset: { x: number, y: number }): string
-
-    // converting card offset to label opacity
-    function offsetToOpacity(cardOffset: any): string {
-        const MAX_OFFSET = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
-        const MIN_OFFSET = DEAD_ZONE
-
-        // got it && study again labels opacity controller
-        if (typeof cardOffset === 'number') {
-            const positiveOffset = Math.abs(cardOffset);
-            return getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset).toFixed(1)
-        } else if (isOffset(cardOffset)) { // delete label opacity controller
-            const positiveOffset = { x: Math.abs(cardOffset.x), y: Math.abs(cardOffset.y) }
-            const yOpacity = getProgreesFromRange(MIN_OFFSET, DELETE_OFFSET, positiveOffset.y)
-            const xOpacity = getProgreesFromRange(DEAD_ZONE, 0, positiveOffset.x)
-            const opacity = yOpacity * xOpacity
-            return opacity.toFixed(1)
-        }
-
-        return MIN_OPACITY
     }
 
     const getCardStyle = (): string => {
@@ -316,27 +246,11 @@ const Card: FC<Props> = () => {
                 }
             </div>
             { /* action labels */}
-            { /* got it */}
-            {/*
-            <div className={styles.GotItLabel}
-                ref={gotItLabelRef}>
-                <h2 className={styles.ActionLabel__text}>Got it</h2>
-            </div>
-           
-            <div className={styles.StudyAgainLabel}
-                ref={studyAgainLabelRef}>
-                <h2 className={styles.ActionLabel__text}>Study again</h2>
-            </div>
-
-            <div className={styles.DeleteLabel}
-                ref={deleteLabelRef}>
-                <h2 className={styles.ActionLabel__text}>Delete</h2>
-            </div>
-            */}
             <ActionLabel
                 text='Got It'
                 triggerDirection={CardDirection.ToGotIt}
                 cardDirection={cardDirection}
+                cardRestoreTrigger={isMouseDown}
                 offsetX={moveOffset.x}
                 deadActionZone={DEAD_ZONE}
                 horizontalActionZone={HORIZONTAL_ACTION_ZONE}
@@ -347,6 +261,7 @@ const Card: FC<Props> = () => {
                 text='Delete'
                 triggerDirection={CardDirection.ToDelete}
                 cardDirection={cardDirection}
+                cardRestoreTrigger={isMouseDown}
                 offsetX={moveOffset.x}
                 offsetY={moveOffset.y}
                 deadActionZone={DEAD_ZONE}
@@ -359,6 +274,7 @@ const Card: FC<Props> = () => {
                 text='Study again'
                 triggerDirection={CardDirection.ToStudy}
                 cardDirection={cardDirection}
+                cardRestoreTrigger={isMouseDown}
                 offsetX={moveOffset.x}
                 deadActionZone={DEAD_ZONE}
                 horizontalActionZone={HORIZONTAL_ACTION_ZONE}

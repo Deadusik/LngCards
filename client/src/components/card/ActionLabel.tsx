@@ -8,6 +8,7 @@ interface Props {
     text: string
     triggerDirection?: CardDirection
     cardDirection?: CardDirection
+    cardRestoreTrigger?: boolean
     offsetX?: number | null
     offsetY?: number | null
     deadActionZone?: number
@@ -25,6 +26,7 @@ const ActionLabel: FC<Props> = ({
     text,
     cardDirection = CardDirection.Deadzone,
     triggerDirection = CardDirection.Deadzone,
+    cardRestoreTrigger = false,
     offsetX = null,
     offsetY = null,
     deadActionZone = 0,
@@ -53,6 +55,11 @@ const ActionLabel: FC<Props> = ({
                 labelRef.current.style.opacity = MIN_OPACITY
         }
     }, [offsetX, offsetY])
+
+    useEffect(() => {
+        if (!cardRestoreTrigger && labelRef.current)
+            labelRef.current.style.opacity = MIN_OPACITY
+    }, [cardRestoreTrigger])
 
     function offsetToOpacity(): string {
         const MAX_OFFSET = HORIZONTAL_OFFSET_ACTION
