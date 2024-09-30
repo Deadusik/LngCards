@@ -7,13 +7,8 @@ import { isOffset } from '../../utils/type'
 import { getProgreesFromRange } from '../../utils/math'
 import PlayButton from '../ui/button/PlayButton'
 import ActionLabel from './ActionLabel'
-
-enum CardDirection {
-    ToStudy = 'study way',
-    ToGotIt = 'gotit way',
-    ToDelete = 'delete way',
-    Deadzone = 'deadzone'
-}
+import { CardDirection } from '../../utils/enum'
+import { gray, red } from '../../utils/colors'
 
 export interface CardOffset {
     x: number
@@ -46,10 +41,9 @@ const Card: FC<Props> = () => {
     // constats
     const ACTION_MULTIPLIER = getActionMultiplier()
     const DEAD_ZONE = 50 * ACTION_MULTIPLIER
-    const GOT_IT = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
+    const HORIZONTAL_ACTION_ZONE = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
     const STUDY_AGAIN = (-100 - DEAD_ZONE) * ACTION_MULTIPLIER
-    const DELETE_OFFSET = (150 + DEAD_ZONE) * ACTION_MULTIPLIER
-    const MIN_OPACITY = '0'
+    const VERTICAL_ACTION_ZONE = (150 + DEAD_ZONE) * ACTION_MULTIPLIER
     const FLIP_ANIMATION_TIME = 600
     const CARD_ROTATION_RATE = 20
 
@@ -323,21 +317,55 @@ const Card: FC<Props> = () => {
             </div>
             { /* action labels */}
             { /* got it */}
+            {/*
             <div className={styles.GotItLabel}
                 ref={gotItLabelRef}>
                 <h2 className={styles.ActionLabel__text}>Got it</h2>
             </div>
-            { /* study again */}
+           
             <div className={styles.StudyAgainLabel}
                 ref={studyAgainLabelRef}>
                 <h2 className={styles.ActionLabel__text}>Study again</h2>
             </div>
-            { /* delete */}
+
             <div className={styles.DeleteLabel}
                 ref={deleteLabelRef}>
                 <h2 className={styles.ActionLabel__text}>Delete</h2>
             </div>
-            <ActionLabel text='Got It' left='20px' top='20px' rotaiton='-20deg' />
+            */}
+            <ActionLabel
+                text='Got It'
+                triggerDirection={CardDirection.ToGotIt}
+                cardDirection={cardDirection}
+                offsetX={moveOffset.x}
+                deadActionZone={DEAD_ZONE}
+                horizontalActionZone={HORIZONTAL_ACTION_ZONE}
+                left='20px'
+                top='40px'
+                rotaiton='-20deg' />
+            <ActionLabel
+                text='Delete'
+                triggerDirection={CardDirection.ToDelete}
+                cardDirection={cardDirection}
+                offsetX={moveOffset.x}
+                offsetY={moveOffset.y}
+                deadActionZone={DEAD_ZONE}
+                verticalActionZone={VERTICAL_ACTION_ZONE}
+                right='50%'
+                top='30px'
+                rotaiton='3deg'
+                color={gray} />
+            <ActionLabel
+                text='Study again'
+                triggerDirection={CardDirection.ToStudy}
+                cardDirection={cardDirection}
+                offsetX={moveOffset.x}
+                deadActionZone={DEAD_ZONE}
+                horizontalActionZone={HORIZONTAL_ACTION_ZONE}
+                right='20px'
+                top='40px'
+                rotaiton='20deg'
+                color={red} />
         </div >
     )
 }

@@ -10,3 +10,10 @@ export interface InfoModifier {
     text: string
     iconStyle: string
 }
+
+export enum CardDirection {
+    ToStudy = 'study way',
+    ToGotIt = 'gotit way',
+    ToDelete = 'delete way',
+    Deadzone = 'deadzone'
+}

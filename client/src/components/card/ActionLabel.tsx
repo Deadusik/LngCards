@@ -1,12 +1,18 @@
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import styles from '../../styles/components/card/ActionLabel.module.scss'
 import { green } from '../../utils/colors'
 import { getProgreesFromRange } from '../../utils/math'
+import { CardDirection } from '../../utils/enum'
 
 interface Props {
     text: string
+    triggerDirection?: CardDirection
+    cardDirection?: CardDirection
     offsetX?: number | null
     offsetY?: number | null
+    deadActionZone?: number
+    verticalActionZone?: number
+    horizontalActionZone?: number
     color?: string
     rotaiton?: string
     top?: string
@@ -17,8 +23,13 @@ interface Props {
 
 const ActionLabel: FC<Props> = ({
     text,
+    cardDirection = CardDirection.Deadzone,
+    triggerDirection = CardDirection.Deadzone,
     offsetX = null,
     offsetY = null,
+    deadActionZone = 0,
+    horizontalActionZone = 0,
+    verticalActionZone = 0,
     color = green,
     rotaiton = 'initial',
     top = 'initial',
@@ -26,32 +37,25 @@ const ActionLabel: FC<Props> = ({
     right = 'initial',
     bottom = 'initial'
 }) => {
-    // states 
-    const labelOpacity = useState<number>(0)
     // refs
     const labelRef = useRef<HTMLDivElement>(null)
-    // constantsx
+    // constatns
+    const DEAD_ZONE = deadActionZone
+    const VERTICAL_OFFSET_ACTION = verticalActionZone
+    const HORIZONTAL_OFFSET_ACTION = horizontalActionZone
     const MIN_OPACITY = '0'
-    const ACTION_MULTIPLIER = getActionMultiplier()
-    const DEAD_ZONE = 50 * ACTION_MULTIPLIER
-    const GOT_IT = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
-    const STUDY_AGAIN = (-100 - DEAD_ZONE) * ACTION_MULTIPLIER
-    const DELETE_OFFSET = (150 + DEAD_ZONE) * ACTION_MULTIPLIER
 
-    // if devise is small than we'll get a smaller multiplier
-    function getActionMultiplier(): number {
-        const XS_TRIGGER = 450
-        const XS_MULTIPLIER = 0.5
-        const DEFAULT_MULTIPLIER = 1
-
-        const clientWidth = window.innerWidth
-        const multiplier = clientWidth < XS_TRIGGER ? XS_MULTIPLIER : DEFAULT_MULTIPLIER
-
-        return multiplier
-    }
+    useEffect(() => {
+        if (labelRef.current) {
+            if (cardDirection === triggerDirection)
+                labelRef.current.style.opacity = offsetToOpacity()
+            else
+                labelRef.current.style.opacity = MIN_OPACITY
+        }
+    }, [offsetX, offsetY])
 
     function offsetToOpacity(): string {
-        const MAX_OFFSET = (100 + DEAD_ZONE) * ACTION_MULTIPLIER
+        const MAX_OFFSET = HORIZONTAL_OFFSET_ACTION
         const MIN_OFFSET = DEAD_ZONE
 
         // got it && study again labels opacity controller
@@ -60,7 +64,7 @@ const ActionLabel: FC<Props> = ({
             return getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset).toFixed(1)
         } else if (offsetX !== null && offsetY !== null) { // delete label opacity controller
             const positiveOffset = { x: Math.abs(offsetX), y: Math.abs(offsetY) }
-            const yOpacity = getProgreesFromRange(MIN_OFFSET, DELETE_OFFSET, positiveOffset.y)
+            const yOpacity = getProgreesFromRange(MIN_OFFSET, VERTICAL_OFFSET_ACTION, positiveOffset.y)
             const xOpacity = getProgreesFromRange(DEAD_ZONE, 0, positiveOffset.x)
             const opacity = yOpacity * xOpacity
             return opacity.toFixed(1)
