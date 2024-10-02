@@ -25,12 +25,38 @@
         animation: flip 0.6s linear;
     }
 
+    &_shake {
+        animation: shake 0.5s ease-out;
+    }
+
     &_inactive {
         pointer-events: none;
     }
 
     &_deadZoneDropped {
-        transition: left 0.5s ease, top 0.5s ease;
+        animation: shake 0.4s linear;
+    }
+}
+
+@keyframes shake {
+    0% {
+        left: 10%;
+        transform: rotate(0deg);
+    }
+
+    25% {
+        left: 0%;
+        transform: rotate(-3deg);
+    }
+
+    50% {
+        left: -10%;
+        transform: rotate(3deg);
+    }
+
+    100% {
+        left: 0%;
+        transform: rotate(0deg);
     }
 }
 
@@ -81,6 +107,8 @@
 
 .BackContent {
     @extend %CardContent;
+    animation: flipContent 0.3s linear;
+    animation-iteration-count: 1;
 
     &__translate {
         margin-top: 20px;
@@ -123,9 +151,6 @@
         height: 1px;
         background-color: gainsboro;
     }
-
-    animation: flipContent 0.3s linear;
-    animation-iteration-count: 1;
 }
 
 @keyframes flipContent {

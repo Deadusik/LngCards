@@ -25,6 +25,7 @@ const Card: FC<Props> = () => {
     const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
     const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
+    const [isCardWasMoved, setIsCardWasMoved] = useState(false)
 
     // states
     const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
@@ -137,7 +138,7 @@ const Card: FC<Props> = () => {
 
     const getCardStyle = (): string => {
         const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
-        const droppedNoActionStyles = !isMouseDown ? styles.Card_deadZoneDropped : ''
+        const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
         return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
     }
 
@@ -150,6 +151,7 @@ const Card: FC<Props> = () => {
         if (isMouseDown && isMouseOver && !isFrontSide) {
             rotateCard(event)
             moveCard(event)
+            setIsCardWasMoved(true)
         }
     }
 
@@ -187,6 +189,7 @@ const Card: FC<Props> = () => {
         if (!isFrontSide) {
             rotateCard(event)
             moveCard(event)
+            setIsCardWasMoved(true)
         }
     }
 
@@ -289,13 +292,15 @@ const Card: FC<Props> = () => {
                 hintText='swipe left'
                 top='20px'
                 left='7%'
-                color={red} />
+                color={red}
+                isActive={isCardWasMoved && !isMouseDown} />
             <HintLabel
                 conditionText="If you were right"
                 hintText='swipe right'
                 top='20px'
                 right='7%'
                 color={green}
+                isActive={isCardWasMoved && !isMouseDown}
                 iconRotation='180deg' />
         </div >
     )

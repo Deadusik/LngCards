@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styles from '../../styles/components/card/HintLabel.module.scss'
-import { INITIAL } from '../../utils/constants'
+import { INITIAL, SPACE } from '../../utils/constants'
 import { default as ArrowSvg } from '../../assets/svgs/arrow_line.svg?react'
 
 interface Props {
@@ -26,8 +26,19 @@ const HintLabel: FC<Props> = ({
     color = '#000',
     iconRotation = INITIAL
 }) => {
+    const getHintLabelStyle = (): string => {
+        let style = styles.HintLabel
+
+        if (isActive)
+            style = [style, styles.HintLabel_active].join(SPACE)
+        else
+            style = [style, styles.HintLabel_hidden].join(SPACE)
+
+        return style
+    }
+
     return (
-        <div className={styles.HintLabel}
+        <div className={getHintLabelStyle()}
             style={{
                 left,
                 top,
