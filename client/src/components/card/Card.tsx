@@ -6,7 +6,8 @@ import { SPACE } from '../../utils/constants'
 import PlayButton from '../ui/button/PlayButton'
 import ActionLabel from './ActionLabel'
 import { CardDirection } from '../../utils/enum'
-import { gray, red } from '../../utils/colors'
+import { gray, green, red } from '../../utils/colors'
+import HintLabel from './HintLabel'
 
 export interface CardOffset {
     x: number
@@ -282,6 +283,20 @@ const Card: FC<Props> = () => {
                 top='40px'
                 rotaiton='20deg'
                 color={red} />
+            { /* hint labels */}
+            <HintLabel
+                conditionText="If you didn't know"
+                hintText='swipe left'
+                top='20px'
+                left='7%'
+                color={red} />
+            <HintLabel
+                conditionText="If you were right"
+                hintText='swipe right'
+                top='20px'
+                right='7%'
+                color={green}
+                iconRotation='180deg' />
         </div >
     )
 }

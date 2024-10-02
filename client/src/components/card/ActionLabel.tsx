@@ -3,6 +3,7 @@ import styles from '../../styles/components/card/ActionLabel.module.scss'
 import { green } from '../../utils/colors'
 import { getProgreesFromRange } from '../../utils/math'
 import { CardDirection } from '../../utils/enum'
+import { INITIAL } from '../../utils/constants'
 
 interface Props {
     text: string
@@ -33,11 +34,11 @@ const ActionLabel: FC<Props> = ({
     horizontalActionZone = 0,
     verticalActionZone = 0,
     color = green,
-    rotaiton = 'initial',
-    top = 'initial',
-    left = 'initial',
-    right = 'initial',
-    bottom = 'initial'
+    rotaiton = INITIAL,
+    top = INITIAL,
+    left = INITIAL,
+    right = INITIAL,
+    bottom = INITIAL,
 }) => {
     // refs
     const labelRef = useRef<HTMLDivElement>(null)
