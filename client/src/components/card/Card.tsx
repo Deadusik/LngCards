@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
 import playSvgSrc from '../../assets/svgs/sound.svg'
@@ -26,11 +26,17 @@ const Card: FC<Props> = () => {
     const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
     const [isCardWasMoved, setIsCardWasMoved] = useState(false)
-
     // states
     const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
+    // memo
+    const cardStyle = useMemo(() => {
+        console.log('calc card styles')
+        const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
+        const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
+        return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
+    }, [isFlipAnimationActive, isCardWasMoved, isMouseDown])
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
     const frontContentRef = useRef<HTMLDivElement>(null)
@@ -136,12 +142,6 @@ const Card: FC<Props> = () => {
         }
     }
 
-    const getCardStyle = (): string => {
-        const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
-        const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
-        return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
-    }
-
     const onCardClickHandler = () => {
         if (isFrontSide)
             setIsFlipAnimationActive(true)
@@ -205,7 +205,8 @@ const Card: FC<Props> = () => {
     }, [isFlipAnimationActive])
 
     return (
-        <div className={getCardStyle()}
+        <div className={cardStyle}
+            id='frontCard'
             ref={cardRef}
             // events
             onMouseMove={onMouseMoveHandler}
@@ -219,7 +220,8 @@ const Card: FC<Props> = () => {
             onTouchMove={onTouchMoveHandler}
             onTouchEnd={onTouchEndHandler}>
             { /* content */}
-            <div className={styles.Card__content}>
+            <div className={styles.Card__content}
+                id='cardContent'>
                 {
                     isFrontSide ?
                         <div className={styles.FrontContent} ref={frontContentRef}>
@@ -302,6 +304,20 @@ const Card: FC<Props> = () => {
                 color={green}
                 isActive={isCardWasMoved && !isMouseDown}
                 iconRotation='180deg' />
+            <div id='tomatoBox' style={{
+                width: '100px',
+                height: '100px',
+                backgroundColor: 'tomato',
+                position: 'absolute',
+                top: '0',
+                left: '0',
+            }}
+                onClick={e => {
+                    console.log('tomato box')
+                    e.stopPropagation()
+                }}>
+                test
+            </div>
         </div >
     )
 }
