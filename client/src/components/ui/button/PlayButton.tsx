@@ -20,6 +20,7 @@ const PlayButton: FC<Props> = ({ size = '15px', iconSrc, onClick }) => {
             onMouseDown={e => e.stopPropagation()}
             onTouchStart={e => e.stopPropagation()}
             onTouchMove={e => e.stopPropagation()}
+            onMouseUp={e => e.stopPropagation()}
             style={{
                 width: size
             }}>

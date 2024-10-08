@@ -1,13 +1,11 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
-import testImgSrc from '../../assets/imgs/test/avatar.png'
-import playSvgSrc from '../../assets/svgs/sound.svg'
 import { SPACE } from '../../utils/constants'
-import PlayButton from '../ui/button/PlayButton'
 import ActionLabel from './ActionLabel'
 import { CardDirection } from '../../utils/enum'
 import { gray, green, red } from '../../utils/colors'
 import HintLabel from './HintLabel'
+import CardContent from './CardContent'
 
 export interface CardOffset {
     x: number
@@ -204,7 +202,6 @@ const Card: FC<Props> = () => {
 
     return (
         <div className={cardStyle}
-            id='frontCard'
             ref={cardRef}
             // events
             onMouseMove={onMouseMoveHandler}
@@ -217,37 +214,10 @@ const Card: FC<Props> = () => {
             onTouchStart={onTouchStartHandler}
             onTouchMove={onTouchMoveHandler}
             onTouchEnd={onTouchEndHandler}>
-            { /* content */}
-            <div className={styles.Card__content}>
-                {
-                    isFrontSide ?
-                        <div className={styles.FrontContent}>
-                            <img className={styles.CardContent__picture /*extended*/} src={testImgSrc} />
-                            <h1 className={styles.CardContent__word /*extended*/}>Apple</h1>
-                            <p className={styles.FrontContent__example}>I like to eat apples and bananas</p>
-                        </div>
-                        :
-                        <div className={styles.BackContent}>
-                            <img className={styles.CardContent__picture} src={testImgSrc} />
-                            <p className={styles.BackContent__translate}>Яблуко</p>
-                            <div className={styles.BackContent__wordBlock}>
-                                <div className={styles.BackContent__playButton}>
-                                    <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
-                                </div>
-                                <h1 className={styles.BackContent__word}>Apple</h1>
-                            </div>
-                            <hr className={styles.BackContent__divider} />
-                            <div className={styles.BackContent__exampleBlock}>
-                                <div className={styles.BackContent__playButton}>
-                                    <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
-                                </div>
-                                <p className={styles.BackContent__exampleText}>
-                                    I like to eat apples and bananas
-                                </p>
-                            </div>
-                        </div>
-                }
-            </div>
+            <CardContent isFrontContent={isFrontSide}
+                nativeWord='Яблуко'
+                foreignWord='Apple'
+                example={'My friend likes to eat apple'} />
             { /* action labels */}
             <ActionLabel
                 text='Got It'
