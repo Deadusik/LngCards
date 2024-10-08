@@ -32,15 +32,12 @@ const Card: FC<Props> = () => {
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
     // memo
     const cardStyle = useMemo(() => {
-        console.log('calc card styles')
         const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
         const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
         return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
     }, [isFlipAnimationActive, isCardWasMoved, isMouseDown])
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
-    const frontContentRef = useRef<HTMLDivElement>(null)
-    const backContentRef = useRef<HTMLDivElement>(null)
     // constats
     const ACTION_MULTIPLIER = getActionMultiplier()
     const DEAD_ZONE = 50 * ACTION_MULTIPLIER
@@ -145,6 +142,7 @@ const Card: FC<Props> = () => {
     const onCardClickHandler = () => {
         if (isFrontSide)
             setIsFlipAnimationActive(true)
+        else setIsCardWasMoved(true)
     }
 
     const onMouseMoveHandler = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -220,17 +218,16 @@ const Card: FC<Props> = () => {
             onTouchMove={onTouchMoveHandler}
             onTouchEnd={onTouchEndHandler}>
             { /* content */}
-            <div className={styles.Card__content}
-                id='cardContent'>
+            <div className={styles.Card__content}>
                 {
                     isFrontSide ?
-                        <div className={styles.FrontContent} ref={frontContentRef}>
+                        <div className={styles.FrontContent}>
                             <img className={styles.CardContent__picture /*extended*/} src={testImgSrc} />
                             <h1 className={styles.CardContent__word /*extended*/}>Apple</h1>
                             <p className={styles.FrontContent__example}>I like to eat apples and bananas</p>
                         </div>
                         :
-                        <div className={styles.BackContent} ref={backContentRef}>
+                        <div className={styles.BackContent}>
                             <img className={styles.CardContent__picture} src={testImgSrc} />
                             <p className={styles.BackContent__translate}>Яблуко</p>
                             <div className={styles.BackContent__wordBlock}>
@@ -304,20 +301,6 @@ const Card: FC<Props> = () => {
                 color={green}
                 isActive={isCardWasMoved && !isMouseDown}
                 iconRotation='180deg' />
-            <div id='tomatoBox' style={{
-                width: '100px',
-                height: '100px',
-                backgroundColor: 'tomato',
-                position: 'absolute',
-                top: '0',
-                left: '0',
-            }}
-                onClick={e => {
-                    console.log('tomato box')
-                    e.stopPropagation()
-                }}>
-                test
-            </div>
         </div >
     )
 }

@@ -9,9 +9,17 @@ interface Props {
 }
 
 const PlayButton: FC<Props> = ({ size = '15px', iconSrc, onClick }) => {
+    const onClickStopPropagationHandler = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        onClick()
+    }
+
     return (
         <div className={styles.mainBlock}
-            onClick={onClick}
+            onClick={onClickStopPropagationHandler}
+            onMouseDown={e => e.stopPropagation()}
+            onTouchStart={e => e.stopPropagation()}
+            onTouchMove={e => e.stopPropagation()}
             style={{
                 width: size
             }}>
