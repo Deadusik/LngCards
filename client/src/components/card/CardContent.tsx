@@ -3,6 +3,7 @@ import styles from '../../styles/components/card/CardContent.module.scss'
 import PlayButton from '../ui/button/PlayButton'
 import playSvgSrc from '../../assets/svgs/sound.svg'
 import testImgSrc from '../../assets/imgs/test/avatar.png'
+import WordExample from './WordExample'
 
 interface IProps {
     nativeWord: string
@@ -37,17 +38,35 @@ const CardContent: FC<IProps> = ({
                                 }
                             </h1>
                         </div>
-                        <p className={styles.FrontContent__example}>I like to eat apples and bananas</p>
+                        <div className={styles.FrontContent__example}>
+                            <WordExample
+                                isHidden={!toForeignLanguage}
+                                word={foreignWord}
+                                example={example || ''} />
+                        </div>
                     </div>
                     :
                     <div className={styles.BackContent}>
                         <img className={styles.CardContent__picture} src={testImgSrc} />
-                        <p className={styles.BackContent__translate}>Яблуко</p>
                         <div className={styles.BackContent__wordBlock}>
-                            <div className={styles.BackContent__playButton}>
-                                <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
-                            </div>
-                            <h1 className={styles.BackContent__word}>Apple</h1>
+                            {toForeignLanguage &&
+                                <div className={styles.BackContent__playButton}>
+                                    <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
+                                </div>
+                            }
+                            <p className={styles.BackContent__word}>
+                                {toForeignLanguage ? foreignWord : nativeWord}
+                            </p>
+                        </div>
+                        <div className={styles.BackContent__titleBlock}>
+                            {!toForeignLanguage &&
+                                <div className={styles.BackContent__playButton}>
+                                    <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
+                                </div>
+                            }
+                            <h1 className={styles.BackContent__title}>
+                                {!toForeignLanguage ? foreignWord : nativeWord}
+                            </h1>
                         </div>
                         {
                             example &&
@@ -58,9 +77,10 @@ const CardContent: FC<IProps> = ({
                                         <div className={styles.BackContent__playButton}>
                                             <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => { }} />
                                         </div>
-                                        <p className={styles.Example__text}>
-                                            {example}
-                                        </p>
+                                        <WordExample
+                                            isHidden={false}
+                                            word={foreignWord}
+                                            example={example || ''} />
                                     </div>
                                 </div>
                             </div>

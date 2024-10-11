@@ -56,11 +56,21 @@
     animation: flipContent 0.3s linear;
     animation-iteration-count: 1;
 
-    &__translate {
-        margin-top: 20px;
+    &__word {
         font-size: 18px;
         font-family: Arial, Helvetica, sans-serif;
         color: gray;
+    }
+
+    &__title {
+        font-size: 24px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    &__titleBlock {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
     }
 
     &__wordBlock {
@@ -74,26 +84,9 @@
     }
 
     &__exampleBlock {
-        margin-top: 16px;
+        margin-top: 20px;
         display: flex;
         align-items: center;
-    }
-
-    &__exampleText {
-        font-size: 14px;
-        font-family: Arial, Helvetica, sans-serif;
-        letter-spacing: 0.2px;
-        font-weight: 500;
-    }
-
-    &__word {
-        font-size: 24px;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
-    &__exampleBlock {
-        display: flex;
-        flex-direction: column;
     }
 }
 
@@ -114,16 +107,6 @@
         margin-top: 24px;
         display: flex;
         align-items: center;
-    }
-
-    &__text {
-        font-size: 16px;
-        font-family: Arial, Helvetica, sans-serif;
-        color: gray;
-    }
-
-    &__foreignWord {
-        color: tomato;
     }
 }
 

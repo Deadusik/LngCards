@@ -1,0 +1,11 @@
+.WordExample {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray;
+
+    &__span {
+        font-size: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: tomato;
+    }
+}
