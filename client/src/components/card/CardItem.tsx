@@ -7,6 +7,7 @@ import CardMenuButton from '../ui/button/CardMenuButton'
 import appleSvgSrc from '../../assets/svgs/example/apple.svg'
 import Battery from '../ui/Battery'
 import { CardState } from '../../utils/enum'
+import { pronounceText } from '../../utils/functins'
 
 interface Props {
     name?: string
@@ -19,12 +20,6 @@ const CardItem: FC<Props> = ({
     translation = 'Card translation do you like it? Subsribe on me in github hehehe',
     example = 'He finally found his person in space. Drugs its bad mkay?'
 }) => {
-
-    const pronounceText = (text: string) => {
-        const speech = new SpeechSynthesisUtterance(text)
-        window.speechSynthesis.speak(speech)
-    }
-
     const NamePlayHandler = () => {
         pronounceText(name)
     }
@@ -32,8 +27,6 @@ const CardItem: FC<Props> = ({
     const ExamplePlayHandler = () => {
         pronounceText(example)
     }
-
-
 
     return (
         <div className={styles.mainBlock}>

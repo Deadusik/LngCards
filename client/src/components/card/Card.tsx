@@ -6,6 +6,7 @@ import { CardDirection } from '../../utils/enum'
 import { gray, green, red } from '../../utils/colors'
 import HintLabel from './HintLabel'
 import CardContent from './CardContent'
+import { pronounceText } from '../../utils/functins'
 
 export interface CardOffset {
     x: number
@@ -13,11 +14,19 @@ export interface CardOffset {
 }
 
 interface Props {
+    nativeWord: string
+    foreignWord: string
+    toForeignLanguage: boolean
+    example?: string | null
+    src?: string | null
+    deleteCallback: () => void
     isActive?: boolean
     setIsActive?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Card: FC<Props> = () => {
+const Card: FC<Props> = ({
+    nativeWord, foreignWord, toForeignLanguage, example, src, isActive = false, deleteCallback
+}) => {
     // event states
     const [isFrontSide, setIsFrontSide] = useState(true)
     const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
@@ -30,10 +39,11 @@ const Card: FC<Props> = () => {
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
     // memo
     const cardStyle = useMemo(() => {
+        const inactiveStyle = isActive ? '' : styles.Card_inactive
         const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
         const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
-        return [flipStyles, droppedNoActionStyles, styles.Card].join(SPACE)
-    }, [isFlipAnimationActive, isCardWasMoved, isMouseDown])
+        return [flipStyles, droppedNoActionStyles, inactiveStyle, styles.Card].join(SPACE)
+    }, [isFlipAnimationActive, isCardWasMoved, isMouseDown, isActive])
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
     // constats
@@ -122,16 +132,19 @@ const Card: FC<Props> = () => {
             if (offset.y > VERTICAL_ACTION_ZONE && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE) {
                 // DEV!
                 console.log('delete')
+                deleteCallback()
                 cardRef.current.remove()
                 return
             }
             else if (offset.x > HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('got it')
+                deleteCallback()
                 cardRef.current.remove()
             } else if (offset.x < -HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('study')
+                deleteCallback()
                 cardRef.current.remove()
             }
         }
@@ -193,6 +206,7 @@ const Card: FC<Props> = () => {
         if (isFlipAnimationActive) {
             setTimeout(() => {
                 setIsFrontSide(false)
+                pronounceText(foreignWord)
                 setTimeout(() => {
                     setIsFlipAnimationActive(false)
                 }, FLIP_ANIMATION_TIME / 2)
@@ -214,10 +228,13 @@ const Card: FC<Props> = () => {
             onTouchStart={onTouchStartHandler}
             onTouchMove={onTouchMoveHandler}
             onTouchEnd={onTouchEndHandler}>
-            <CardContent isFrontContent={isFrontSide}
-                nativeWord='Яблуко'
-                foreignWord='Apple'
-                example={'My friend likes to eat apple'} />
+            <CardContent
+                toForeignLanguage={toForeignLanguage}
+                nativeWord={nativeWord}
+                foreignWord={foreignWord}
+                isFrontContent={isFrontSide}
+                example={example}
+                src={src} />
             { /* action labels */}
             <ActionLabel
                 text='Got It'

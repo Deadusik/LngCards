@@ -33,9 +33,9 @@ const CardMenuButton: FC<Props> = ({ size = '50px' }) => {
                 height: size
             }}>
             <div className={styles.mainBlock__content}>
-                <div className={styles.mainBlock__dot}>{/*dot*/}</div>
-                <div className={styles.mainBlock__dot}>{/*dot*/}</div>
-                <div className={styles.mainBlock__dot}>{/*dot*/}</div>
+                <div className={styles.mainBlock__dot}></div>
+                <div className={styles.mainBlock__dot}></div>
+                <div className={styles.mainBlock__dot}></div>
             </div>
             {
                 isActive &&
