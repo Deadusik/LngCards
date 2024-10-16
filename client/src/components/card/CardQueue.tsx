@@ -2,54 +2,101 @@ import React, { FC, useState } from "react"
 import styles from '../../styles/components/card/CardQueue.module.scss'
 import Card from "./Card"
 import BackgroundCard from "./BackgroundCard"
-import { SPACE } from "../../utils/constants"
 import appleSvgSrc from '../../assets/test/svgs/apple.svg'
 import dogSvgSrc from '../../assets/test/svgs/dog.svg'
+import houseSvgSrc from '../../assets/test/svgs/house.svg'
+import airplaceSvgSrc from '../../assets/test/svgs/airplane.svg'
+
+interface CardEntity {
+    nativeWord: string
+    foreignWord: string
+    example: string
+    src: string
+    toForeignLanguage: boolean
+}
 
 const CardQueue: FC = () => {
-    const [currentCard, setCurrentCard] = useState<number>(0)
-
-    const cardsData = [
-        {
-            nativeWord: '',
-            foreignWord: '',
-            example: ''
-        },
-        {
-            nativeWord: '',
-            foreignWord: '',
-            example: ''
-        }
-    ].join(SPACE)
+    const [isTopCardFlipped, setIsTopCardFlipped] = useState(false)
+    const [cardsData, setCardsData] = useState<CardEntity[]>(
+        [
+            {
+                nativeWord: 'Яблуко',
+                foreignWord: 'Apple',
+                example: 'Apple is a red fruit',
+                src: appleSvgSrc,
+                toForeignLanguage: false,
+            },
+            {
+                nativeWord: 'Собака',
+                foreignWord: 'Dog',
+                example: 'My pet is dog',
+                src: dogSvgSrc,
+                toForeignLanguage: true
+            },
+            {
+                nativeWord: 'Літак',
+                foreignWord: 'Airplane',
+                example: 'Using by airplane we can rich any place in Earth',
+                src: airplaceSvgSrc,
+                toForeignLanguage: false,
+            },
+            {
+                nativeWord: 'Хата',
+                foreignWord: 'House',
+                example: 'She sold her house cheaply',
+                src: houseSvgSrc,
+                toForeignLanguage: true
+            },
+        ]
+    )
 
     const onDeleteHandler = () => {
-        console.log('Card was removed')
+        const newCardsData = [...cardsData]
+        newCardsData.pop()
+
+        if (newCardsData) {
+            setCardsData(newCardsData)
+            setIsTopCardFlipped(false)
+        }
+    }
+
+    const onCardFlipHandler = () => {
+        setIsTopCardFlipped(true)
     }
 
     return (
         <div className={styles.CardQueue}>
-            <Card
-                foreignWord="Dog"
-                nativeWord="Собака"
-                example={"The dog is angry"}
-                src={dogSvgSrc}
-                toForeignLanguage={true}
-                isActive={false}
-                deleteCallback={onDeleteHandler} />
-            <Card
-                foreignWord="Apple"
-                nativeWord="Яблуко"
-                example={"The apple is tasty"}
-                src={appleSvgSrc}
-                toForeignLanguage={true}
-                isActive={true}
-                deleteCallback={onDeleteHandler} />
-            {cardsData.length > 1 &&
+            {
                 <React.Fragment>
-                    <BackgroundCard angle={3} />
-                    <BackgroundCard angle={-3} />
+                    {
+                        cardsData.map((card, index, arr) => {
+                            const isTopCard = index === arr.length - 1
+                            const nextCardIndex = arr.length >= 2 ? arr.length - 2 : -1
+                            const isContentVisible = isTopCard || index == nextCardIndex && isTopCardFlipped
+
+                            console.log(nextCardIndex)
+
+                            return (
+                                <Card key={index}
+                                    nativeWord={card.nativeWord}
+                                    foreignWord={card.foreignWord}
+                                    example={card.example}
+                                    toForeignLanguage={card.toForeignLanguage}
+                                    src={card.src}
+                                    isActive={isTopCard}
+                                    isContentVisible={isContentVisible}
+                                    deleteCallback={onDeleteHandler}
+                                    flippedCallback={onCardFlipHandler}
+                                />
+                            )
+                        })
+                    }
                 </React.Fragment>
             }
+            { /* background */}
+            {cardsData.length > 1 && <BackgroundCard hasShadow={true} />}
+            {cardsData.length > 2 && <BackgroundCard angle={3} />}
+            {cardsData.length > 3 && <BackgroundCard angle={-3} />}
         </div>
     )
 }

@@ -19,13 +19,23 @@ interface Props {
     toForeignLanguage: boolean
     example?: string | null
     src?: string | null
+    isActive: boolean
+    isContentVisible: boolean
     deleteCallback: () => void
-    isActive?: boolean
+    flippedCallback: () => void
     setIsActive?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Card: FC<Props> = ({
-    nativeWord, foreignWord, toForeignLanguage, example, src, isActive = false, deleteCallback
+    nativeWord,
+    foreignWord,
+    toForeignLanguage,
+    example,
+    src,
+    isActive,
+    isContentVisible,
+    flippedCallback,
+    deleteCallback
 }) => {
     // event states
     const [isFrontSide, setIsFrontSide] = useState(true)
@@ -133,19 +143,19 @@ const Card: FC<Props> = ({
                 // DEV!
                 console.log('delete')
                 deleteCallback()
-                cardRef.current.remove()
+                //cardRef.current.remove()
                 return
             }
             else if (offset.x > HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('got it')
                 deleteCallback()
-                cardRef.current.remove()
+                //cardRef.current.remove()
             } else if (offset.x < -HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('study')
                 deleteCallback()
-                cardRef.current.remove()
+                //cardRef.current.remove()
             }
         }
     }
@@ -209,6 +219,7 @@ const Card: FC<Props> = ({
                 pronounceText(foreignWord)
                 setTimeout(() => {
                     setIsFlipAnimationActive(false)
+                    flippedCallback()
                 }, FLIP_ANIMATION_TIME / 2)
             }, FLIP_ANIMATION_TIME / 2)
         }
@@ -234,7 +245,8 @@ const Card: FC<Props> = ({
                 foreignWord={foreignWord}
                 isFrontContent={isFrontSide}
                 example={example}
-                src={src} />
+                src={src}
+                isVisible={isContentVisible} />
             { /* action labels */}
             <ActionLabel
                 text='Got It'
