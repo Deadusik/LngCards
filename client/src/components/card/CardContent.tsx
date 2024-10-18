@@ -1,9 +1,8 @@
 import { FC } from 'react'
 import styles from '../../styles/components/card/CardContent.module.scss'
-import PlayButton from '../ui/button/PlayButton'
-import playSvgSrc from '../../assets/svgs/sound.svg'
 import WordExample from './WordExample'
 import { pronounceText } from '../../utils/functins'
+import CardPlayButton from '../ui/button/CardPlayButton'
 
 interface IProps {
     nativeWord: string
@@ -41,7 +40,7 @@ const CardContent: FC<IProps> = ({
                                 <div className={styles.FrontContent__wordBlock}>
                                     {toForeignLanguage &&
                                         <div className={styles.FrontContent__playButton}>
-                                            <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => pronounceText(foreignWord)} />
+                                            <CardPlayButton onClick={() => pronounceText(frontWord)} isFrontSide={true} />
                                         </div>
                                     }
                                     <h1 className={styles.CardContent__word /*extended*/}>
@@ -61,7 +60,7 @@ const CardContent: FC<IProps> = ({
                                 <div className={styles.BackContent__wordBlock}>
                                     {toForeignLanguage &&
                                         <div className={styles.BackContent__playButton}>
-                                            <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => pronounceText(foreignWord)} />
+                                            <CardPlayButton onClick={() => pronounceText(foreignWord)} isFrontSide={false} />
                                         </div>
                                     }
                                     <p className={styles.BackContent__word}>
@@ -71,7 +70,7 @@ const CardContent: FC<IProps> = ({
                                 <div className={styles.BackContent__titleBlock}>
                                     {!toForeignLanguage &&
                                         <div className={styles.BackContent__playButton}>
-                                            <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => pronounceText(backWord)} />
+                                            <CardPlayButton onClick={() => pronounceText(backWord)} isFrontSide={false} />
                                         </div>
                                     }
                                     <h1 className={styles.BackContent__title}>
@@ -85,7 +84,7 @@ const CardContent: FC<IProps> = ({
                                             <hr className={styles.Example__divider} />
                                             <div className={styles.Example__textBlock}>
                                                 <div className={styles.BackContent__playButton}>
-                                                    <PlayButton iconSrc={playSvgSrc} size='20px' onClick={() => pronounceText(example || '')} />
+                                                    <CardPlayButton onClick={() => pronounceText(example || '')} isFrontSide={false} />
                                                 </div>
                                                 <WordExample
                                                     isHidden={false}

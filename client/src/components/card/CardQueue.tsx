@@ -74,8 +74,6 @@ const CardQueue: FC = () => {
                             const nextCardIndex = arr.length >= 2 ? arr.length - 2 : -1
                             const isContentVisible = isTopCard || index == nextCardIndex && isTopCardFlipped
 
-                            console.log(nextCardIndex)
-
                             return (
                                 <Card key={index}
                                     nativeWord={card.nativeWord}

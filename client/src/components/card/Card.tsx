@@ -47,7 +47,7 @@ const Card: FC<Props> = ({
     const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
-    // memo
+    // card style depends on conditions
     const cardStyle = useMemo(() => {
         const inactiveStyle = isActive ? '' : styles.Card_inactive
         const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
@@ -64,6 +64,8 @@ const Card: FC<Props> = ({
     const FLIP_ANIMATION_TIME = 600
     const CARD_ROTATION_RATE = 20
 
+    // if mobile device then action multiplier smaller
+    // and we need move less card to execute some aciton
     function getActionMultiplier(): number {
         const XS_TRIGGER = 450
         const XS_MULTIPLIER = 0.5
@@ -88,6 +90,7 @@ const Card: FC<Props> = ({
         return client
     }
 
+    // card rotation depends on card offset
     const rotateCard = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         const client = getClientfromPlatform(event)
 
@@ -96,7 +99,7 @@ const Card: FC<Props> = ({
         }
     }
 
-    // set card side value by offset including dead zone
+    // set card direction value by offset including dead zone
     const setCardSideByOffset = (offset: CardOffset) => {
         if (offset.y > DEAD_ZONE && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE)
             setCardDirection(CardDirection.ToDelete)
@@ -133,29 +136,27 @@ const Card: FC<Props> = ({
             cardRef.current.style.top = '0px'
             cardRef.current.style.transform = 'rotate(0deg)'
             setPrimaryCursorPoint({ x: 0, y: 0 })
+            setCardDirection(CardDirection.Deadzone)
         }
     }
 
     // set action for card by offset
     const actionByOffset = (offset: CardOffset) => {
         if (cardRef.current) {
-            if (offset.y > VERTICAL_ACTION_ZONE && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE) {
+            if (offset.y > VERTICAL_ACTION_ZONE && CardDirection.ToDelete) {
                 // DEV!
                 console.log('delete')
                 deleteCallback()
-                //cardRef.current.remove()
                 return
             }
             else if (offset.x > HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('got it')
                 deleteCallback()
-                //cardRef.current.remove()
             } else if (offset.x < -HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('study')
                 deleteCallback()
-                //cardRef.current.remove()
             }
         }
     }

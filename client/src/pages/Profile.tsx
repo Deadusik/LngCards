@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styles from '../styles/pages/Profile.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 import { SPACE } from '../utils/constants'
-import avatarImgSrc from '../assets/imgs/test/avatar.png'
+import avatarImgSrc from '../assets/test/imgs/avatar.png'
 
 const Profile: FC = () => {
     return (

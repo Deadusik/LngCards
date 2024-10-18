@@ -7,9 +7,9 @@ import { INITIAL } from '../../utils/constants'
 
 interface Props {
     text: string
-    triggerDirection?: CardDirection
-    cardDirection?: CardDirection
-    cardRestoreTrigger?: boolean
+    triggerDirection: CardDirection
+    cardDirection: CardDirection
+    cardRestoreTrigger: boolean
     offsetX?: number | null
     offsetY?: number | null
     deadActionZone?: number
@@ -55,12 +55,7 @@ const ActionLabel: FC<Props> = ({
             else
                 labelRef.current.style.opacity = MIN_OPACITY
         }
-    }, [offsetX, offsetY])
-
-    useEffect(() => {
-        if (!cardRestoreTrigger && labelRef.current)
-            labelRef.current.style.opacity = MIN_OPACITY
-    }, [cardRestoreTrigger])
+    }, [offsetX, offsetY, cardRestoreTrigger])
 
     function offsetToOpacity(): string {
         const MAX_OFFSET = HORIZONTAL_OFFSET_ACTION
@@ -70,7 +65,8 @@ const ActionLabel: FC<Props> = ({
         if (offsetX !== null && offsetY === null) {
             const positiveOffset = Math.abs(offsetX);
             return getProgreesFromRange(MIN_OFFSET, MAX_OFFSET, positiveOffset).toFixed(1)
-        } else if (offsetX !== null && offsetY !== null) { // delete label opacity controller
+            // delete label opacity controller
+        } else if (offsetX !== null && offsetY !== null) {
             const positiveOffset = { x: Math.abs(offsetX), y: Math.abs(offsetY) }
             const yOpacity = getProgreesFromRange(MIN_OFFSET, VERTICAL_OFFSET_ACTION, positiveOffset.y)
             const xOpacity = getProgreesFromRange(DEAD_ZONE, 0, positiveOffset.x)

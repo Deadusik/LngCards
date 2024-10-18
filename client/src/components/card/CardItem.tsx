@@ -4,7 +4,7 @@ import styles from '../../styles/components/card/CardItem.module.scss'
 import PlayButton from '../ui/button/PlayButton'
 import CardMenuButton from '../ui/button/CardMenuButton'
 // test res
-import appleSvgSrc from '../../assets/svgs/example/apple.svg'
+import appleSvgSrc from '../../assets/test/svgs/apple2.svg'
 import Battery from '../ui/Battery'
 import { CardState } from '../../utils/enum'
 import { pronounceText } from '../../utils/functins'
