@@ -19,8 +19,12 @@
         font-weight: 600;
     }
 
-    &_hidden {
+    &_disappear {
         animation: dissappear 0.2s ease-out forwards;
+    }
+
+    &_hidden {
+        visibility: hidden;
     }
 
     &_active {

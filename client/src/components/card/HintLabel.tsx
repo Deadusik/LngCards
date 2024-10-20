@@ -6,11 +6,12 @@ import { default as ArrowSvg } from '../../assets/svgs/arrow_line.svg?react'
 interface Props {
     conditionText: string
     hintText: string
+    isDisabled: boolean
+    isActive: boolean
     left?: string
     top?: string
     right?: string
     bottom?: string
-    isActive?: boolean
     color?: string
     iconRotation?: string
 }
@@ -18,7 +19,8 @@ interface Props {
 const HintLabel: FC<Props> = ({
     conditionText,
     hintText,
-    isActive = true,
+    isActive,
+    isDisabled,
     left = INITIAL,
     top = INITIAL,
     right = INITIAL,
@@ -27,14 +29,12 @@ const HintLabel: FC<Props> = ({
     iconRotation = INITIAL
 }) => {
     const getHintLabelStyle = (): string => {
-        let style = styles.HintLabel
+        const style = styles.HintLabel
+        const hiddenStyle = isDisabled ? styles.HintLabel_hidden : ''
+        const activeStyle = isActive ?
+            styles.HintLabel_active : styles.HintLabel_disappear
 
-        if (isActive)
-            style = [style, styles.HintLabel_active].join(SPACE)
-        else
-            style = [style, styles.HintLabel_hidden].join(SPACE)
-
-        return style
+        return [style, hiddenStyle, activeStyle].join(SPACE)
     }
 
     return (

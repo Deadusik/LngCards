@@ -40,7 +40,6 @@ const Card: FC<Props> = ({
     // event states
     const [isFrontSide, setIsFrontSide] = useState(true)
     const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
-    const [isMouseOver, setIsMouseOver] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
     const [isCardWasMoved, setIsCardWasMoved] = useState(false)
     // states
@@ -168,7 +167,7 @@ const Card: FC<Props> = ({
     }
 
     const onMouseMoveHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (isMouseDown && isMouseOver && !isFrontSide) {
+        if (isMouseDown && !isFrontSide) {
             rotateCard(event)
             moveCard(event)
             setIsCardWasMoved(true)
@@ -186,12 +185,12 @@ const Card: FC<Props> = ({
         resetCard()
     }
 
-    const onMouseEnterHandler = () => {
-        setIsMouseOver(true)
-    }
-
     const onMouseLeaveHandler = () => {
-        setIsMouseOver(false)
+        if (!isFrontSide && primaryCursorPoint.x !== 0 && primaryCursorPoint.y !== 0) {
+            setMoveOffset({ x: 0, y: 0 })
+            setIsMouseDown(false)
+            resetCard()
+        }
     }
 
     // mobile handlers 
@@ -231,7 +230,6 @@ const Card: FC<Props> = ({
             ref={cardRef}
             // events
             onMouseMove={onMouseMoveHandler}
-            onMouseEnter={onMouseEnterHandler}
             onMouseLeave={onMouseLeaveHandler}
             onMouseDown={onMouseDownHandler}
             onMouseUp={onMouseUpHandler}
@@ -292,6 +290,7 @@ const Card: FC<Props> = ({
                 top='20px'
                 left='7%'
                 color={red}
+                isDisabled={isFrontSide}
                 isActive={isCardWasMoved && !isMouseDown} />
             <HintLabel
                 conditionText="If you were right"
@@ -299,6 +298,7 @@ const Card: FC<Props> = ({
                 top='20px'
                 right='7%'
                 color={green}
+                isDisabled={isFrontSide}
                 isActive={isCardWasMoved && !isMouseDown}
                 iconRotation='180deg' />
         </div >
