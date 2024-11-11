@@ -21,7 +21,7 @@ interface Props {
     example?: string | null
     src?: string | null
     isActive: boolean
-    isContentVisible: boolean
+    isFrontContentVisible: boolean
     deleteCallback: () => void
     flippedCallback: () => void
     setIsActive?: React.Dispatch<React.SetStateAction<boolean>>
@@ -34,6 +34,7 @@ const Card: FC<Props> = ({
     example,
     src,
     isActive,
+    isFrontContentVisible,
     flippedCallback,
     deleteCallback
 }) => {
@@ -249,13 +250,15 @@ const Card: FC<Props> = ({
             onTouchStart={onTouchStartHandler}
             onTouchMove={onTouchMoveHandler}
             onTouchEnd={onTouchEndHandler}>
-            <FrontContent
-                toForeignLanguage={toForeignLanguage}
-                nativeWord={nativeWord}
-                foreignWord={foreignWord}
-                example={example}
-                src={src}
-            />
+            {isFrontContentVisible &&
+                <FrontContent
+                    toForeignLanguage={toForeignLanguage}
+                    nativeWord={nativeWord}
+                    foreignWord={foreignWord}
+                    example={example}
+                    src={src}
+                />
+            }
             <BackContent
                 toForeignLanguage={toForeignLanguage}
                 nativeWord={nativeWord}

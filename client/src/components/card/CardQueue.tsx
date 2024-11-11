@@ -72,6 +72,8 @@ const CardQueue: FC = () => {
                         cardsData.map((card, index, arr) => {
                             const isTopCard = index === arr.length - 1
                             const nextCardIndex = arr.length >= 2 ? arr.length - 2 : -1
+                            // set invisible front content for the next card
+                            // to remove strange flip effect
                             const isContentVisible = isTopCard || index == nextCardIndex && isTopCardFlipped
 
                             return (
@@ -82,7 +84,7 @@ const CardQueue: FC = () => {
                                     toForeignLanguage={card.toForeignLanguage}
                                     src={card.src}
                                     isActive={isTopCard}
-                                    isContentVisible={isContentVisible}
+                                    isFrontContentVisible={isContentVisible}
                                     deleteCallback={onDeleteHandler}
                                     flippedCallback={onCardFlipHandler}
                                 />
