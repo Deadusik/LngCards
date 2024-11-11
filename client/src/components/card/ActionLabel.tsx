@@ -81,7 +81,7 @@ const ActionLabel: FC<Props> = ({
         <div className={styles.ActionLabel}
             ref={labelRef}
             style={{
-                transform: `rotate(${rotaiton})`,
+                transform: `rotate(${rotaiton}) scale(-1, 1)`,
                 borderColor: color,
                 top,
                 left,

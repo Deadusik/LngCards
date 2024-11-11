@@ -5,8 +5,9 @@ import ActionLabel from './ActionLabel'
 import { CardDirection } from '../../utils/enum'
 import { gray, green, red } from '../../utils/colors'
 import HintLabel from './HintLabel'
-import CardContent from './CardContent'
 import { pronounceText } from '../../utils/functins'
+import FrontContent from './FrontContent'
+import BackContent from './BackContent'
 
 export interface CardOffset {
     x: number
@@ -33,7 +34,6 @@ const Card: FC<Props> = ({
     example,
     src,
     isActive,
-    isContentVisible,
     flippedCallback,
     deleteCallback
 }) => {
@@ -42,19 +42,24 @@ const Card: FC<Props> = ({
     const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
     const [isCardWasMoved, setIsCardWasMoved] = useState(false)
+
     // states
     const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
     const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
+
     // card style depends on conditions
     const cardStyle = useMemo(() => {
         const inactiveStyle = isActive ? '' : styles.Card_inactive
-        const flipStyles = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
+        const flipStyle = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
+        const flipedStyle = !isFrontSide ? styles.Card_flipped : ""
         const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
-        return [flipStyles, droppedNoActionStyles, inactiveStyle, styles.Card].join(SPACE)
-    }, [isFlipAnimationActive, isCardWasMoved, isMouseDown, isActive])
+        return [flipStyle, droppedNoActionStyles, inactiveStyle, flipedStyle, styles.Card].join(SPACE)
+    }, [isFlipAnimationActive, isCardWasMoved, isMouseDown, isFrontSide, isActive])
+
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
+
     // constats
     const ACTION_MULTIPLIER = getActionMultiplier()
     const DEAD_ZONE = 50 * ACTION_MULTIPLIER
@@ -94,7 +99,7 @@ const Card: FC<Props> = ({
         const client = getClientfromPlatform(event)
 
         if (cardRef.current && client) {
-            cardRef.current.style.transform = `rotate(${(primaryCursorPoint.x - client.x) / CARD_ROTATION_RATE}deg)`
+            cardRef.current.style.transform = `rotate(${(primaryCursorPoint.x - client.x) / CARD_ROTATION_RATE}deg) rotateY(180deg)`
         }
     }
 
@@ -133,7 +138,7 @@ const Card: FC<Props> = ({
         if (cardRef.current) {
             cardRef.current.style.left = '0px'
             cardRef.current.style.top = '0px'
-            cardRef.current.style.transform = 'rotate(0deg)'
+            cardRef.current.style.transform = 'rotate(0deg) rotateY(180deg)'
             setPrimaryCursorPoint({ x: 0, y: 0 })
             setCardDirection(CardDirection.Deadzone)
         }
@@ -225,6 +230,12 @@ const Card: FC<Props> = ({
         }
     }, [isFlipAnimationActive])
 
+    useEffect(() => {
+        if (isMouseDown && !isFrontSide && cardRef.current) {
+            cardRef.current.style.transition = 'transform 0s ease-in-out'
+        }
+    }, [isMouseDown, isFrontSide]);
+
     return (
         <div className={cardStyle}
             ref={cardRef}
@@ -238,15 +249,20 @@ const Card: FC<Props> = ({
             onTouchStart={onTouchStartHandler}
             onTouchMove={onTouchMoveHandler}
             onTouchEnd={onTouchEndHandler}>
-            <CardContent
+            <FrontContent
                 toForeignLanguage={toForeignLanguage}
                 nativeWord={nativeWord}
                 foreignWord={foreignWord}
-                isFrontContent={isFrontSide}
                 example={example}
                 src={src}
-                isVisible={isContentVisible} />
-            { /* action labels */}
+            />
+            <BackContent
+                toForeignLanguage={toForeignLanguage}
+                nativeWord={nativeWord}
+                foreignWord={foreignWord}
+                example={example}
+                src={src}
+            />
             <ActionLabel
                 text='Got It'
                 triggerDirection={CardDirection.ToGotIt}
@@ -255,9 +271,9 @@ const Card: FC<Props> = ({
                 offsetX={moveOffset.x}
                 deadActionZone={DEAD_ZONE}
                 horizontalActionZone={HORIZONTAL_ACTION_ZONE}
-                left='20px'
+                right='20px'
                 top='40px'
-                rotaiton='-20deg' />
+                rotaiton='20deg' />
             <ActionLabel
                 text='Delete'
                 triggerDirection={CardDirection.ToDelete}
@@ -279,16 +295,16 @@ const Card: FC<Props> = ({
                 offsetX={moveOffset.x}
                 deadActionZone={DEAD_ZONE}
                 horizontalActionZone={HORIZONTAL_ACTION_ZONE}
-                right='20px'
+                left='20px'
                 top='40px'
-                rotaiton='20deg'
+                rotaiton='-20deg'
                 color={red} />
             { /* hint labels */}
             <HintLabel
                 conditionText="If you didn't know"
                 hintText='swipe left'
                 top='20px'
-                left='7%'
+                right='7%'
                 color={red}
                 isDisabled={isFrontSide}
                 isActive={isCardWasMoved && !isMouseDown} />
@@ -296,7 +312,7 @@ const Card: FC<Props> = ({
                 conditionText="If you were right"
                 hintText='swipe right'
                 top='20px'
-                right='7%'
+                left='7%'
                 color={green}
                 isDisabled={isFrontSide}
                 isActive={isCardWasMoved && !isMouseDown}

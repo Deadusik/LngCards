@@ -5,6 +5,7 @@
     top: 0;
     align-items: center;
     pointer-events: none;
+    transform: scale(-1, 1);
 
     &__conditionText {
         margin-top: 5px;
