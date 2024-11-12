@@ -6,6 +6,7 @@ import appleSvgSrc from '../../assets/test/svgs/apple.svg'
 import dogSvgSrc from '../../assets/test/svgs/dog.svg'
 import houseSvgSrc from '../../assets/test/svgs/house.svg'
 import airplaceSvgSrc from '../../assets/test/svgs/airplane.svg'
+import { CardDirection } from "../../utils/enum"
 
 interface CardEntity {
     nativeWord: string
@@ -50,7 +51,10 @@ const CardQueue: FC = () => {
         ]
     )
 
-    const onDeleteHandler = () => {
+    const onDeleteHandler = (cardAction: CardDirection) => {
+        // DEV!
+        console.log('external card action', cardAction)
+
         const newCardsData = [...cardsData]
         newCardsData.pop()
 

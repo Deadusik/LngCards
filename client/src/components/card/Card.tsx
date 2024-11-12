@@ -22,7 +22,7 @@ interface Props {
     src?: string | null
     isActive: boolean
     isFrontContentVisible: boolean
-    deleteCallback: () => void
+    deleteCallback: (cardAction: CardDirection) => void
     flippedCallback: () => void
     setIsActive?: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -45,18 +45,20 @@ const Card: FC<Props> = ({
     const [isCardWasMoved, setIsCardWasMoved] = useState(false)
 
     // states
-    const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
-    const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 })
+    const [cardAction, setCardAction] = useState<CardDirection>(CardDirection.Deadzone)
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
+    const [primaryCursorPoint, setPrimaryCursorPoint] = useState({ x: 0, y: 0 } as CardOffset)
+    const [moveOffset, setMoveOffset] = useState({ x: 0, y: 0 } as CardOffset)
 
     // card style depends on conditions
     const cardStyle = useMemo(() => {
         const inactiveStyle = isActive ? '' : styles.Card_inactive
         const flipStyle = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
-        const flipedStyle = !isFrontSide ? styles.Card_flipped : ""
         const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
-        return [flipStyle, droppedNoActionStyles, inactiveStyle, flipedStyle, styles.Card].join(SPACE)
-    }, [isFlipAnimationActive, isCardWasMoved, isMouseDown, isFrontSide, isActive])
+        const flipedStyle = !isFrontSide ? styles.Card_flipped : ''
+        const onDeleteStyle = cardAction !== CardDirection.Deadzone ? getOnDeleteStyle() : ''
+        return [flipStyle, droppedNoActionStyles, inactiveStyle, flipedStyle, onDeleteStyle, styles.Card].join(SPACE)
+    }, [isFlipAnimationActive, isCardWasMoved, isMouseDown, isFrontSide, cardAction, isActive])
 
     // refs
     const cardRef = useRef<HTMLDivElement>(null)
@@ -68,6 +70,29 @@ const Card: FC<Props> = ({
     const VERTICAL_ACTION_ZONE = (150 + DEAD_ZONE) * ACTION_MULTIPLIER
     const FLIP_ANIMATION_TIME = 600
     const CARD_ROTATION_RATE = 20
+
+    function getOnDeleteStyle(): string {
+        let style = ''
+        switch (cardAction) {
+            case CardDirection.ToStudy:
+                {
+                    style = styles.Card_studyAgain
+                    break
+                }
+            case CardDirection.ToGotIt:
+                {
+                    style = styles.Card_gotIt
+                    break
+                }
+            case CardDirection.ToDelete:
+                {
+                    style = styles.Card_delete
+                    break
+                }
+        }
+
+        return style
+    }
 
     // if mobile device then action multiplier smaller
     // and we need move less card to execute some aciton
@@ -151,17 +176,36 @@ const Card: FC<Props> = ({
             if (offset.y > VERTICAL_ACTION_ZONE && CardDirection.ToDelete) {
                 // DEV!
                 console.log('delete')
-                deleteCallback()
+                const currentCardAction = CardDirection.ToDelete
+
+                setCardAction(currentCardAction)
+                setTimeout(() => {
+                    deleteCallback(currentCardAction)
+                }, 200)
                 return
             }
             else if (offset.x > HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('got it')
-                deleteCallback()
+                const currentCardAction = CardDirection.ToGotIt
+
+                setCardAction(currentCardAction)
+                setTimeout(() => {
+                    deleteCallback(currentCardAction)
+                }, 200)
             } else if (offset.x < -HORIZONTAL_ACTION_ZONE) {
                 // DEV!
                 console.log('study')
-                deleteCallback()
+                const currentCardAction = CardDirection.ToStudy
+
+                setCardAction(currentCardAction)
+                setTimeout(() => {
+                    if (cardRef.current)
+                        cardRef.current.style.zIndex = '0'
+                    setTimeout(() => {
+                        deleteCallback(currentCardAction)
+                    }, 150)
+                }, 150)
             }
         }
     }
@@ -309,7 +353,7 @@ const Card: FC<Props> = ({
                 top='20px'
                 right='7%'
                 color={red}
-                isDisabled={isFrontSide}
+                isDisabled={isFrontSide || cardAction !== CardDirection.Deadzone}
                 isActive={isCardWasMoved && !isMouseDown} />
             <HintLabel
                 conditionText="If you were right"
@@ -317,7 +361,7 @@ const Card: FC<Props> = ({
                 top='20px'
                 left='7%'
                 color={green}
-                isDisabled={isFrontSide}
+                isDisabled={isFrontSide || cardAction !== CardDirection.Deadzone}
                 isActive={isCardWasMoved && !isMouseDown}
                 iconRotation='180deg' />
         </div >
