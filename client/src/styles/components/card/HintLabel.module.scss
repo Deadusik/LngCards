@@ -32,6 +32,16 @@
         opacity: 0.7;
     }
 
+    @media (max-width: 576px) {
+        &__hintText {
+            font-size: 14px;
+        }
+
+        &__conditionText {
+            font-size: 14px;
+        }
+    }
+
     @keyframes dissappear {
         0% {
             opacity: 1;

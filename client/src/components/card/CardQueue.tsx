@@ -18,6 +18,7 @@ interface CardEntity {
 
 const CardQueue: FC = () => {
     const [isTopCardFlipped, setIsTopCardFlipped] = useState(false)
+    // DEV! test data
     const [cardsData, setCardsData] = useState<CardEntity[]>(
         [
             {
@@ -44,7 +45,7 @@ const CardQueue: FC = () => {
             {
                 nativeWord: 'Хата',
                 foreignWord: 'House',
-                example: 'She sold her house cheaply',
+                example: 'She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply.',
                 src: houseSvgSrc,
                 toForeignLanguage: true
             },

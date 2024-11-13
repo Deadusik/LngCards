@@ -8,6 +8,7 @@
     cursor: pointer;
     backface-visibility: hidden;
     position: absolute;
+    padding: 100px;
 
     &__picture {
         width: 100px;
@@ -38,5 +39,9 @@
         font-size: 16px;
         font-family: Arial, Helvetica, sans-serif;
         color: gray;
+    }
+
+    @media (max-width:576px) {
+        padding: 0 20px;
     }
 }

@@ -10,6 +10,7 @@
     position: absolute;
     backface-visibility: hidden;
     transform: rotateY(180deg);
+    padding: 100px;
 
     &__picture {
         width: 100px;
@@ -53,6 +54,10 @@
         margin-top: 20px;
         display: flex;
         align-items: center;
+    }
+
+    @media (max-width:576px) {
+        padding: 0 20px;
     }
 }
 

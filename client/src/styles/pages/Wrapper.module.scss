@@ -18,10 +18,24 @@
     .content {
         padding-left: 30%;
         padding-right: 30%;
+
+        &_card {
+            padding-left: 15%;
+            padding-right: 15%;
+        }
     }
 
     .contentVertical {
         padding-left: 30%;
         padding-right: 30%;
+    }
+}
+
+@media (min-width: 1400px) {
+    .content {
+        &_card {
+            padding-left: 30%;
+            padding-right: 30%;
+        }
     }
 }
