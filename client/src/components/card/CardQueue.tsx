@@ -45,7 +45,14 @@ const CardQueue: FC = () => {
             {
                 nativeWord: 'Хата',
                 foreignWord: 'House',
-                example: 'She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply.',
+                example: 'She sold her house cheaply.',
+                src: houseSvgSrc,
+                toForeignLanguage: true
+            },
+            {
+                nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
+                foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
+                example: 'She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply.',
                 src: houseSvgSrc,
                 toForeignLanguage: true
             },
