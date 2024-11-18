@@ -3,7 +3,6 @@ import { FC } from 'react'
 import { default as SoundSvg } from '../../../assets/svgs/sound.svg?react'
 
 interface Props {
-    iconSrc?: string
     onClick: () => void
 }
 

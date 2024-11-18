@@ -1,12 +1,17 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import styles from '../../styles/components/card/CardQueue.module.scss'
 import Card from "./Card"
 import BackgroundCard from "./BackgroundCard"
+import { CardDirection } from "../../utils/enum"
+import IconButton from "../ui/button/IconButton"
+import { default as PlusSvg } from '../../assets/svgs/plus.svg?react'
+import { default as BackSvg } from '../../assets/svgs/arrow_line.svg?react'
+import { blue } from "../../utils/colors"
+//svg src
 import appleSvgSrc from '../../assets/test/svgs/apple.svg'
 import dogSvgSrc from '../../assets/test/svgs/dog.svg'
 import houseSvgSrc from '../../assets/test/svgs/house.svg'
 import airplaceSvgSrc from '../../assets/test/svgs/airplane.svg'
-import { CardDirection } from "../../utils/enum"
 
 interface CardEntity {
     nativeWord: string
@@ -16,11 +21,20 @@ interface CardEntity {
     toForeignLanguage: boolean
 }
 
+
+
 const CardQueue: FC = () => {
     const [isTopCardFlipped, setIsTopCardFlipped] = useState(false)
     // DEV! test data
     const [cardsData, setCardsData] = useState<CardEntity[]>(
         [
+            {
+                nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
+                foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
+                example: 'She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply.',
+                src: houseSvgSrc,
+                toForeignLanguage: true
+            },
             {
                 nativeWord: 'Яблуко',
                 foreignWord: 'Apple',
@@ -49,13 +63,6 @@ const CardQueue: FC = () => {
                 src: houseSvgSrc,
                 toForeignLanguage: true
             },
-            {
-                nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
-                foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
-                example: 'She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply. She sold her house cheaply.',
-                src: houseSvgSrc,
-                toForeignLanguage: true
-            },
         ]
     )
 
@@ -75,6 +82,12 @@ const CardQueue: FC = () => {
     const onCardFlipHandler = () => {
         setIsTopCardFlipped(true)
     }
+
+    useEffect(() => {
+        // DEV!
+        console.log('cards data: ', cardsData)
+        console.log('is top flipped: ', isTopCardFlipped)
+    }, [cardsData, isTopCardFlipped])
 
     return (
         <div className={styles.CardQueue}>
@@ -102,6 +115,22 @@ const CardQueue: FC = () => {
                                 />
                             )
                         })
+                    }
+                    {((isTopCardFlipped && cardsData.length == 1) || cardsData.length == 0) &&
+                        <div className={styles.CardQueue__content}>
+                            <IconButton
+                                content={BackSvg}
+                                size={100}
+                                stroke={blue}
+                                triggerSize={'150px'}
+                                onClick={() => { console.log('Back Icon Button') }} />
+                            <IconButton
+                                content={PlusSvg}
+                                size={100}
+                                stroke={blue}
+                                triggerSize={'150px'}
+                                onClick={() => { console.log('Plus Icon Button') }} />
+                        </div>
                     }
                 </React.Fragment>
             }

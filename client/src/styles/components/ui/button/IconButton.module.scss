@@ -1,0 +1,15 @@
+@import '../../../colors.scss';
+
+.IconButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba($skyBlue, 0.02);
+    ;
+
+    &:hover {
+        background-color: rgba($skyBlue, 0.04);
+    }
+}

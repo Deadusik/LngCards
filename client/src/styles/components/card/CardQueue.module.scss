@@ -3,4 +3,12 @@
     height: 100%;
     display: flex;
     position: relative;
+    justify-content: center;
+    align-items: center;
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
 }
