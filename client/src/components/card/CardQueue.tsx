@@ -1,13 +1,16 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import styles from '../../styles/components/card/CardQueue.module.scss'
+// components
 import Card from "./Card"
 import BackgroundCard from "./BackgroundCard"
-import { CardDirection } from "../../utils/enum"
 import IconButton from "../ui/button/IconButton"
+// svgs 
 import { default as PlusSvg } from '../../assets/svgs/plus.svg?react'
 import { default as BackSvg } from '../../assets/svgs/arrow_line.svg?react'
+// utils
+import { CardDirection } from "../../utils/enum"
 import { blue } from "../../utils/colors"
-//svg src
+// DEV! svg src
 import appleSvgSrc from '../../assets/test/svgs/apple.svg'
 import dogSvgSrc from '../../assets/test/svgs/dog.svg'
 import houseSvgSrc from '../../assets/test/svgs/house.svg'
@@ -20,8 +23,6 @@ interface CardEntity {
     src: string
     toForeignLanguage: boolean
 }
-
-
 
 const CardQueue: FC = () => {
     const [isTopCardFlipped, setIsTopCardFlipped] = useState(false)
@@ -66,9 +67,10 @@ const CardQueue: FC = () => {
         ]
     )
 
+    // delete callback for cards
     const onDeleteHandler = (cardAction: CardDirection) => {
         // DEV!
-        console.log('external card action', cardAction)
+        console.log('card action', cardAction)
 
         const newCardsData = [...cardsData]
         newCardsData.pop()
@@ -82,12 +84,6 @@ const CardQueue: FC = () => {
     const onCardFlipHandler = () => {
         setIsTopCardFlipped(true)
     }
-
-    useEffect(() => {
-        // DEV!
-        console.log('cards data: ', cardsData)
-        console.log('is top flipped: ', isTopCardFlipped)
-    }, [cardsData, isTopCardFlipped])
 
     return (
         <div className={styles.CardQueue}>
@@ -116,6 +112,7 @@ const CardQueue: FC = () => {
                             )
                         })
                     }
+                    {/* show nav buttons if last card flipped or cards queue is empty */}
                     {((isTopCardFlipped && cardsData.length == 1) || cardsData.length == 0) &&
                         <div className={styles.CardQueue__content}>
                             <IconButton
@@ -134,7 +131,7 @@ const CardQueue: FC = () => {
                     }
                 </React.Fragment>
             }
-            { /* background */}
+            { /* background depends on queue of cards */}
             {cardsData.length > 1 && <BackgroundCard hasShadow={true} />}
             {cardsData.length > 2 && <BackgroundCard angle={3} />}
             {cardsData.length > 3 && <BackgroundCard angle={-3} />}

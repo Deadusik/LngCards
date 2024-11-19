@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import styles from '../../styles/components/card/WordExample.module.scss'
+// utils
 import { SPACE } from '../../utils/constants'
 
 interface IProps {
@@ -14,7 +15,7 @@ const WordExample: FC<IProps> = ({ word, example, isHidden }) => {
             {example.split(SPACE).map((exampleWord, index, arr) => {
                 return (
                     <React.Fragment key={index}>
-                        {
+                        { // compare word with exapleWord if true then select (set red text) 
                             exampleWord.toLocaleLowerCase() !== word.toLocaleLowerCase() ?
                                 <>{exampleWord}</>
                                 :

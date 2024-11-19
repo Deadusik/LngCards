@@ -7,7 +7,8 @@
     justify-content: center;
     border-radius: 50%;
     background-color: rgba($skyBlue, 0.02);
-    ;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
         background-color: rgba($skyBlue, 0.04);

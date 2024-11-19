@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styles from '../../styles/components/card/CardContent.module.scss'
 import WordExample from './WordExample'
 import { pronounceText } from '../../utils/functins'
-import CardPlayButton from '../ui/button/CardPlayButton'
+import CardPlayButton from '../ui/button/CardIconButton'
 
 interface IProps {
     nativeWord: string

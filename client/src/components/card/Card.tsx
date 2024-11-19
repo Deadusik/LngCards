@@ -1,13 +1,15 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
 import styles from '../../styles/components/card/Card.module.scss'
-import { SPACE } from '../../utils/constants'
-import ActionLabel from './ActionLabel'
-import { CardDirection } from '../../utils/enum'
-import { gray, green, red } from '../../utils/colors'
-import HintLabel from './HintLabel'
-import { pronounceText } from '../../utils/functins'
+// components
 import FrontContent from './FrontContent'
 import BackContent from './BackContent'
+import ActionLabel from './ActionLabel'
+import HintLabel from './HintLabel'
+// utils
+import { CardDirection } from '../../utils/enum'
+import { gray, green, red } from '../../utils/colors'
+import { pronounceText } from '../../utils/functins'
+import { SPACE } from '../../utils/constants'
 
 export interface CardOffset {
     x: number
@@ -38,12 +40,11 @@ const Card: FC<Props> = ({
     flippedCallback,
     deleteCallback
 }) => {
-    // event states
+    // boolean states
     const [isFrontSide, setIsFrontSide] = useState(true)
     const [isFlipAnimationActive, setIsFlipAnimationActive] = useState(false)
     const [isMouseDown, setIsMouseDown] = useState(false)
     const [isCardWasMoved, setIsCardWasMoved] = useState(false)
-
     // states
     const [cardAction, setCardAction] = useState<CardDirection>(CardDirection.Deadzone)
     const [cardDirection, setCardDirection] = useState<CardDirection>(CardDirection.Deadzone)
@@ -52,11 +53,17 @@ const Card: FC<Props> = ({
 
     // card style depends on conditions
     const cardStyle = useMemo(() => {
+        // disable card
         const inactiveStyle = isActive ? '' : styles.Card_inactive
+        // freeze the card during the flip animation.
         const flipStyle = isFlipAnimationActive ? [styles.Card_inactive, styles.Card_flipped].join(SPACE) : ''
+        // play drop anim
         const droppedNoActionStyles = isCardWasMoved && !isMouseDown ? styles.Card_deadZoneDropped : ''
+        // keep card flipped 
         const flipedStyle = !isFrontSide ? styles.Card_flipped : ''
+        // set anim for card action (got it / study again / delete)
         const onDeleteStyle = cardAction !== CardDirection.Deadzone ? getOnDeleteStyle() : ''
+        // join all styles
         return [flipStyle, droppedNoActionStyles, inactiveStyle, flipedStyle, onDeleteStyle, styles.Card].join(SPACE)
     }, [isFlipAnimationActive, isCardWasMoved, isMouseDown, isFrontSide, cardAction, isActive])
 
@@ -71,6 +78,7 @@ const Card: FC<Props> = ({
     const FLIP_ANIMATION_TIME = 600
     const CARD_ROTATION_RATE = 20
 
+    // get card anim style for action
     function getOnDeleteStyle(): string {
         let style = ''
         switch (cardAction) {
@@ -129,7 +137,8 @@ const Card: FC<Props> = ({
         }
     }
 
-    // set card direction value by offset including dead zone
+    // set CardDirection value by offset including dead zone
+    // we use CardDirection to determine which <ActionLabel/> will be visible.
     const setCardSideByOffset = (offset: CardOffset) => {
         if (offset.y > DEAD_ZONE && offset.x < DEAD_ZONE && offset.x > -DEAD_ZONE)
             setCardDirection(CardDirection.ToDelete)
@@ -170,35 +179,29 @@ const Card: FC<Props> = ({
         }
     }
 
-    // set action for card by offset
+    // set action for card by offset (got it / study again / delete)
     const actionByOffset = (offset: CardOffset) => {
         if (cardRef.current) {
             if (offset.y > VERTICAL_ACTION_ZONE && CardDirection.ToDelete) {
-                // DEV!
-                console.log('delete')
                 const currentCardAction = CardDirection.ToDelete
-
                 setCardAction(currentCardAction)
+                // timeout for delete animation
                 setTimeout(() => {
                     deleteCallback(currentCardAction)
                 }, 200)
                 return
             }
             else if (offset.x > HORIZONTAL_ACTION_ZONE) {
-                // DEV!
-                console.log('got it')
                 const currentCardAction = CardDirection.ToGotIt
-
                 setCardAction(currentCardAction)
+                // timeout for got it animation
                 setTimeout(() => {
                     deleteCallback(currentCardAction)
                 }, 200)
             } else if (offset.x < -HORIZONTAL_ACTION_ZONE) {
-                // DEV!
-                console.log('study')
                 const currentCardAction = CardDirection.ToStudy
-
                 setCardAction(currentCardAction)
+                // timeout for study again animation
                 setTimeout(() => {
                     if (cardRef.current)
                         cardRef.current.style.zIndex = '0'
@@ -210,6 +213,7 @@ const Card: FC<Props> = ({
         }
     }
 
+    // mouse handleres //
     const onCardClickHandler = () => {
         if (isFrontSide)
             setIsFlipAnimationActive(true)
@@ -237,13 +241,14 @@ const Card: FC<Props> = ({
 
     const onMouseLeaveHandler = () => {
         if (!isFrontSide && primaryCursorPoint.x !== 0 && primaryCursorPoint.y !== 0) {
+            // to prevent offset action
             setMoveOffset({ x: 0, y: 0 })
             setIsMouseDown(false)
             resetCard()
         }
     }
 
-    // mobile handlers 
+    // mobile handlers //
     const onTouchStartHandler = (event: React.TouchEvent<HTMLDivElement>) => {
         setIsMouseDown(true)
         setPrimaryCursorPoint({ x: event.touches[0].clientX, y: event.touches[0].clientY })
@@ -262,6 +267,7 @@ const Card: FC<Props> = ({
         }
     }
 
+    // card flip animation logic
     useEffect(() => {
         if (isFlipAnimationActive) {
             setTimeout(() => {
@@ -275,6 +281,8 @@ const Card: FC<Props> = ({
         }
     }, [isFlipAnimationActive])
 
+    // resolve anim conflict when we move card
+    // we set 0s transition for normal movement 
     useEffect(() => {
         if (isMouseDown && !isFrontSide && cardRef.current) {
             cardRef.current.style.transition = 'transform 0s ease-in-out'
@@ -294,6 +302,8 @@ const Card: FC<Props> = ({
             onTouchStart={onTouchStartHandler}
             onTouchMove={onTouchMoveHandler}
             onTouchEnd={onTouchEndHandler}>
+            { /* we need it to hide content for next card in queue
+             to remove strange flip effect */}
             {isFrontContentVisible &&
                 <FrontContent
                     toForeignLanguage={toForeignLanguage}
@@ -310,6 +320,7 @@ const Card: FC<Props> = ({
                 example={example}
                 src={src}
             />
+            {/* got it / study again / delete action labels */}
             <ActionLabel
                 text='Got It'
                 triggerDirection={CardDirection.ToGotIt}

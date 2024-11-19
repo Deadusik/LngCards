@@ -1,13 +1,23 @@
 import { FC } from 'react'
 import styles from '../../../styles/components/ui/button/CardPlayButton.module.scss'
-import { default as SoundSvg } from '../../../assets/svgs/sound.svg?react'
 
 interface Props {
     onClick: () => void
-    isFrontSide: boolean
+    content: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    isFrontSide?: boolean
+    color?: string,
+    fill?: string,
+    stroke?: string,
 }
 
-const CardPlayButton: FC<Props> = ({ isFrontSide, onClick }) => {
+const CardIconButton: FC<Props> = ({
+    color = '',
+    fill = '',
+    stroke = '',
+    content: Content,
+    isFrontSide = false,
+    onClick
+}) => {
     const onClickStopPropagationHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
         onClick()
@@ -23,9 +33,15 @@ const CardPlayButton: FC<Props> = ({ isFrontSide, onClick }) => {
                 if (isFrontSide)
                     e.stopPropagation()
             }}>
-            <SoundSvg width={20} height={20} />
+            <Content
+                width={20}
+                height={20}
+                color={color}
+                fill={fill}
+                stroke={stroke}
+            />
         </button>
     )
 }
 
-export default CardPlayButton
+export default CardIconButton

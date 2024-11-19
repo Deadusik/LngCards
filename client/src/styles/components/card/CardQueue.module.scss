@@ -11,4 +11,10 @@
         justify-content: space-between;
         gap: 20px;
     }
+
+    @media (max-width: 576px) {
+        &__content {
+            gap: 5px;
+        }
+    }
 }

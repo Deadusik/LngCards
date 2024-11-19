@@ -15,9 +15,9 @@ interface Props {
 const IconButton: FC<Props> = ({
     content: Content,
     size = 25,
-    color = 'black',
-    fill = 'black',
-    stroke = 'black',
+    color = '',
+    fill = '',
+    stroke = '',
     background = '',
     triggerSize = '30px',
     onClick

@@ -1,8 +1,14 @@
 import { FC } from "react";
 import styles from '../../styles/components/card/BackContent.module.scss'
-import CardPlayButton from "../ui/button/CardPlayButton";
-import { pronounceText } from "../../utils/functins";
+// components
 import WordExample from "./WordExample";
+import CardIconButton from "../ui/button/CardIconButton";
+//svg
+import { default as EditSvg } from '../../assets/svgs/edit.svg?react'
+import { default as PlayButtonSvg } from '../../assets/svgs/sound.svg?react'
+// utils
+import { blue } from "../../utils/colors";
+import { pronounceText } from "../../utils/functins";
 
 interface Props {
     nativeWord: string
@@ -26,9 +32,9 @@ const BackContent: FC<Props> = ({
         <div className={styles.BackContent}>
             {src && <img className={styles.BackContent__picture} src={src} />}
             <div className={styles.BackContent__wordBlock}>
-                {toForeignLanguage &&
+                {toForeignLanguage && // add the ability to voice the word if it is foreign
                     <div className={styles.BackContent__playButton}>
-                        <CardPlayButton onClick={() => pronounceText(foreignWord)} isFrontSide={false} />
+                        <CardIconButton content={PlayButtonSvg} onClick={() => pronounceText(foreignWord)} isFrontSide={false} />
                     </div>
                 }
                 <p className={styles.BackContent__word}>
@@ -36,9 +42,9 @@ const BackContent: FC<Props> = ({
                 </p>
             </div>
             <div className={styles.BackContent__titleBlock}>
-                {!toForeignLanguage &&
+                {!toForeignLanguage && // remove the ability to voice the title word if it is not foreign
                     <div className={styles.BackContent__playButton}>
-                        <CardPlayButton onClick={() => pronounceText(backWord)} isFrontSide={false} />
+                        <CardIconButton content={PlayButtonSvg} onClick={() => pronounceText(backWord)} isFrontSide={false} />
                     </div>
                 }
                 <h1 className={styles.BackContent__title}>
@@ -52,7 +58,7 @@ const BackContent: FC<Props> = ({
                         <hr className={styles.Example__divider} />
                         <div className={styles.Example__textBlock}>
                             <div className={styles.BackContent__playButton}>
-                                <CardPlayButton onClick={() => pronounceText(example || '')} isFrontSide={false} />
+                                <CardIconButton content={PlayButtonSvg} onClick={() => pronounceText(example || '')} />
                             </div>
                             <WordExample
                                 isHidden={false}
@@ -62,6 +68,9 @@ const BackContent: FC<Props> = ({
                     </div>
                 </div>
             }
+            <div className={styles.BackContent__editButton}>
+                <CardIconButton stroke={blue} fill='none' content={EditSvg} onClick={() => console.log('Edit click')} />
+            </div>
         </div>
     )
 }

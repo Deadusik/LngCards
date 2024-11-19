@@ -12,6 +12,8 @@
     box-shadow: 1px 1px 8px gray;
     background-color: $skyBlue;
     border-radius: 50%;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
         opacity: 0.8;
