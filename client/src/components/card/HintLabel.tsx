@@ -1,7 +1,9 @@
 import { FC } from 'react'
 import styles from '../../styles/components/card/HintLabel.module.scss'
-import { INITIAL, SPACE } from '../../utils/constants'
+//svg
 import { default as ArrowSvg } from '../../assets/svgs/arrow_line.svg?react'
+// utils
+import { INITIAL, SPACE } from '../../utils/constants'
 
 interface Props {
     conditionText: string

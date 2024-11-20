@@ -91,6 +91,10 @@
             margin-top: 5px;
         }
     }
+
+    @media (max-height: 600px) {
+        padding-top: 80px;
+    }
 }
 
 .Example {
