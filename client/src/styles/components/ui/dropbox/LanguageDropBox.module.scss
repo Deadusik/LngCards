@@ -27,7 +27,9 @@
     &__flagsBlock {
         width: 32px;
         height: 22px;
-        position: relative;
+        position: absolute;
+        user-select: none;
+        left: -40px;
     }
 
     &__label {
@@ -38,13 +40,13 @@
     &__arrow {
         position: absolute;
         transform: rotate(180deg);
-        top: -3px;
-        right: -20px;
+        top: -5px;
+        right: -25px;
     }
 
     &__arrow_active {
         transform: rotate(0deg);
-        top: 0px;
+        top: -2px;
     }
 
     &__menu {}

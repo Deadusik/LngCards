@@ -9,6 +9,7 @@ interface Props {
     background?: string
     content: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
     triggerSize?: string
+    transform?: string
     onClick: () => void
 }
 
@@ -20,13 +21,15 @@ const IconButton: FC<Props> = ({
     stroke = '',
     background = '',
     triggerSize = '30px',
+    transform = '',
     onClick
 }) => {
     return (
         <div className={styles.IconButton} onClick={onClick} style={{
             width: triggerSize,
             height: triggerSize,
-            background
+            background,
+            transform
         }}>
             <Content width={size} height={size} color={color} fill={fill} stroke={stroke} />
         </div>
