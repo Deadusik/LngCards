@@ -1,9 +1,11 @@
 import { useLocation } from 'react-router-dom'
 import styles from '../styles/components/Topbar.module.scss'
+import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 import LanguageDropBox from './ui/dropbox/LanguageDropBox'
 import { HOME, LEARNING, MATERIALS, PROFILE } from '../router/paths'
 import IconButton from './ui/button/IconButton'
 import { default as ArrowSvg } from '../assets/svgs/arrow_up.svg?react'
+import { SPACE } from '../utils/constants'
 
 const Topbar = () => {
     const location = useLocation()
@@ -43,7 +45,10 @@ const Topbar = () => {
 
     return (
         <div className={styles.mainBlock}>
-            <div className={styles.mainBlock__content}>
+            <div className={[
+                styles.mainBlock__content,
+                wrapperStyles.contentNavbar
+            ].join(SPACE)}>
                 {getNavbarContent()}
             </div>
         </div>

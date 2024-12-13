@@ -11,16 +11,7 @@
     border-bottom: 1px gainsboro solid;
 
     &__content {
-        width: 40%;
-        height: 100%;
-
-        @media (max-width: 1400px) {
-            width: 65%;
-        }
-
-        @media (max-width: 969px) {
-            width: 90%;
-        }
+        width: 100%;
     }
 }
 

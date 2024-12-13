@@ -1,5 +1,6 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import styles from '../../styles/components/card/CardQueue.module.scss'
+import wrapperStyles from '../../styles/pages/Wrapper.module.scss'
 // components
 import Card from "./Card"
 import BackgroundCard from "./BackgroundCard"
@@ -10,6 +11,7 @@ import { default as BackSvg } from '../../assets/svgs/arrow_line.svg?react'
 // utils
 import { CardDirection } from "../../utils/enum"
 import { blue } from "../../utils/colors"
+import { SPACE } from "../../utils/constants"
 // DEV! svg src
 import appleSvgSrc from '../../assets/test/svgs/apple.svg'
 import dogSvgSrc from '../../assets/test/svgs/dog.svg'
@@ -72,11 +74,7 @@ const CardQueue: FC = () => {
         ]
     )
 
-    // delete callback for cards
-    const onDeleteHandler = (cardAction: CardDirection) => {
-        // DEV!
-        console.log('card action', cardAction)
-
+    const popCard = () => {
         const newCardsData = [...cardsData]
         newCardsData.pop()
 
@@ -86,12 +84,59 @@ const CardQueue: FC = () => {
         }
     }
 
+    useEffect(() => {
+        console.log(cardsData)
+        console.log('tf', isTopCardFlipped)
+    }, [cardsData, isTopCardFlipped])
+
+    const shiftCard = () => {
+        const newCardsData = [...cardsData];
+        const lastCard = newCardsData.pop(); // Видаляємо останній елемент
+
+        if (lastCard) {
+            newCardsData.unshift(lastCard); // Додаємо останній елемент на початок
+            setCardsData(newCardsData);
+            setIsTopCardFlipped(false);
+        }
+    }
+
+    const processCardAction = (cardAction: CardDirection) => {
+        switch (cardAction) {
+            case CardDirection.ToStudy: {
+                shiftCard()
+                break
+            }
+            case CardDirection.ToGotIt: {
+                popCard()
+                break
+            }
+            case CardDirection.ToDelete: {
+                popCard()
+                break
+            }
+            default: {
+                return
+            }
+        }
+    }
+
+    // delete callback for cards
+    const onDeleteHandler = (cardAction: CardDirection) => {
+        // DEV!
+        console.log('card action', cardAction)
+
+        processCardAction(cardAction)
+    }
+
     const onCardFlipHandler = () => {
         setIsTopCardFlipped(true)
     }
 
     return (
-        <div className={styles.CardQueue}>
+        <div className={[
+            styles.CardQueue,
+            wrapperStyles.content
+        ].join(SPACE)}>
             {
                 <React.Fragment>
                     {

@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import RelatedToggleIcon from './ui/button/RelatedToggleIcon'
 import styles from '../styles/components/Navbar.module.scss'
-
+import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 // svg src
 import cardsSvgSrs from '../assets/svgs/cards.svg'
 import bookSvgSrc from '../assets/svgs/book.svg'
 import personSvgSrc from '../assets/svgs/person.svg'
 import { useNavigate } from 'react-router-dom'
 import { HOME, MATERIALS, PROFILE } from '../router/paths'
+import { SPACE } from '../utils/constants'
 
 const Navbar = () => {
     const [isHomeActive, setIsHomeActive] = useState(true)
@@ -38,7 +39,10 @@ const Navbar = () => {
     }
 
     return (
-        <div className={styles.mainBlock}>
+        <div className={[
+            styles.mainBlock,
+            wrapperStyles.contentNavbar
+        ].join(SPACE)}>
             <div className={styles.mainBlock__link}>
                 <RelatedToggleIcon
                     isActive={isHomeActive}
