@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import styles from '../../styles/components/card/CardQueue.module.scss'
 import wrapperStyles from '../../styles/pages/Wrapper.module.scss'
 // components
@@ -19,6 +19,7 @@ import houseSvgSrc from '../../assets/test/svgs/house.svg'
 import airplaceSvgSrc from '../../assets/test/svgs/airplane.svg'
 
 interface CardEntity {
+    id: string
     nativeWord: string
     foreignWord: string
     example?: string
@@ -32,6 +33,7 @@ const CardQueue: FC = () => {
     const [cardsData, setCardsData] = useState<CardEntity[]>(
         [
             {
+                id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
                 foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
                 example: 'The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley',
@@ -39,11 +41,13 @@ const CardQueue: FC = () => {
                 toForeignLanguage: true
             },
             {
+                id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Привіт',
                 foreignWord: 'Hello',
                 toForeignLanguage: true
             },
             {
+                id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Яблуко',
                 foreignWord: 'Apple',
                 example: 'An apple a day keeps the doctor away',
@@ -51,6 +55,7 @@ const CardQueue: FC = () => {
                 toForeignLanguage: false,
             },
             {
+                id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Собака',
                 foreignWord: 'Dog',
                 example: 'The dog barked loudly at the stranger',
@@ -58,6 +63,7 @@ const CardQueue: FC = () => {
                 toForeignLanguage: true
             },
             {
+                id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Літак',
                 foreignWord: 'Airplane',
                 example: 'The new airplane model is faster and more fuel-efficient',
@@ -65,6 +71,7 @@ const CardQueue: FC = () => {
                 toForeignLanguage: false,
             },
             {
+                id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Хата',
                 foreignWord: 'House',
                 example: 'The house on the hill has a beautiful view of the valley',
@@ -84,17 +91,15 @@ const CardQueue: FC = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(cardsData)
-        console.log('tf', isTopCardFlipped)
-    }, [cardsData, isTopCardFlipped])
-
     const shiftCard = () => {
         const newCardsData = [...cardsData];
-        const lastCard = newCardsData.pop(); // Видаляємо останній елемент
+        const lastCard = newCardsData.pop();
+        //change id to update shifted card component state
+        if (lastCard)
+            lastCard.id += '_' + Math.random().toFixed(5)
 
         if (lastCard) {
-            newCardsData.unshift(lastCard); // Додаємо останній елемент на початок
+            newCardsData.unshift(lastCard);
             setCardsData(newCardsData);
             setIsTopCardFlipped(false);
         }
@@ -122,9 +127,6 @@ const CardQueue: FC = () => {
 
     // delete callback for cards
     const onDeleteHandler = (cardAction: CardDirection) => {
-        // DEV!
-        console.log('card action', cardAction)
-
         processCardAction(cardAction)
     }
 
@@ -148,7 +150,7 @@ const CardQueue: FC = () => {
                             const isContentVisible = isTopCard || index == nextCardIndex && isTopCardFlipped
 
                             return (
-                                <Card key={index}
+                                <Card key={card.id}
                                     nativeWord={card.nativeWord}
                                     foreignWord={card.foreignWord}
                                     example={card.example}
