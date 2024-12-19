@@ -58,4 +58,11 @@
             height: 80px;
         }
     }
+
+    @media (max-height: 700px) {
+        &__picture {
+            width: 40px;
+            height: 40px;
+        }
+    }
 }

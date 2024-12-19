@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef } from 'react'
 import styles from '../../styles/components/card/ActionLabel.module.scss'
+// utils
 import { green } from '../../utils/colors'
 import { getProgreesFromRange } from '../../utils/math'
 import { CardDirection } from '../../utils/enum'

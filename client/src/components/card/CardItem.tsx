@@ -16,9 +16,9 @@ interface Props {
 }
 
 const CardItem: FC<Props> = ({
-    name = 'Card name this name is very long cause I need to test it',
-    translation = 'Card translation do you like it? Subsribe on me in github hehehe',
-    example = 'He finally found his person in space. Drugs its bad mkay?'
+    name = 'Apple',
+    translation = 'Яблуко',
+    example = 'An apple a day keeps the doctor away'
 }) => {
     const NamePlayHandler = () => {
         pronounceText(name)
