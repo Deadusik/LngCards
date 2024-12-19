@@ -9,6 +9,7 @@
     backface-visibility: hidden;
     position: absolute;
     padding: 100px;
+    transform-style: preserve-3d;
 
     &__picture {
         width: 100px;

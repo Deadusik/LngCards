@@ -32,14 +32,14 @@ const CardQueue: FC = () => {
     // DEV! test data
     const [cardsData, setCardsData] = useState<CardEntity[]>(
         [
-            {
-                id: 'card_' + Math.random().toFixed(5),
-                nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
-                foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
-                example: 'The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley',
-                src: houseSvgSrc,
-                toForeignLanguage: true
-            },
+            // {
+            //     id: 'card_' + Math.random().toFixed(5),
+            //     nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
+            //     foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
+            //     example: 'The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley',
+            //     src: houseSvgSrc,
+            //     toForeignLanguage: true
+            // },
             {
                 id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Привіт',
@@ -127,6 +127,7 @@ const CardQueue: FC = () => {
 
     // delete callback for cards
     const onDeleteHandler = (cardAction: CardDirection) => {
+        console.log(cardAction)
         processCardAction(cardAction)
     }
 

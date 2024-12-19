@@ -182,7 +182,7 @@ const Card: FC<Props> = ({
     // set action for card by offset (got it / study again / delete)
     const actionByOffset = (offset: CardOffset) => {
         if (cardRef.current) {
-            if (offset.y > VERTICAL_ACTION_ZONE && CardDirection.ToDelete) {
+            if (offset.y > VERTICAL_ACTION_ZONE && offset.x < DEAD_ZONE / 2 && offset.x > -DEAD_ZONE / 2 && CardDirection.ToDelete) {
                 const currentCardAction = CardDirection.ToDelete
                 setCardAction(currentCardAction)
                 // timeout for delete animation
