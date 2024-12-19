@@ -32,20 +32,20 @@ const CardQueue: FC = () => {
     // DEV! test data
     const [cardsData, setCardsData] = useState<CardEntity[]>(
         [
-            // {
-            //     id: 'card_' + Math.random().toFixed(5),
-            //     nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
-            //     foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
-            //     example: 'The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley',
-            //     src: houseSvgSrc,
-            //     toForeignLanguage: true
-            // },
             {
                 id: 'card_' + Math.random().toFixed(5),
-                nativeWord: 'Привіт',
-                foreignWord: 'Hello',
+                nativeWord: 'Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата Хата',
+                foreignWord: 'House House House House House House House House House House House House House House House House House House House House House House House House House House House',
+                example: 'The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valleyThe house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley The house on the hill has a beautiful view of the valley',
+                src: houseSvgSrc,
                 toForeignLanguage: true
             },
+            // {
+            //     id: 'card_' + Math.random().toFixed(5),
+            //     nativeWord: 'Привіт',
+            //     foreignWord: 'Hello',
+            //     toForeignLanguage: true
+            // },
             {
                 id: 'card_' + Math.random().toFixed(5),
                 nativeWord: 'Яблуко',
@@ -54,30 +54,30 @@ const CardQueue: FC = () => {
                 src: appleSvgSrc,
                 toForeignLanguage: false,
             },
-            {
-                id: 'card_' + Math.random().toFixed(5),
-                nativeWord: 'Собака',
-                foreignWord: 'Dog',
-                example: 'The dog barked loudly at the stranger',
-                src: dogSvgSrc,
-                toForeignLanguage: true
-            },
-            {
-                id: 'card_' + Math.random().toFixed(5),
-                nativeWord: 'Літак',
-                foreignWord: 'Airplane',
-                example: 'The new airplane model is faster and more fuel-efficient',
-                src: airplaceSvgSrc,
-                toForeignLanguage: false,
-            },
-            {
-                id: 'card_' + Math.random().toFixed(5),
-                nativeWord: 'Хата',
-                foreignWord: 'House',
-                example: 'The house on the hill has a beautiful view of the valley',
-                src: houseSvgSrc,
-                toForeignLanguage: true
-            },
+            // {
+            //     id: 'card_' + Math.random().toFixed(5),
+            //     nativeWord: 'Собака',
+            //     foreignWord: 'Dog',
+            //     example: 'The dog barked loudly at the stranger',
+            //     src: dogSvgSrc,
+            //     toForeignLanguage: true
+            // },
+            // {
+            //     id: 'card_' + Math.random().toFixed(5),
+            //     nativeWord: 'Літак',
+            //     foreignWord: 'Airplane',
+            //     example: 'The new airplane model is faster and more fuel-efficient',
+            //     src: airplaceSvgSrc,
+            //     toForeignLanguage: false,
+            // },
+            // {
+            //     id: 'card_' + Math.random().toFixed(5),
+            //     nativeWord: 'Хата',
+            //     foreignWord: 'House',
+            //     example: 'The house on the hill has a beautiful view of the valley',
+            //     src: houseSvgSrc,
+            //     toForeignLanguage: true
+            // },
         ]
     )
 

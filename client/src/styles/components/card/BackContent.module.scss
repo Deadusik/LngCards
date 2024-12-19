@@ -94,8 +94,9 @@
         }
     }
 
-    @media (max-height: 600px) {
+    @media (max-height: 700px) {
         padding-top: 60px;
+        padding-bottom: 5px;
 
         &__picture {
             width: 40px;
