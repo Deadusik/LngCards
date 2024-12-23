@@ -1,0 +1,16 @@
+@import '../colors.scss';
+
+.NewCard {
+    background-color: $whiteDark;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        row-gap: 15px;
+    }
+
+    &__imageBlock {}
+
+
+}

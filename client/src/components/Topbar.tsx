@@ -40,6 +40,9 @@ const Topbar = () => {
                     <h1>Topbar Profile</h1>
                 )
             }
+            default: {
+                return <h1>Topbar</h1>
+            }
         }
     }
 
