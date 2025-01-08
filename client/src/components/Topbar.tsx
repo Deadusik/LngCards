@@ -1,14 +1,19 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+// styles
 import styles from '../styles/components/Topbar.module.scss'
 import wrapperStyles from '../styles/pages/Wrapper.module.scss'
+// components
 import LanguageDropBox from './ui/dropbox/LanguageDropBox'
-import { HOME, LEARNING, MATERIALS, PROFILE } from '../router/paths'
 import IconButton from './ui/button/IconButton'
-import { default as ArrowSvg } from '../assets/svgs/arrow_up.svg?react'
+// utils
 import { SPACE } from '../utils/constants'
+import { HOME, LEARNING, MATERIALS, PROFILE } from '../router/paths'
+//assets
+import { default as ArrowSvg } from '../assets/svgs/arrow_up.svg?react'
 
 const Topbar = () => {
     const location = useLocation()
+    const navigate = useNavigate()
 
     const getNavbarContent = () => {
         switch (location.pathname) {
@@ -21,7 +26,7 @@ const Topbar = () => {
                 return (
                     <div className={styles.learningContent}>
                         <IconButton
-                            onClick={() => console.log('Top bar back click')}
+                            onClick={() => navigate(HOME)}
                             content={ArrowSvg}
                             transform='rotate(-90deg)'
                             triggerSize='40px' />

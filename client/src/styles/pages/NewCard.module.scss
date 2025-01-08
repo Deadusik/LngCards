@@ -4,13 +4,23 @@
     background-color: $whiteDark;
 
     &__content {
-        display: flex;
-        flex-direction: column;
         width: 100%;
         row-gap: 15px;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
     }
+}
 
-    &__imageBlock {}
+.ImageBlock {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: end;
 
 
+    &__img {
+        width: 60px;
+        height: auto;
+        justify-self: center;
+    }
 }

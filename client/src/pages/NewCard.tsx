@@ -5,8 +5,11 @@ import wrapperStyles from '../styles/pages/Wrapper.module.scss'
 // components
 import TextInput from '../components/ui/input/TextInput'
 import RoundButton from '../components/ui/button/RoundButton'
+import SaveDataButton from '../components/ui/button/SaveDataButton'
 // utils
 import { SPACE } from '../utils/constants'
+// assetts
+import addImgSvgSrc from '../assets/svgs/add_image.svg'
 
 const NewCard = () => {
     const [foreignWord, setForeignWord] = useState('')
@@ -18,8 +21,11 @@ const NewCard = () => {
     return (
         <div className={[styles.NewCard, wrapperStyles.contentVertical].join(SPACE)}>
             <div className={styles.NewCard__content}>
-                <div className={styles.NewCard__imageBlock}>
-                    <img src='' />
+                <div className={styles.ImageBlock}>
+                    <SaveDataButton onClick={() => console.log('save data')} />
+                    <img
+                        className={styles.ImageBlock__img}
+                        src={addImgSvgSrc} />
                 </div>
                 <TextInput
                     text={foreignWord}

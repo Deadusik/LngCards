@@ -58,17 +58,17 @@ const Home: FC = () => {
             wrapperStyles.contentVertical,
             styles.wrapper
         ].join(SPACE)}>
-            <div className={styles.mainBlock}>
-                <div className={styles.mainBlock__content}>
+            <div className={styles.Home}>
+                <div className={styles.Home__content}>
                     {/* base content block */}
-                    <div className={styles.mainBlock__baseContent}>
+                    <div className={styles.Home__baseContent}>
                         <LearnInfoSection
                             setDialogType={setDialogContentType}
                             setDialogVisibility={setIsDialogVisible} />
                         {/* calendar block */}
-                        <div className={styles.mainBlock__calendarBlock}>
+                        <div className={styles.Home__calendarBlock}>
                             <Calendar />
-                            <div className={styles.mainBlock__startButtonBlock}>
+                            <div className={styles.Home__startButtonBlock}>
                                 <RoundButton
                                     text='START'
                                     onClick={StartHandler} />
@@ -81,10 +81,10 @@ const Home: FC = () => {
                             setIsSearchActive={setIsSearchShowed} />
                     </div>
                     {/* additional content block */}
-                    <div className={styles.mainBlock__additionalContent}>
+                    <div className={styles.Home__additionalContent}>
                         {/* search block by condition */
                             isSearchShowed &&
-                            <div className={styles.mainBlock__searchBlock}
+                            <div className={styles.Home__searchBlock}
                                 ref={searchRef}>
                                 <SearchSection
                                     isCardsShowed={isCardsShowed} />
@@ -92,7 +92,7 @@ const Home: FC = () => {
                         }
                         {/* list of cards by condition */
                             isCardsShowed &&
-                            <div className={styles.mainBlock__listOfCardsBlock}
+                            <div className={styles.Home__listOfCardsBlock}
                                 ref={listOfCardsRef}>
                                 <ListOfCards />
                             </div>
