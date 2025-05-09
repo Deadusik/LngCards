@@ -1,0 +1,11 @@
+@import '../fonts.scss';
+
+.AppTitle {
+    display: inline-block;
+    font-family: 'Baloo Bold';
+    color: rgb(0, 153, 221);
+    background: linear-gradient(135deg, rgb(0, 153, 221) 30%, rgb(0, 170, 68) 90%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+}

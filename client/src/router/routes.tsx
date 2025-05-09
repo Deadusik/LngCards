@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { HOME, LEARNING, MATERIALS, NEW_CARD, PROFILE } from "./paths";
+import { HOME, LEARNING, MATERIALS, NEW_CARD, PROFILE, START } from "./paths";
 // pages
 import Home from '../pages/Home'
 import Error from "../pages/Error";
@@ -7,6 +7,7 @@ import Learning from "../pages/Learning";
 import Materials from "../pages/Materials";
 import Profile from "../pages/Profile";
 import NewCard from "../pages/NewCard";
+import Start from "../pages/Start";
 
 interface IRoute {
     path: string;
@@ -38,6 +39,11 @@ export const routes: IRoute[] = [
     {
         path: NEW_CARD,
         element: <NewCard />,
+        errorElement: <Error />
+    },
+    {
+        path: START,
+        element: <Start />,
         errorElement: <Error />
     },
 ]
