@@ -3,6 +3,7 @@ import styles from '../styles/pages/Start.module.scss'
 import bgSrc from '../assets/imgs/start-bg.png'
 import AppLanguageButton from '../components/ui/button/AppLanguageButton'
 import RoundButton from '../components/ui/button/RoundButton'
+import AppLanguageDialog from '../components/dialog/app_language_dialog/AppLanguageDialog'
 
 const Start = () => {
     return (
@@ -21,6 +22,7 @@ const Start = () => {
                     <RoundButton text='CONTINUE' onClick={() => { }} />
                 </div>
             </div>
+            <AppLanguageDialog />
         </div>
     )
 }
