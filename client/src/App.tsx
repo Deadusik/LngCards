@@ -1,12 +1,14 @@
 import { useLocation } from "react-router-dom"
+// router
+import AppRouter from "./router/AppRouter"
+import { REGISTRATION, SIGNIN, START } from "./router/paths"
+// components 
 import Navbar from "./components/Navbar"
 import Topbar from "./components/Topbar"
-import AppRouter from "./router/AppRouter"
-import { START } from "./router/paths"
 
 function App() {
   const location = useLocation()
-  const hiddenBarsPaths = [START]
+  const hiddenBarsPaths = [START, SIGNIN, REGISTRATION]
   const isHiddenBars = !!hiddenBarsPaths.includes(location.pathname)
 
   return (

@@ -1,0 +1,21 @@
+@import '../../../colors.scss';
+@import '../../../fonts.scss';
+
+.SignInButton {
+    width: 100%;
+    height: 50px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 25px;
+    background-color: transparent;
+    border: 1px solid $skyBlue;
+
+    &__text {
+        font-size: 14px;
+        font-family: 'Roboto Regular', sans-serif;
+        font-weight: 500;
+    }
+}
