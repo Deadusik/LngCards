@@ -1,0 +1,23 @@
+@import '../../../colors.scss';
+@import '../../../fonts.scss';
+
+.LngButton {
+    width: 100%;
+    display: flex;
+    background-color: transparent;
+    gap: 5px;
+    padding: 10px;
+
+    &__icon {
+        height: 15px;
+    }
+
+    &__text {
+        font-size: 16px;
+        font-family: 'Roboto Regular', sans-serif;
+    }
+
+    &:hover {
+        background-color: rgba($color: $skyBlue, $alpha: 0.1);
+    }
+}
