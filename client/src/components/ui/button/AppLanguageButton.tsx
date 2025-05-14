@@ -5,13 +5,14 @@ import { default as ArrowSvg } from '../../../assets/svgs/arrow_up.svg?react'
 interface Props {
     languageName: string
     languageCountryCode: string
+    onClick: () => void
 }
 
-const AppLanguageButton: FC<Props> = ({ languageName, languageCountryCode }) => {
+const AppLanguageButton: FC<Props> = ({ languageName, languageCountryCode, onClick }) => {
     const flagUrl = `https://flagcdn.com/20x15/${languageCountryCode}.png`
 
     return (
-        <button className={styles.LngButton}>
+        <button className={styles.LngButton} onClick={onClick}>
             <div className={styles.LngButton__content}>
                 <img src={flagUrl} className={styles.LngButton__icon} />
                 <h3 className={styles.LngButton__text}>{languageName}</h3>
