@@ -1,7 +1,12 @@
+$content-max-width: 400px;
+$bottom-padding: 20px;
+
 .SignIn {
     display: flex;
+    justify-content: center;
 
     &__content {
+        max-width: $content-max-width;
         width: 100%;
         height: 100vh;
         display: flex;
@@ -10,20 +15,58 @@
         justify-content: space-between;
     }
 
+    &__decorationImg {
+        max-width: 250px;
+    }
+
+    &__decorationText {
+        font-family: 'Roboto Regular', sans-serif;
+        opacity: 0.4;
+    }
+
     &__socialBlock {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        max-width: 300px;
+        width: 100%;
+        padding: $bottom-padding;
+        opacity: 0;
+        animation: show 0.5s ease forwards;
     }
 
     &__decorationBlock {
-        color: blue;
-        font-size: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        pointer-events: none;
+        animation: move-up 0.5s ease forwards;
     }
 
     &__navbarBlock {
-        color: red;
-        font-size: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+
+    &__backButton {
+        position: absolute;
+        left: 0;
+    }
+
+    @keyframes move-up {
+        to {
+            opacity: 1;
+            transform: translateY(-20%);
+        }
+    }
+
+    @keyframes show {
+        to {
+            opacity: 1;
+            transform: translateY(-60%);
+        }
     }
 }

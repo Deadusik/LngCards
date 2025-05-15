@@ -39,8 +39,10 @@ const Start = () => {
             <div className={styles.Start__content}>
                 <AppLanguageButton
                     onClick={onLanguageClick}
-                    languageName={selectedLng.name}
-                    languageCountryCode={selectedLng.countryCode} />
+                    appLng={{
+                        name: selectedLng.name,
+                        countryCode: selectedLng.countryCode
+                    }} />
                 <div className={styles.Start__centerBlock}>
                     <AppTitle />
                     <img src={bgSrc} className={styles.Start__contentImage} />

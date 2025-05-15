@@ -1,9 +1,14 @@
 @import '../fonts.scss';
 
+$content-max-width: 400px;
+$bottom-padding: 40px;
+
 .Start {
     display: flex;
+    justify-content: center;
 
     &__content {
+        max-width: 400px;
         width: 100%;
         height: 100vh;
         display: flex;
@@ -18,6 +23,7 @@
         align-items: center;
         justify-content: center;
         gap: 25px;
+        pointer-events: none;
     }
 
     &__textInfo {
@@ -27,12 +33,13 @@
     }
 
     &__contentImage {
-        max-width: 300px;
+        max-width: 250px;
     }
 
     &__bottomBlock {
-        padding: 20px;
+        padding: $bottom-padding;
         display: flex;
+        width: 100%;
         flex-direction: column;
         gap: 10px;
     }
