@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import styles from '../../../styles/components/dialog/app_language_dialog/AppLanguageDialog.module.scss'
+import styles from '../../../styles/components/dialog/app_language/AppLanguageDialog.module.scss'
 import LanguageButton from './LanguageButton'
 
 interface Props {

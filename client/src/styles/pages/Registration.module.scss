@@ -1,7 +1,7 @@
 @import '../colors.scss';
 
 $max-widht: 500px;
-$content-padding: 40px;
+$content-padding: 20px;
 
 .Registration {
     display: flex;
@@ -23,9 +23,6 @@ $content-padding: 40px;
         display: flex;
         flex-direction: column;
         gap: 40px;
-        font-family: "Roboto Regular";
-        font-weight: 600;
-        font-size: 16px;
     }
 
     &__toLearnBlock {}
@@ -37,6 +34,9 @@ $content-padding: 40px;
 
 @mixin languageTitle {
     padding-left: 10px;
+    font-family: "Roboto Regular";
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .ToLearnBlock {

@@ -12,7 +12,7 @@ import IconButton from '../components/ui/button/IconButton'
 import SignInButton from '../components/ui/button/SignInButton'
 import AppTitle from '../components/visuals/AppTitle'
 import { useState } from 'react'
-import AppLanguageDialog from '../components/dialog/app_language_dialog/AppLanguageDialog'
+import AppLanguageDialog from '../components/dialog/app_language/AppLanguageDialog'
 import { AppLanguage } from '../utils/interfaces'
 
 const SignIn = () => {

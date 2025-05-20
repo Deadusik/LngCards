@@ -1,16 +1,17 @@
 @import '../fonts.scss';
 
-$content-max-width: 400px;
-$bottom-padding: 40px;
+$content-max-width: 500px;
+$content-padding: 10px 20px 20px;
 
 .Start {
     display: flex;
     justify-content: center;
 
     &__content {
-        max-width: 400px;
+        max-width: $content-max-width;
         width: 100%;
         height: 100vh;
+        padding: $content-padding;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -37,7 +38,6 @@ $bottom-padding: 40px;
     }
 
     &__bottomBlock {
-        padding: $bottom-padding;
         display: flex;
         width: 100%;
         flex-direction: column;

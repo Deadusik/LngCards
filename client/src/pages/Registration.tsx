@@ -1,16 +1,31 @@
 import styles from '../styles/pages/Registration.module.scss'
-// components
-import LanguageRoundButton from '../components/ui/button/LanguageRoundButton'
-import RoundButton from '../components/ui/button/RoundButton'
-import ProgressBar from '../components/ui/info/ProgressBar'
 import { useState } from 'react'
 import { SPACE } from '../utils/constants'
+// components
+import LanguageRoundButton from '../components/dialog/deck_language/LanguageRoundButton'
+import RoundButton from '../components/ui/button/RoundButton'
+import ProgressBar from '../components/ui/info/ProgressBar'
+import DeckLanguageDialog from '../components/dialog/deck_language/DeckLanguageDialog'
+
 
 const Registration = () => {
     const [progress, setProgress] = useState(10)
+    const [isLngDialogHidden, setIsLngDialogHidden] = useState(true)
 
     const continueClickHandler = () => {
         setProgress(progress + 30)
+    }
+
+    const onSelectedLanguageHandler = (name: string, countryCode: string) => {
+        console.log(name, countryCode)
+    }
+
+    const nativeClickHandler = () => {
+        setIsLngDialogHidden(false)
+    }
+
+    const toLearnClickHandler = () => {
+        setIsLngDialogHidden(false)
     }
 
     const isToNativeProgress = progress >= 40
@@ -28,7 +43,7 @@ const Registration = () => {
                         <LanguageRoundButton language={{
                             name: 'English',
                             countryCode: 'gb'
-                        }} />
+                        }} onClick={toLearnClickHandler} />
                     </div>
                     {/* native dropbox */}
                     <div className={nativeBlockStyle}>
@@ -36,11 +51,15 @@ const Registration = () => {
                         <LanguageRoundButton language={{
                             name: 'Ukranian',
                             countryCode: 'ua'
-                        }} />
+                        }} onClick={nativeClickHandler} />
                     </div>
                 </div>
                 <RoundButton text='CONTINUE' onClick={continueClickHandler} />
             </div>
+            <DeckLanguageDialog
+                isHidden={isLngDialogHidden}
+                setIsHidden={setIsLngDialogHidden}
+                onSelectedLng={onSelectedLanguageHandler} />
         </div>
     )
 }
