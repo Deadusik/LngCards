@@ -39,4 +39,10 @@ $content-padding: 20px;
         opacity: 0.2;
         margin: 10px 0;
     }
+
+    &__textNoResult {
+        font-size: 26px;
+        padding: 20px;
+        text-align: center;
+    }
 }
