@@ -5,7 +5,7 @@ import enLocale from 'i18n-iso-countries/langs/en.json'
 // components
 import LanguageButton from '../app_language/LanguageButton'
 import Search from './Search'
-import { COUNTRY_CODES, GENERAL_COUNTRY_CODES, SECONDARY_COUNTRY_CODES } from '../../../utils/constants'
+import { GENERAL_COUNTRY_CODES, SECONDARY_COUNTRY_CODES } from '../../../utils/constants'
 
 
 interface Props {
@@ -18,9 +18,6 @@ const DeckLanguageDialog: FC<Props> = ({ isHidden, setIsHidden, onSelectedLng })
     const dialogStyle = isHidden ? styles.Dialog_hidden : styles.Dialog
     countries.registerLocale(enLocale)
     const countryNames = countries.getNames('en')
-
-    console.log(countryNames)
-
 
     const onBgClickHandler = () => {
         setIsHidden(true)
@@ -35,11 +32,15 @@ const DeckLanguageDialog: FC<Props> = ({ isHidden, setIsHidden, onSelectedLng })
         setIsHidden(true)
     }
 
+    const onSearchInputChanged = (text: string) => {
+
+    }
+
     return (
         <div className={dialogStyle} onClick={onBgClickHandler}>
             <div className={styles.Card} onClick={e => onCardClickHandler(e)}>
                 <div className={styles.Card__content}>
-                    <Search />
+                    <Search onChange={onSearchInputChanged} />
                     <hr className={styles.Card__separator} />
                     <div className={styles.Card__languageBlock}>
                         {
