@@ -18,6 +18,19 @@
         font-family: 'Roboto Regular', sans-serif;
     }
 
+    &_disabled {
+        pointer-events: none;
+
+        .LngButton__text {
+            color: gray;
+            opacity: 0.6;
+        }
+
+        .LngButton__icon {
+            opacity: 0.6;
+        }
+    }
+
     &:hover {
         background-color: rgba($color: $skyBlue, $alpha: 0.1);
     }

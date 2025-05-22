@@ -1,28 +1,38 @@
 import { FC, useState } from 'react'
 import styles from '../../../styles/components/dialog/deck_language/DeckLanguageDialog.module.scss'
-import countries from 'i18n-iso-countries'
-import enLocale from 'i18n-iso-countries/langs/en.json'
 // components
 import LanguageButton from '../app_language/LanguageButton'
 import Search from './Search'
+// utils
 import { COUNTRY_CODES, GENERAL_COUNTRY_CODES, SECONDARY_COUNTRY_CODES } from '../../../utils/constants'
 
 
 interface Props {
+    disabledLanguages?: [string, string][]
     isHidden: boolean
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>
-    onSelectedLng: (name: string, countryCode: string) => void
+    onSelectedLng: (countryCode: string, name: string) => void
 }
 
-const DeckLanguageDialog: FC<Props> = ({ isHidden, setIsHidden, onSelectedLng }) => {
+const DeckLanguageDialog: FC<Props> = ({ disabledLanguages = [], isHidden, setIsHidden, onSelectedLng }) => {
     // use state
     const [searchText, setSearchText] = useState('')
     const [selectedLanguages, setSelectedLanguages] = useState<[string, string][]>([])
     const dialogStyle = isHidden ? styles.Dialog_hidden : styles.Dialog
     // language entities
-    countries.registerLocale(enLocale)
     const generalCountriesArr = searchText ? selectedLanguages : Object.entries(GENERAL_COUNTRY_CODES)
     const secondaryCountriesArr = Object.entries(SECONDARY_COUNTRY_CODES)
+
+    const isLngActive = (language: [string, string]) => {
+        if (disabledLanguages.length == 0) return true
+
+        return !disabledLanguages.some(
+            ([code, name]) =>
+                code.toLocaleLowerCase() === language[0].toLocaleLowerCase()
+                &&
+                name.toLocaleLowerCase() === language[1].toLocaleLowerCase()
+        )
+    }
 
     const onBgClickHandler = () => {
         setIsHidden(true)
@@ -32,7 +42,7 @@ const DeckLanguageDialog: FC<Props> = ({ isHidden, setIsHidden, onSelectedLng })
         e.stopPropagation()
     }
 
-    const onSelectedLngHandler = (name: string, countryCode: string) => {
+    const onSelectedLngHandler = (countryCode: string, name: string) => {
         onSelectedLng(name, countryCode)
         setIsHidden(true)
     }
@@ -69,6 +79,7 @@ const DeckLanguageDialog: FC<Props> = ({ isHidden, setIsHidden, onSelectedLng })
                             generalCountriesArr.map(([code, language]) => (
                                 <LanguageButton
                                     key={code}
+                                    isActive={isLngActive([code, language])}
                                     appLng={{ name: language, countryCode: code.toLowerCase() }}
                                     onClick={() => onSelectedLngHandler(language, code.toLowerCase())}
                                 />
@@ -80,6 +91,7 @@ const DeckLanguageDialog: FC<Props> = ({ isHidden, setIsHidden, onSelectedLng })
                             secondaryCountriesArr.map(([code, language]) => (
                                 <LanguageButton
                                     key={code}
+                                    isActive={isLngActive([code, language])}
                                     appLng={{ name: language, countryCode: code.toLowerCase() }}
                                     onClick={() => onSelectedLngHandler(language, code.toLowerCase())}
                                 />

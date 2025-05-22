@@ -10,22 +10,32 @@ import DeckLanguageDialog from '../components/dialog/deck_language/DeckLanguageD
 
 const Registration = () => {
     const [progress, setProgress] = useState(10)
-    const [isLngDialogHidden, setIsLngDialogHidden] = useState(true)
+    // dialog states
+    const [isForeignDialogHidden, setIsForeignDialogHidden] = useState(true)
+    const [isNativeDialogHidden, setIsNativeDialogHidden] = useState(true)
+    const [foreignLanguage, setForeignLanguage] = useState<[string, string] | null>(null)
+    const [nativeLanguage, setNativeaLanguage] = useState<[string, string] | null>(null)
 
     const continueClickHandler = () => {
         setProgress(progress + 30)
     }
 
-    const onSelectedLanguageHandler = (name: string, countryCode: string) => {
-        console.log(name, countryCode)
+    const onSelectedForeignLngHandler = (countryCode: string, name: string) => {
+        setForeignLanguage([countryCode, name])
+        console.log(countryCode, name) //  DEV!
+    }
+
+    const onSelectedNativeLngHandler = (countryCode: string, name: string) => {
+        setNativeaLanguage([countryCode, name])
+        console.log(countryCode, name) //  DEV!
     }
 
     const nativeClickHandler = () => {
-        setIsLngDialogHidden(false)
+        setIsNativeDialogHidden(false)
     }
 
     const toLearnClickHandler = () => {
-        setIsLngDialogHidden(false)
+        setIsForeignDialogHidden(false)
     }
 
     const isToNativeProgress = progress >= 40
@@ -41,25 +51,32 @@ const Registration = () => {
                     <div className={toLearnBlockStyle}>
                         <h4 className={styles.ToLearnBlock__languageTitle}>Language you want to learn</h4>
                         <LanguageRoundButton language={{
-                            name: 'English',
-                            countryCode: 'gb'
+                            name: foreignLanguage?.[1] ?? '',
+                            countryCode: foreignLanguage?.[0] ?? ''
                         }} onClick={toLearnClickHandler} />
                     </div>
                     {/* native dropbox */}
                     <div className={nativeBlockStyle}>
                         <h4 className={styles.NativeBlock__languageTitle}>Your native Language</h4>
                         <LanguageRoundButton language={{
-                            name: 'Ukranian',
-                            countryCode: 'ua'
+                            name: nativeLanguage?.[1] ?? '',
+                            countryCode: nativeLanguage?.[0] ?? ''
                         }} onClick={nativeClickHandler} />
                     </div>
                 </div>
                 <RoundButton text='CONTINUE' onClick={continueClickHandler} />
             </div>
+            {/* disabled already selected languages (disabledLanguages prop) */}
             <DeckLanguageDialog
-                isHidden={isLngDialogHidden}
-                setIsHidden={setIsLngDialogHidden}
-                onSelectedLng={onSelectedLanguageHandler} />
+                disabledLanguages={nativeLanguage ? [nativeLanguage] : []}
+                isHidden={isForeignDialogHidden}
+                setIsHidden={setIsForeignDialogHidden}
+                onSelectedLng={onSelectedForeignLngHandler} />
+            <DeckLanguageDialog
+                disabledLanguages={foreignLanguage ? [foreignLanguage] : []}
+                isHidden={isNativeDialogHidden}
+                setIsHidden={setIsNativeDialogHidden}
+                onSelectedLng={onSelectedNativeLngHandler} />
         </div>
     )
 }
