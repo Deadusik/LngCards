@@ -4,6 +4,7 @@
 .LngButton {
     width: 100%;
     display: flex;
+    align-items: center;
     background-color: transparent;
     gap: 5px;
     padding: 10px;
@@ -15,6 +16,19 @@
     &__text {
         font-size: 16px;
         font-family: 'Roboto Regular', sans-serif;
+    }
+
+    &_disabled {
+        pointer-events: none;
+
+        .LngButton__text {
+            color: gray;
+            opacity: 0.6;
+        }
+
+        .LngButton__icon {
+            opacity: 0.6;
+        }
     }
 
     &:hover {

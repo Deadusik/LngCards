@@ -1,0 +1,17 @@
+@import '../../../colors.scss';
+
+.ProgressBar {
+    width: 100%;
+    height: 20px;
+    background-color: white;
+    border: 1px solid $skyBlue;
+    border-radius: 25px;
+    overflow: hidden;
+
+    &__progress {
+        width: 10%;
+        height: 100%;
+        background-color: $skyBlue;
+        transition: width 0.5s ease;
+    }
+}

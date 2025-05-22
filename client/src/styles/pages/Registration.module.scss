@@ -1,1 +1,86 @@
-.Registration {}
+@import '../colors.scss';
+
+$max-widht: 500px;
+$content-padding: 20px;
+
+.Registration {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background-color: $whiteDark;
+
+    &__content {
+        width: 100%;
+        padding: $content-padding;
+        max-width: $max-widht;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+    }
+
+    &__centerBlock {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    &__toLearnBlock {}
+
+    &__nativeBlock {}
+
+    &__languageTitle {}
+}
+
+@mixin languageTitle {
+    padding-left: 10px;
+    font-family: "Roboto Regular";
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.ToLearnBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    translate: margin-top 0.5s ease;
+    transform: translateY(40%);
+
+    &__languageTitle {
+        @include languageTitle;
+    }
+
+    &_moveAnim {
+        animation: move-up 0.5s ease forwards;
+    }
+
+    @keyframes move-up {
+        to {
+            transform: translateY(0%);
+        }
+    }
+}
+
+.NativeBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(60%);
+    animation: show 0.5s ease forwards;
+
+    &_hidden {
+        display: none;
+    }
+
+    &__languageTitle {
+        @include languageTitle;
+    }
+
+    @keyframes show {
+        to {
+            opacity: 1;
+            transform: translateY(0%);
+        }
+    }
+}

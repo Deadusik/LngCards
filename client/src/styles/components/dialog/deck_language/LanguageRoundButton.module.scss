@@ -1,0 +1,29 @@
+@import '../../../colors.scss';
+
+.LngButton {
+    width: 100%;
+    height: 55px;
+    padding: 0 30px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid $skyBlue;
+
+    &__languageBlock {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    &__icon {
+        height: 15px;
+    }
+
+    &__text {
+        font-family: 'Roboto Regular';
+        font-size: 16px;
+    }
+}

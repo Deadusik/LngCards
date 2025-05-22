@@ -3,13 +3,13 @@ import { routes } from "./routes"
 import { Routes, Route } from 'react-router-dom'
 
 const AppRouter = () => {
-
     return (
         <>
             <Routes>
                 {
                     routes.map(route =>
-                        <Route key={route.path}
+                        <Route
+                            key={route.path}
                             path={route.path}
                             element={route.element}
                             errorElement={route.errorElement} />

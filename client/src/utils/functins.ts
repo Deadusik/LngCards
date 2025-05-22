@@ -1,4 +1,4 @@
-import { COUTRY_CODES } from "./constants";
+import { COUNTRY_CODES } from "./constants";
 
 export const pronounceText = (text: string) => {
     window.speechSynthesis.cancel();
@@ -7,5 +7,5 @@ export const pronounceText = (text: string) => {
 }
 
 export const getCountryName = (code: string) => {
-    return COUTRY_CODES[code.toUpperCase()] || 'Unknown country';
+    return COUNTRY_CODES[code.toUpperCase()] || 'Unknown country';
 }

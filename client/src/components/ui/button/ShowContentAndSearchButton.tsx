@@ -1,9 +1,11 @@
+import { FC } from 'react'
 import styles from '../../../styles/components/ui/button/ShowContentAndSearchButton.module.scss'
 // svg src
 import arrowSvgSrc from '../../../assets/svgs/arrow_up.svg'
-import searchSvgSrc from '../../../assets/svgs/search.svg'
+import { default as SearchSvg } from '../../../assets/svgs/search.svg?react'
+// utils
 import { SPACE } from '../../../utils/constants'
-import { FC } from 'react'
+import { gray } from '../../../utils/colors'
 
 interface Props {
     isContentVisible: boolean
@@ -34,9 +36,7 @@ const ShowContentAndSearchButton: FC<Props> = ({ isContentVisible, onCardsClick,
                 <div
                     className={styles.mainBlock__searchContentBlock}
                     onClick={onSearchClick}>
-                    <img
-                        className={styles.mainBlock__search}
-                        src={searchSvgSrc} />
+                    <SearchSvg width={22} height={22} stroke={gray} />
                 </div>
             </div>
         </div>

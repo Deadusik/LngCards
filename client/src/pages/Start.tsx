@@ -8,7 +8,7 @@ import { REGISTRATION, SIGNIN } from '../router/paths'
 import AppTitle from '../components/visuals/AppTitle'
 import AppLanguageButton from '../components/ui/button/AppLanguageButton'
 import RoundButton from '../components/ui/button/RoundButton'
-import AppLanguageDialog from '../components/dialog/app_language_dialog/AppLanguageDialog'
+import AppLanguageDialog from '../components/dialog/app_language/AppLanguageDialog'
 
 
 
@@ -39,8 +39,10 @@ const Start = () => {
             <div className={styles.Start__content}>
                 <AppLanguageButton
                     onClick={onLanguageClick}
-                    languageName={selectedLng.name}
-                    languageCountryCode={selectedLng.countryCode} />
+                    appLng={{
+                        name: selectedLng.name,
+                        countryCode: selectedLng.countryCode
+                    }} />
                 <div className={styles.Start__centerBlock}>
                     <AppTitle />
                     <img src={bgSrc} className={styles.Start__contentImage} />
